@@ -58,6 +58,7 @@ for chal in challenges:
 | Platform                   | Status            |
 | -------------------------- | ----------------- |
 | CTFd                       | ✅ Supported      |
+| rCTF                       | ✅ Supported      |
 | DemoClient (Local testing) | ✅ Available      |
 
 ## License
