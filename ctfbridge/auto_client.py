@@ -1,5 +1,7 @@
 from ctfbridge.utils.platform_detection import detect_platform
+
 from .exceptions import UnknownPlatformError
+
 
 def get_client(base_url: str):
     """Return the appropriate platform client based on auto-detection."""
@@ -12,5 +14,9 @@ def get_client(base_url: str):
     elif platform == "CTFd":
         from ctfbridge.clients.ctfd_client import CTFdClient
         return CTFdClient(base_url)
+
+    elif platform == "rCTF":
+        from ctfbridge.clients.rctf_client import RCTFClient
+        return RCTFClient(base_url)
 
     raise UnknownPlatformError(f"No client available for platform {platform}")

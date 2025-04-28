@@ -1,7 +1,10 @@
 import time
+
 import requests
-from ..utils.response_checker import check_response_valid
+
 from ..exceptions import RateLimitError
+from ..utils.response_checker import check_response_valid
+
 
 class ValidatedSession(requests.Session):
     """Session that automatically checks response validity (session expiration, rate limits)."""

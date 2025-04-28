@@ -1,5 +1,7 @@
-from ..exceptions import UnknownPlatformError
 import requests
+
+from ..exceptions import UnknownPlatformError
+
 
 def detect_platform(base_url: str) -> str:
     """Try to detect the CTF platform based on URL."""
@@ -11,6 +13,8 @@ def detect_platform(base_url: str) -> str:
         resp = requests.get(base_url, timeout=5)
         if "Powered by CTFd" in resp.text:
             return "CTFd"
+        elif "rctf-config" in resp.text:
+            return "rCTF"
 
     except Exception:
         pass

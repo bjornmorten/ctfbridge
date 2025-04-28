@@ -1,4 +1,5 @@
-from ..exceptions import SessionExpiredError, RateLimitError
+from ..exceptions import RateLimitError, SessionExpiredError
+
 
 def check_response_valid(response):
     """

@@ -1,6 +1,8 @@
 from typing import List
+
 from ..base import CTFPlatformClient
 from ..models import Challenge, SubmissionResult
+
 
 class DemoClient(CTFPlatformClient):
     """Demo CTF client for testing purposes."""
@@ -52,7 +54,7 @@ class DemoClient(CTFPlatformClient):
             ),
         ]
 
-    def login(self, username: str, password: str) -> None:
+    def login(self, username: str = '', password: str = '', token: str = '') -> None:
         if username == "demo" and password == "demo":
             self.logged_in = True
         else:

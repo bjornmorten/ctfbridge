@@ -1,5 +1,5 @@
 from ctfbridge.clients.ctfd_client import CTFdClient
-from ctfbridge.exceptions import SessionExpiredError, RateLimitError
+from ctfbridge.exceptions import RateLimitError, SessionExpiredError
 
 client = CTFdClient("https://demo.ctfd.io")
 
@@ -8,7 +8,6 @@ try:
     challenges = client.get_challenges()
 
     for chal in challenges:
-        print(chal)
         print(f"[{chal.category}] {chal.name} ({chal.value} points)")
 
 except SessionExpiredError:

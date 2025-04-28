@@ -1,14 +1,17 @@
-from bs4 import BeautifulSoup
 from typing import List
+
+from bs4 import BeautifulSoup
+
 from ..base import CTFPlatformClient
+from ..exceptions import ChallengeFetchError, LoginError, SubmissionError
 from ..models import Challenge, SubmissionResult
-from ..exceptions import LoginError, ChallengeFetchError, SubmissionError
+
 
 class CTFdClient(CTFPlatformClient):
     def __init__(self, base_url: str):
         super().__init__(base_url)
 
-    def login(self, username: str, password: str) -> None:
+    def login(self, username: str = '', password: str = '', token: str = '') -> None:
         """Login to CTFd platform."""
         # Get nonce
         resp = self.session.get(f"{self.base_url}/login")

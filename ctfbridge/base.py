@@ -1,7 +1,10 @@
-import requests
 from abc import ABC, abstractmethod
 from typing import List
+
+import requests
+
 from .models import Challenge, SubmissionResult
+
 
 class CTFPlatformClient(ABC):
     """Abstract base class for all CTF platform clients."""
@@ -10,7 +13,7 @@ class CTFPlatformClient(ABC):
         self.session = requests.Session()
 
     @abstractmethod
-    def login(self, username: str, password: str) -> None:
+    def login(self, username: str = '', password: str = '', token: str = '') -> None:
         """Login using username and password."""
         pass
 
@@ -34,6 +37,10 @@ class CTFPlatformClient(ABC):
         if domain is None:
             domain = self._default_domain()
         self.session.cookies.set(name=name, value=value, domain=domain)
+
+    def set_token(self, token: str) -> None:
+        """Set a Bearer authentication token."""
+        self.session.headers.update({"Authorization": f"Bearer {token}"})
 
     def _default_domain(self) -> str:
         from urllib.parse import urlparse
