@@ -43,7 +43,6 @@ class RCTFClient(CTFPlatformClient):
 
         challenges = []
         for chall in challs_data:
-            print(chall)
             challenges.append(
                 Challenge(
                     id=chall["id"],
