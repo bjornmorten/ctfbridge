@@ -55,11 +55,18 @@ for chal in challenges:
 
 ## Supported Platforms
 
-| Platform                   | Status            |
-| -------------------------- | ----------------- |
-| CTFd                       | ✅ Supported      |
-| rCTF                       | ✅ Supported      |
-| DemoClient (Local testing) | ✅ Available      |
+| Platform                   | Status       |
+| -------------------------- | ------------ |
+| CTFd                       | ✅ Supported |
+| rCTF                       | ✅ Supported |
+| DemoClient (Local testing) | ✅ Available |
+
+## 🧩 Projects Using CTFBridge
+
+These projects use `ctfbridge`:
+
+- [`ctf-dl`](https://github.com/bjornmorten/ctf-dl) — Automates downloading all challenges from a CTF.
+- [`pwnv`](https://github.com/CarixoHD/pwnv) — Manages CTFs and challenges.
 
 ## License
 

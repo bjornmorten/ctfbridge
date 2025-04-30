@@ -1,4 +1,4 @@
-from ..exceptions import RateLimitError, SessionExpiredError
+from ctfbridge.exceptions import RateLimitError, SessionExpiredError
 
 
 def check_response_valid(response):

@@ -1,6 +1,6 @@
+from typing import Optional
 from urllib.parse import urlparse, urlunparse
 
-from typing import Optional
 import requests
 
 from ..exceptions import UnknownBaseURL, UnknownPlatformError

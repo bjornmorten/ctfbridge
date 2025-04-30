@@ -1,8 +1,4 @@
-from .clients import (
-    CTFdClient,
-    RCTFClient,
-    DemoClient
-)
+from .clients import CTFdClient, DemoClient, RCTFClient
 from .platform import get_client
 
 __all__ = [
