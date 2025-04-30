@@ -18,3 +18,6 @@ class RateLimitError(CTFBridgeError):
 
 class UnknownPlatformError(CTFBridgeError):
     """Raised when the platform cannot be identified."""
+
+class UnknownBaseURL(CTFBridgeError):
+    """Raised when the platform cannot be identified."""

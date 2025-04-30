@@ -1,6 +1,6 @@
 [project]
 name = "ctfbridge"
-version = "0.1.1"
+version = "0.1.2"
 description = "A Python library for interacting with multiple CTF platforms."
 authors = [
   { name="bjornmorten", email="bjornmdev@proton.me" }
@@ -24,10 +24,10 @@ classifiers = [
 ]
 
 dependencies = [
-  "requests>=2.25",
-  "beautifulsoup4>=4.9",
+  "requests>=2.25,<3.0",
+  "beautifulsoup4>=4.9,<5.0",
+  "pydantic>=2.0,<3.0"
 ]
-
 
 [project.urls]
 Homepage = "https://github.com/bjornmorten/ctfbridge/"

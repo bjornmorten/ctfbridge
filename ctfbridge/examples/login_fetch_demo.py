@@ -1,4 +1,4 @@
-from ctfbridge.clients.demo_client import DemoClient
+from ctfbridge import DemoClient
 from ctfbridge.exceptions import RateLimitError, SessionExpiredError
 
 client = DemoClient()

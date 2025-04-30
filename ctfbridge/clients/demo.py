@@ -54,6 +54,14 @@ class DemoClient(CTFPlatformClient):
             ),
         ]
 
+    @property
+    def platform(self) -> str:
+        return "Demo"
+
+    @property
+    def auth_type(self) -> str:
+        return "credentials"
+
     def login(self, username: str = '', password: str = '', token: str = '') -> None:
         if username == "demo" and password == "demo":
             self.logged_in = True

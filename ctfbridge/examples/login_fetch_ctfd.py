@@ -1,4 +1,4 @@
-from ctfbridge.clients.ctfd_client import CTFdClient
+from ctfbridge import CTFdClient
 from ctfbridge.exceptions import RateLimitError, SessionExpiredError
 
 client = CTFdClient("https://demo.ctfd.io")
