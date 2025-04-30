@@ -28,38 +28,28 @@ pip install ctfbridge
 ## Basic Usage
 
 ```python
-from ctfbridge import CTFdClient
-
-client = CTFdClient(base_url="https://demo.ctfd.io")
-client.login(username="admin", password="password")
-
-challenges = client.get_challenges()
-for chal in challenges:
-    print(f"[{chal.category}] {chal.name} - {chal.value} points")
-```
-
-### Optional: Automatic Platform Detection
-
-If you don't know which platform you are connecting to, you can use `get_client()` to auto-detect and connect automatically.
-
-```python
 from ctfbridge import get_client
 
 client = get_client("https://demo.ctfd.io")
 client.login("admin", "password")
 
-challenges = client.get_challenges()
+challenges = client.challenges.get_all()
 for chal in challenges:
     print(f"[{chal.category}] {chal.name} ({chal.value} points)")
+
+scoreboard = client.scoreboard.get_top(5)
+for entry in scoreboard:
+    print(f"[+] {entry.rank}. {entry.name} - {entry.score} points")
 ```
 
 ## Supported Platforms
 
-| Platform                   | Status       |
-| -------------------------- | ------------ |
-| CTFd                       | ✅ Supported |
-| rCTF                       | ✅ Supported |
-| DemoClient (Local testing) | ✅ Available |
+| Platform             | Status             |
+| -------------------- | ------------       |
+| CTFd                 | ✅ Supported       |
+| rCTF                 | ✅ Supported       |
+| Demo (Local testing) | ✅ Available       |
+| *More platforms*     | 🚧 In development  |
 
 ## 🧩 Projects Using CTFBridge
 

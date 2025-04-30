@@ -1,11 +1,11 @@
 from ctfbridge import DemoClient
 from ctfbridge.exceptions import RateLimitError, SessionExpiredError
 
-client = DemoClient()
+client = DemoClient("demo")
 
 try:
     client.login("demo", "demo")
-    challenges = client.get_challenges()
+    challenges = client.challenges.get_all()
 
     for chal in challenges:
         print(f"[{chal.category}] {chal.name} ({chal.value} points)")

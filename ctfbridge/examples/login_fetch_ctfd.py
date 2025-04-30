@@ -5,7 +5,7 @@ client = CTFdClient("https://demo.ctfd.io")
 
 try:
     client.login("admin", "password")
-    challenges = client.get_challenges()
+    challenges = client.challenges.get_all()
 
     for chal in challenges:
         print(f"[{chal.category}] {chal.name} ({chal.value} points)")
