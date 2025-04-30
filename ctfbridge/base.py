@@ -1,6 +1,7 @@
 import os
 from abc import ABC, abstractmethod
 from typing import List, Optional
+from urllib.parse import urlparse
 
 import requests
 
@@ -81,14 +82,18 @@ class CTFPlatformClient(ABC):
         url = attachment.url
         final_filename = filename if filename is not None else attachment.name
         save_path = os.path.join(save_dir, final_filename)
-
-        resp = self.session.get(url, stream=True)
+        
+        # Only use auth session if attachment is on the same domain as the CTF.
+        if urlparse(self.base_url).netloc == urlparse(url).netloc:
+            resp = self.session.get(url, stream=True)
+        else:
+            resp = requests.get(url, stream=True)
 
         if resp.status_code != 200:
             raise Exception(f"Failed to download attachment: {url} (status {resp.status_code})")
 
         with open(save_path, "wb") as f:
-            for chunk in resp.iter_content(chunk_size=8192):
+            for chunk in resp.iter_content(chunk_size=1048576):
                 if chunk:
                     f.write(chunk)
 
