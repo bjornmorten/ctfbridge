@@ -1,0 +1,40 @@
+site_name: CTFBridge
+theme:
+  name: material
+repo_url: https://github.com/bjornmorten/ctfbridge
+repo_name: ctfbridge
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Usage Guide: usage.md
+  - Supported Platforms: platforms.md
+  - API Reference: api.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            heading_level: 3
+            show_source: false
+            show_root_heading: true
+            show_bases: false
+            show_root_full_path: false
+            filters:
+              - "!^_"
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+
+extra_css:
+  - stylesheets/extra.css
