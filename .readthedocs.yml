@@ -7,14 +7,7 @@ build:
 
 python:
   install:
-    - method: pip
-      path: .
-    - method: pip
-      requirements: null
-      packages:
-        - mkdocs
-        - mkdocs-material
-        - mkdocstrings[python]
+    - requirements: docs/requirements.txt
 
 mkdocs:
   configuration: mkdocs.yml
