@@ -1,8 +1,11 @@
 # CTF Bridge
 
+![PyPI](https://img.shields.io/pypi/v/ctfbridge)
+![License](https://img.shields.io/github/license/bjornmorten/ctfbridge)
+
 CTF Bridge is a Python library for interacting with multiple CTF platforms through a unified interface.
 
-⚠️ This project is still in development ⚠️
+> ⚠️ **Under active development** – expect breaking changes.
 
 ## Overview
 
@@ -30,13 +33,19 @@ pip install ctfbridge
 ```python
 from ctfbridge import get_client
 
+# Connect and authenticate
 client = get_client("https://demo.ctfd.io")
 client.login("admin", "password")
 
+# Get challenges
 challenges = client.challenges.get_all()
 for chal in challenges:
     print(f"[{chal.category}] {chal.name} ({chal.value} points)")
 
+# Submit flags
+client.challenges.submit(challenge_id=1, flag="CTF{flag}")
+
+# View the scoreboard
 scoreboard = client.scoreboard.get_top(5)
 for entry in scoreboard:
     print(f"[+] {entry.rank}. {entry.name} - {entry.score} points")
@@ -44,14 +53,14 @@ for entry in scoreboard:
 
 ## Supported Platforms
 
-| Platform             | Status             |
-| -------------------- | ------------       |
-| CTFd                 | ✅ Supported       |
-| rCTF                 | ✅ Supported       |
-| Demo (Local testing) | ✅ Available       |
-| *More platforms*     | 🚧 In development  |
+| Platform             | Status            |
+| -------------------- | ----------------- |
+| CTFd                 | ✅ Supported      |
+| rCTF                 | ✅ Supported      |
+| Demo (Local testing) | ✅ Available      |
+| _More platforms_     | 🚧 In development |
 
-## 🧩 Projects Using CTFBridge
+## Projects Using CTFBridge
 
 These projects use `ctfbridge`:
 
