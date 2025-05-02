@@ -1,9 +1,10 @@
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 from ctfbridge.exceptions import ChallengeFetchError, SubmissionError
 from ctfbridge.models.challenge import Attachment, Challenge
 from ctfbridge.models.submission import SubmissionResult
 from ctfbridge.services import ChallengeService
+
 
 class RCTFChallengeService(ChallengeService):
     """

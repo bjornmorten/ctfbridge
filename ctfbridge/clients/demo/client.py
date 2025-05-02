@@ -1,12 +1,12 @@
 from ctfbridge.base import CTFPlatformClient
+from ctfbridge.demo_platform import DemoPlatform
+from ctfbridge.models.challenge import Challenge
 
 from .services.attachments import DemoAttachmentService
 from .services.auth import DemoAuthService
 from .services.challenges import DemoChallengeService
 from .services.platform import DemoPlatformService
 from .services.scoreboard import DemoScoreboardService
-
-from ctfbridge.models.challenge import Challenge
 
 
 class DemoClient(CTFPlatformClient):
@@ -15,6 +15,8 @@ class DemoClient(CTFPlatformClient):
 
     def __init__(self, base_url: str):
         super().__init__(base_url)
+
+        self.demo_platform = DemoPlatform()
 
         self.attachments = DemoAttachmentService(self)
         self.auth = DemoAuthService(self)

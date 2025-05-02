@@ -1,5 +1,6 @@
 from urllib.parse import parse_qs, unquote, urlparse
 
+
 def extract_token_from_url(url: str) -> str:
     """Extract team token from team invite URL."""
     parsed = urlparse(url)

@@ -1,0 +1,11 @@
+name: Base64 Basics
+category: Misc
+value: 100
+description: |
+  The flag is encoded using Base64.
+  Can you decode it?
+
+flag: "DEMO{just_another_base64}"
+
+files:
+  - files/encoded.txt

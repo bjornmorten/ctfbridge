@@ -1,8 +1,10 @@
-from ctfbridge.exceptions import LoginError
-from ctfbridge.services import AuthService
 from urllib.parse import unquote
 
+from ctfbridge.exceptions import LoginError
+from ctfbridge.services import AuthService
+
 from ..utils import extract_token_from_url
+
 
 class RCTFAuthService(AuthService):
     """

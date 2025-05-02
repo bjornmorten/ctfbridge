@@ -1,11 +1,10 @@
-# CTF Bridge
+# CTFBridge
 
 ![PyPI](https://img.shields.io/pypi/v/ctfbridge)
 [![Docs](https://img.shields.io/badge/docs-readthedocs-blue.svg)](https://ctfbridge.readthedocs.io)
 ![License](https://img.shields.io/github/license/bjornmorten/ctfbridge)
 
-
-CTF Bridge is a Python library for interacting with multiple CTF platforms through a unified interface.
+CTFBridge is a Python library for interacting with multiple CTF platforms through a unified interface.
 
 > ⚠️ **Under active development** – expect breaking changes.
 

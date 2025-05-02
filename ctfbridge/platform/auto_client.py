@@ -1,5 +1,5 @@
-from ..clients import CTFdClient, DemoClient, RCTFClient
 from ..base import CTFPlatformClient
+from ..clients import CTFdClient, DemoClient, RCTFClient
 from ..exceptions import UnknownPlatformError
 from .detector import detect_platform
 
