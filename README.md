@@ -7,7 +7,7 @@
 CTFBridge is a Python library for interacting with multiple CTF platforms through a unified interface.
 
 > [!WARNING]
-> ⚠️**Under active development** – expect breaking changes.
+> **Under active development** – expect breaking changes.
 
 ## Overview
 
