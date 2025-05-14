@@ -24,7 +24,9 @@ class AttachmentService:
         """
         self.client = client
 
-    def download(self, attachment: Attachment, save_dir: str, filename: Optional[str] = None) -> str:
+    def download(
+        self, attachment: Attachment, save_dir: str, filename: Optional[str] = None
+    ) -> str:
         """
         Download a single attachment and save it locally.
 
@@ -32,12 +34,12 @@ class AttachmentService:
         is used; otherwise, a direct unauthenticated request is made.
 
         Args:
-            attachment (Attachment): The attachment to download.
-            save_dir (str): Directory to save the downloaded file.
-            filename (Optional[str]): Optional override for the filename. If not provided, `attachment.name` is used.
+            attachment: The attachment to download.
+            save_dir: Directory to save the downloaded file.
+            filename: Optional override for the filename. If not provided, `attachment.name` is used.
 
         Returns:
-            str: Full path to the saved file.
+            Full path to the saved file.
 
         Raises:
             Exception: If the download fails (non-200 response).
@@ -55,7 +57,9 @@ class AttachmentService:
             resp = requests.get(url, stream=True)
 
         if resp.status_code != 200:
-            raise Exception(f"Failed to download attachment: {url} (status {resp.status_code})")
+            raise Exception(
+                f"Failed to download attachment: {url} (status {resp.status_code})"
+            )
 
         with open(save_path, "wb") as f:
             for chunk in resp.iter_content(chunk_size=10485760):
@@ -69,10 +73,10 @@ class AttachmentService:
         Download a list of attachments to the specified directory.
 
         Args:
-            attachments (List[Attachment]): List of attachments to download.
-            save_dir (str): Directory to save the downloaded files.
+            attachments: List of attachments to download.
+            save_dir: Directory to save the downloaded files.
 
         Returns:
-            List[str]: List of full paths to the downloaded files.
+            List of full paths to the downloaded files.
         """
         return [self.download(att, save_dir) for att in attachments]

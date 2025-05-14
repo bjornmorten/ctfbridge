@@ -1,9 +1,9 @@
-from .clients import CTFdClient, DemoClient, RCTFClient
-from .platform import get_client
+from ctfbridge.factory import create_client
+from importlib.metadata import version
 
-__all__ = [
-    "CTFdClient",
-    "RCTFClient",
-    "DemoClient",
-    "get_client",
-]
+try:
+    __version__ = version("ctfbridge")
+except Exception:
+    __version__ = "dev"
+
+__all__ = ["create_client", "__version__"]

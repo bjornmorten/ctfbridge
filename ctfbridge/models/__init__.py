@@ -7,10 +7,14 @@ from .submission import SubmissionResult
 from .user import Team, User
 
 __all__ = [
-    "Challenge", "Attachment", "Hint", "Tag",
+    "Challenge",
+    "Attachment",
+    "Hint",
+    "Tag",
     "SubmissionResult",
     "ScoreboardEntry",
-    "User", "Team",
+    "User",
+    "Team",
     "TokenLoginResponse",
     "CTFConfig",
     "ErrorResponse",

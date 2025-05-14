@@ -8,4 +8,3 @@ class ScoreboardEntry(BaseModel):
     score: int
     rank: int
     last_solve_time: Optional[str] = None
-

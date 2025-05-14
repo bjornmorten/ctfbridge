@@ -10,9 +10,9 @@ class User(BaseModel):
     score: Optional[int] = None
     rank: Optional[int] = None
 
+
 class Team(BaseModel):
     id: int
     name: str
     score: int
     rank: int
-

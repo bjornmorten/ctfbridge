@@ -3,17 +3,13 @@ CATEGORY_ALIASES = {
     "reverse engineering": "rev",
     "reverse": "rev",
     "re": "rev",
-
     # Cryptography
     "cryptography": "crypto",
     "crypt": "crypto",
-
     # Web
     "web exploitation": "web",
-
     # Pwn
     "binary exploitation": "pwn",
-
     # Miscellaneous
     "miscellaneous": "misc",
     "other": "misc",

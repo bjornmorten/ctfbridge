@@ -1,7 +1,3 @@
 # CTF Bridge
 
-CTFBridge is a Python library that provides a unified interface for interacting with multiple Capture The Flag (CTF) platforms, such as CTFd and rCTF.
-
-
-
-
+CTFBridge simplifies CTF platform integration by providing a unified Python interface for working with platforms like CTFd and rCTF.

@@ -1,0 +1,3 @@
+.doc-labels:has(.doc-label-abstractmethod) {
+  display: none;
+}

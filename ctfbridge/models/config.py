@@ -8,5 +8,3 @@ class CTFConfig(BaseModel):
     user_mode: str
     theme: Optional[str] = None
     version: Optional[str] = None
-
-

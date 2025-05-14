@@ -1,6 +1,6 @@
 # CTFBridge
 
-![PyPI](https://img.shields.io/pypi/v/ctfbridge)
+[![PyPI](https://img.shields.io/pypi/v/ctfbridge)](https://pypi.org/project/ctfbridge/)
 [![Docs](https://img.shields.io/badge/docs-readthedocs-blue.svg)](https://ctfbridge.readthedocs.io)
 ![License](https://img.shields.io/github/license/bjornmorten/ctfbridge)
 

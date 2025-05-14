@@ -1,6 +1,6 @@
 [project]
 name = "ctfbridge"
-version = "0.1.4"
+dynamic = ["version"]
 description = "A Python library for interacting with multiple CTF platforms."
 authors = [
   { name="bjornmorten", email="bjornmdev@proton.me" }
@@ -9,24 +9,20 @@ license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.8"
 keywords = ["ctf", "ctfd"]
-classifiers = [
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "License :: OSI Approved :: MIT License",
-  "Operating System :: OS Independent",
-  "Intended Audience :: Developers",
-  "Topic :: Software Development :: Libraries",
-  "Topic :: Security",
-  "Topic :: Utilities",
-]
 
 dependencies = [
   "requests>=2.25,<3.0",
   "beautifulsoup4>=4.9,<5.0",
   "pydantic>=2.0,<3.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy",
+  "pytest",
+  "ruff",
+  "types-beautifulsoup4",
+  "pre-commit"
 ]
 
 [project.urls]
@@ -35,11 +31,15 @@ Repository = "https://github.com/bjornmorten/ctfbridge/"
 Issues = "https://github.com/bjornmorten/ctfbridge/issues"
 
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=64", "wheel", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 include-package-data = true
 
 [tool.setuptools.package-data]
-"ctfbridge" = ["demo_platform/**"]
+"ctfbridge" = ["py.typed", "demo_platform/**"]
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "no-local-version"

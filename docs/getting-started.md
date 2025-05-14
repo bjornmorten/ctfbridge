@@ -1,3 +1,8 @@
+---
+title: Getting Started
+description: Learn how to install and use CTFBridge, a modular Python framework for interacting with CTF platforms like CTFd and rCTF. Supports login, challenge interaction, and more.
+---
+
 ## Getting Started
 
 Install CTFBridge via pip:

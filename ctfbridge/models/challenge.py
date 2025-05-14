@@ -7,14 +7,17 @@ class Attachment(BaseModel):
     name: str
     url: str
 
+
 class Hint(BaseModel):
     id: int
     content: Optional[str] = None
     cost: int
     unlocked: bool
 
+
 class Tag(BaseModel):
     value: str
+
 
 class Challenge(BaseModel):
     id: int | str
