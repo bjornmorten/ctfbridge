@@ -1,6 +1,5 @@
 import httpx
 from ctfbridge import __version__
-import asyncio
 
 
 def make_http_client(

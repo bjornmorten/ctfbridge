@@ -1,5 +1,4 @@
 from typing import List
-from urllib.parse import unquote, urlparse
 
 from ctfbridge.exceptions import ScoreboardFetchError
 from ctfbridge.core.services.scoreboard import CoreScoreboardService

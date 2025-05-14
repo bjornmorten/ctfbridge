@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from ctfbridge.base.client import CTFClient
 from ctfbridge.core.services.session import CoreSessionHelper
 from ctfbridge.core.services.auth import CoreAuthService

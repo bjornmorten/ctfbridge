@@ -8,26 +8,15 @@ from ctfbridge.exceptions import (
 
 
 def main():
-    base_url = "https://s2gctf.ncr.ntnu.no/play/sfdsf/sdfsd/sdf/sdf"
-    base_url = "https://umdctf.io/"
-    # base_url = 'https://google.io'
+    base_url = "https://demo.ctfd.io"
     username = "admin"
     password = "password"
-    token = "https://umdctf.io/login?token=d6iGcsa%2FA0JgyCXJ32hJHnlW4G5PHs9bMXQraaTDq38GYoNPMGwFQ9X28muR6MBbTNfmQZzGKYdHVNO4UYP2W7U8QwJlBpuue4%2FDENDfMZfNmS1U3JEA2Uksl9Av"
-    base_url = "https://demo.ctfd.io"
-
-    base_url = "https://umdctf.io/"
-    # base_url = 'demo'
-    # username = 'demo'
-    # password = 'demo'
-
-    base_url = "https://ctf.stair.ch/"
 
     client = get_client(base_url)
 
     try:
         print("[*] Logging in...")
-        # client.login(username=username, password=password, token=token)
+        client.login(username=username, password=password)
         print("[+] Login successful!")
     except LoginError as e:
         print(f"[-] Login failed: {e}")
