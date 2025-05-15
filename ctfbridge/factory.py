@@ -34,16 +34,16 @@ async def create_client(
         if cache_platform:
             cached = get_cached_platform(url)
             if cached:
-                platform, url = cached
+                platform, base_url = cached
             else:
-                platform, url = await detect_platform(url, http)
-                set_cached_platform(url, platform, url)
+                platform, base_url = await detect_platform(url, http)
+                set_cached_platform(url, platform, base_url)
         else:
-            platform, url = await detect_platform(url, http)
+            platform, base_url = await detect_platform(url, http)
 
     try:
         client_class = get_platform_client(platform)
     except UnknownPlatformError:
         raise UnknownPlatformError(platform)
 
-    return client_class(http=http, url=url)
+    return client_class(http=http, url=base_url)
