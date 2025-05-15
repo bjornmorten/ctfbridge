@@ -1,5 +1,5 @@
 from .auth import TokenLoginResponse
-from .challenge import Attachment, Challenge, Hint, Tag
+from .challenge import Attachment, Challenge, Tag
 from .config import CTFConfig
 from .error import ErrorResponse
 from .scoreboard import ScoreboardEntry

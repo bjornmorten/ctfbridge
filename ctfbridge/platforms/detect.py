@@ -4,12 +4,9 @@ from urllib.parse import urlparse, urlunparse
 import httpx
 
 from ctfbridge.exceptions import UnknownPlatformError, UnknownBaseURLError
-from ctfbridge.platforms.ctfd.identifier import CTFdIdentifier
-from ctfbridge.base.identifier import PlatformIdentifier
+from ctfbridge.platforms.registry import get_all_identifiers
 
-IDENTIFIERS: list[tuple[str, type[PlatformIdentifier]]] = [
-    ("ctfd", CTFdIdentifier),
-]
+IDENTIFIERS = get_all_identifiers()
 
 
 def generate_candidate_base_urls(full_url: str) -> list[str]:
@@ -46,9 +43,6 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
         UnknownPlatformError: If no known platform is matched.
         UnknownBaseURL: If the platform is matched but no working base URL is found.
     """
-    if input_url.strip() == "demo":
-        return "demo", "demo"
-
     candidates = generate_candidate_base_urls(input_url)
 
     # Step 1: Try static detection for each candidate

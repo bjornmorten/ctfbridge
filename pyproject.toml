@@ -8,12 +8,13 @@ authors = [
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.8"
-keywords = ["ctf", "ctfd"]
+keywords = ["ctf"]
 
 dependencies = [
   "requests>=2.25,<3.0",
   "beautifulsoup4>=4.9,<5.0",
-  "pydantic>=2.0,<3.0"
+  "pydantic>=2.0,<3.0",
+  "httpx>=0.28"
 ]
 
 [project.optional-dependencies]
@@ -43,3 +44,10 @@ include-package-data = true
 [tool.setuptools_scm]
 version_scheme = "post-release"
 local_scheme = "no-local-version"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "--strict-markers --tb=short"
+testpaths = ["tests"]
+pythonpath = ["."]
+python_files = "test_*.py"

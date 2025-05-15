@@ -8,6 +8,7 @@ class ChallengeService(ABC):
     async def get_all(
         self,
         *,
+        enrich: bool = True,
         solved: bool | None = None,
         min_points: int | None = None,
         max_points: int | None = None,
@@ -20,6 +21,7 @@ class ChallengeService(ABC):
         Fetch all challenges.
 
         Args:
+            enrich: If True, apply parsers to enrich the challenge (e.g., author, services).
             solved: If set, filter by solved status (True for solved, False for unsolved).
             min_points: If set, only include challenges worth at least this many points.
             max_points: If set, only include challenges worth at most this many points.
@@ -36,11 +38,14 @@ class ChallengeService(ABC):
         """
         raise NotImplementedError
 
-    async def get_by_id(self, challenge_id: str) -> Optional[Challenge]:
+    async def get_by_id(
+        self, challenge_id: str, enrich: bool = True
+    ) -> Optional[Challenge]:
         """
         Fetch details for a specific challenge.
 
         Args:
+            enrich: If True, apply parsers to enrich the challenge (e.g., author, services).
             challenge_id: The challenge ID.
 
         Returns:

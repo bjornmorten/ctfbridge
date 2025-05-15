@@ -1,14 +1,17 @@
 from typing import List
 from urllib.parse import unquote, urlparse
+from ctfbridge.parsers.enrich import enrich_challenge
 
 from ctfbridge.exceptions import ChallengeFetchError, SubmissionError
 from ctfbridge.models.challenge import Attachment, Challenge
 from ctfbridge.models.submission import SubmissionResult
 from ctfbridge.core.services.challenge import CoreChallengeService
+
+import asyncio
+import logging
 import re
 
 from bs4 import BeautifulSoup
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +23,7 @@ class CTFdChallengeService(CoreChallengeService):
     async def get_all(
         self,
         *,
+        enrich: bool = True,
         solved: bool | None = None,
         min_points: int | None = None,
         max_points: int | None = None,
@@ -32,16 +36,14 @@ class CTFdChallengeService(CoreChallengeService):
             resp = await self._client._http.get(
                 f"{self._client._platform_url}/api/v1/challenges"
             )
-            data = resp.json()["data"]
+            data = resp.json().get("data", [])
         except Exception as e:
             logger.exception("Failed to fetch challenges.")
             raise ChallengeFetchError("Invalid response format from server.") from e
 
-        challenges = []
-        for chal in data:
-            chal_detailed = await self.get_by_id(chal["id"])
-            if chal_detailed:
-                challenges.append(chal_detailed)
+        challenges = await asyncio.gather(
+            *(self.get_by_id(str(chal.get("id"))) for chal in data)
+        )
 
         filtered_challenges = self._filter_challenges(
             challenges,
@@ -56,12 +58,12 @@ class CTFdChallengeService(CoreChallengeService):
 
         return filtered_challenges
 
-    async def get_by_id(self, challenge_id: str) -> Challenge:
+    async def get_by_id(self, challenge_id: str, enrich: bool = True) -> Challenge:
         try:
             resp = await self._client._http.get(
                 f"{self._client._platform_url}/api/v1/challenges/{challenge_id}"
             )
-            chal = resp.json()["data"]
+            chal = resp.json().get("data", {})
         except Exception as e:
             logger.exception("Failed to fetch challenge ID %s", challenge_id)
             raise ChallengeFetchError("Invalid response format from server.") from e
@@ -76,15 +78,20 @@ class CTFdChallengeService(CoreChallengeService):
             for url in chal.get("files", [])
         ]
 
-        return Challenge(
-            id=chal["id"],
-            name=chal["name"],
-            category=chal["category"],
-            value=chal["value"],
+        challenge = Challenge(
+            id=str(chal.get("id", "")),
+            name=chal.get("name", "Unnamed Challenge"),
+            categories=[chal.get("category", "misc")],
+            value=chal.get("value", 0),
             description=chal.get("description", ""),
             attachments=attachments,
             solved=chal.get("solved_by_me", False),
         )
+
+        if enrich:
+            challenge = enrich_challenge(challenge)
+
+        return challenge
 
     async def submit(self, challenge_id: str, flag: str) -> SubmissionResult:
         try:
@@ -92,14 +99,31 @@ class CTFdChallengeService(CoreChallengeService):
             resp = await self._client._http.get(self._client._platform_url)
             csrf_token = self._extract_csrf_nonce(resp.text)
 
-            logger.debug("Submitting flag for challenge ID %d", challenge_id)
+            if not csrf_token:
+                raise SubmissionError(
+                    challenge_id=challenge_id,
+                    flag=flag,
+                    reason="Failed to extract CSRF token.",
+                )
+
+            logger.debug("Submitting flag for challenge ID %s", challenge_id)
             resp = await self._client._http.post(
                 f"{self._client._platform_url}/api/v1/challenges/attempt",
                 json={"challenge_id": challenge_id, "submission": flag},
                 headers={"CSRF-Token": csrf_token},
             )
 
-            result = resp.json()["data"]
+            result = resp.json().get("data", {})
+            status = result.get("status")
+            message = result.get("message", "No message provided.")
+
+            if status is None:
+                raise SubmissionError(
+                    challenge_id=challenge_id,
+                    flag=flag,
+                    reason="Missing 'status' in submission response.",
+                )
+
         except Exception as e:
             logger.exception("Flag submission failed for challenge ID %s", challenge_id)
             raise SubmissionError(
@@ -108,16 +132,14 @@ class CTFdChallengeService(CoreChallengeService):
                 reason="Invalid response format from server.",
             ) from e
 
-        return SubmissionResult(
-            correct=(result["status"] == "correct"), message=result["message"]
-        )
+        return SubmissionResult(correct=(status == "correct"), message=message)
 
     @staticmethod
     def _extract_csrf_nonce(html: str) -> str:
         soup = BeautifulSoup(html, "html.parser")
         for script in soup.find_all("script"):
             if script.string and "csrfNonce" in script.string:
-                match = re.search(r"'csrfNonce':\s*\"([a-fA-F0-9]+)\"", script.string)
+                match = re.search(r"'csrfNonce':\s*\"([^\"]+)\"", script.string)
                 if match:
                     return match.group(1)
         return ""

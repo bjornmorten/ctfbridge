@@ -1,8 +1,0 @@
-name: Sanity Check
-category: Misc
-value: 100
-description: |
-  Welcome to the demo. Here is your flag:
-  DEMO{welcome_to_the_demo}
-
-flag: "DEMO{welcome_to_the_demo}"

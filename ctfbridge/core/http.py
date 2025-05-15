@@ -1,17 +1,22 @@
 import httpx
-from ctfbridge import __version__
+from importlib.metadata import version
+
+try:
+    __version__ = version("ctfbridge")
+except Exception:
+    __version__ = "dev"
 
 
 def make_http_client(
-    verify_ssl: bool = True, user_agent: str | None = None
+    verify_ssl: bool = False, user_agent: str | None = None
 ) -> httpx.AsyncClient:
-    transport = httpx.AsyncHTTPTransport(retries=3)
     return httpx.AsyncClient(
-        timeout=httpx.Timeout(5.0),
+        limits=httpx.Limits(max_connections=20),
+        timeout=10,
         follow_redirects=True,
         verify=verify_ssl,
         headers={
-            "User-Agent": f"CTFBridge/{__version__}",
+            "User-Agent": user_agent or f"CTFBridge/{__version__}",
         },
-        transport=transport,
+        transport=httpx.AsyncHTTPTransport(retries=5),
     )

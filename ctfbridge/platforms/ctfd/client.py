@@ -4,10 +4,12 @@ from ctfbridge.core.services.session import CoreSessionHelper
 from ctfbridge.platforms.ctfd.services.challenge import CTFdChallengeService
 from ctfbridge.platforms.ctfd.services.scoreboard import CTFdScoreboardService
 from ctfbridge.platforms.ctfd.services.auth import CTFdAuthService
+from ctfbridge.platforms.registry import platform
 
 import httpx
 
 
+@platform("ctfd")
 class CTFdClient(CoreCTFClient):
     def __init__(self, http: httpx.AsyncClient, url: str):
         self._platform_url = url

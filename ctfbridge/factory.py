@@ -4,6 +4,7 @@ from ctfbridge.base.client import CTFClient
 from ctfbridge.platforms import get_platform_client
 from ctfbridge.exceptions import UnknownPlatformError
 from ctfbridge.utils.platform_cache import get_cached_platform, set_cached_platform
+from ctfbridge.core.http import make_http_client
 
 
 async def create_client(
@@ -27,7 +28,7 @@ async def create_client(
     Returns:
         A resolved and ready-to-use CTFClient instance.
     """
-    http = http or httpx.AsyncClient(follow_redirects=True, verify=verify_ssl)
+    http = http or make_http_client()
 
     if platform == "auto":
         if cache_platform:

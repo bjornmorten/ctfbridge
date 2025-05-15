@@ -16,7 +16,7 @@ class PlatformIdentifier(ABC):
         such as HTTP response status or headers.
 
         Returns:
-            bool: True if the platform can be detected using quick checks, False otherwise.
+            True if the platform can be detected using quick checks, False otherwise.
 
         Raises:
             NotImplementedError: If not implemented in the subclass.
@@ -31,7 +31,7 @@ class PlatformIdentifier(ABC):
         specific API endpoints or platform-specific data to fully confirm the platform type.
 
         Returns:
-            bool: True if the platform is confirmed, False otherwise.
+            True if the platform is confirmed, False otherwise.
 
         Raises:
             NotImplementedError: If not implemented in the subclass.
