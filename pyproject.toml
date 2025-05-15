@@ -45,6 +45,10 @@ include-package-data = true
 version_scheme = "post-release"
 local_scheme = "no-local-version"
 
+[tool.ruff]
+lint.ignore = ["F401", "F403"]
+
+
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "--strict-markers --tb=short"
