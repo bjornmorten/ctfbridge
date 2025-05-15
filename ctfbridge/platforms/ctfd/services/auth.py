@@ -67,4 +67,4 @@ class CTFdAuthService(CoreAuthService):
         return tag.get("value", "") if tag and isinstance(tag, Tag) else ""
 
     async def get_supported_auth_methods(self) -> List[AuthMethod]:
-        return [AuthMethod.CREDENTIALS, AuthMethod.API_TOKEN]
+        return [AuthMethod.CREDENTIALS, AuthMethod.TOKEN]

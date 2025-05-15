@@ -4,6 +4,7 @@ from ctfbridge.parsers.base import BaseChallengeParser
 from ctfbridge.parsers.registry import register_parser
 from ctfbridge.parsers.helpers.url_classifier import classify_links
 from ctfbridge.parsers.helpers.url_extraction import extract_links
+from urllib.parse import urlparse
 
 NC_RE = re.compile(r"nc\s+(\S+)\s+(\d+)", re.IGNORECASE)
 TELNET_RE = re.compile(r"telnet\s+(\S+)\s+(\d+)", re.IGNORECASE)
@@ -50,5 +51,26 @@ class ServiceExtractor(BaseChallengeParser):
         else:
             urls = extract_links(challenge.description)
             urls = classify_links(urls)["services"]
+            if urls:
+                host, port = self._get_host_port(urls[0])
+                challenge.service = Service(
+                    type=ServiceType.HTTP,
+                    host=host,
+                    port=port,
+                    url=urls[0],
+                    raw=urls[0],
+                )
 
         return challenge
+
+    @staticmethod
+    def _get_host_port(url: str, default_scheme: str = "http") -> tuple[str, int]:
+        parsed = urlparse(url, scheme=default_scheme)
+        host = parsed.hostname
+        if host is None:
+            raise ValueError(f"Could not parse host from {url!r}")
+
+        port = parsed.port
+        if port is None:
+            port = 443 if parsed.scheme == "https" else 80
+        return host, port

@@ -33,24 +33,29 @@ pip install ctfbridge
 ## Basic Usage
 
 ```python
-from ctfbridge import get_client
+import asyncio
+from ctfbridge import create_client
 
-# Connect and authenticate
-client = get_client("https://demo.ctfd.io")
-client.login("admin", "password")
+async def main():
+    # Connect and authenticate
+    client = await create_client("https://demo.ctfd.io")
+    await client.auth.login(username="admin", password="password")
 
-# Get challenges
-challenges = client.challenges.get_all()
-for chal in challenges:
-    print(f"[{chal.category}] {chal.name} ({chal.value} points)")
+    # Get challenges
+    challenges = await client.challenges.get_all()
+    for chal in challenges:
+        print(f"[{chal.category}] {chal.name} ({chal.value} points)")
 
-# Submit flags
-client.challenges.submit(challenge_id=1, flag="CTF{flag}")
+    # Submit flags
+    await client.challenges.submit(challenge_id=1, flag="CTF{flag}")
 
-# View the scoreboard
-scoreboard = client.scoreboard.get_top(5)
-for entry in scoreboard:
-    print(f"[+] {entry.rank}. {entry.name} - {entry.score} points")
+    # View the scoreboard
+    scoreboard = await client.scoreboard.get_top(5)
+    for entry in scoreboard:
+        print(f"[+] {entry.rank}. {entry.name} - {entry.score} points")
+
+if __name__ == "__main__":
+    asyncio.run(main())
 ```
 
 ## Supported Platforms
@@ -59,7 +64,6 @@ for entry in scoreboard:
 | -------------------- | ----------------- |
 | CTFd                 | ✅ Supported      |
 | rCTF                 | ✅ Supported      |
-| Demo (Local testing) | ✅ Available      |
 | _More platforms_     | 🚧 In development |
 
 ## Documentation

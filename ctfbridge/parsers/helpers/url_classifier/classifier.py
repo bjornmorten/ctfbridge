@@ -4,6 +4,7 @@ from .rules.file_extensions import is_filetype
 from .rules.hostname import is_service_hostname
 from .rules.port import has_explicit_port
 from .rules.keyword import is_likely_service, is_likely_attachment
+from .rules.path import is_root_path
 
 
 def classify_links(links: list[str]) -> dict[str, list[str]]:
@@ -24,6 +25,8 @@ def classify_links(links: list[str]) -> dict[str, list[str]]:
         if is_likely_attachment(ctx):
             scores["attachment"] += 1
 
+        if is_root_path(ctx):
+            scores["service"] += 3
         if is_service_hostname(ctx):
             scores["service"] += 3
         if has_explicit_port(ctx):

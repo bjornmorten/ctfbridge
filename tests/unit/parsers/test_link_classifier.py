@@ -43,3 +43,9 @@ def test_unmatched_defaults_to_attachment():
     links = ["http://example.com/unknown"]
     result = classify_links(links)
     assert result["attachments"] == links
+
+
+def test_subdomain_service():
+    links = ["https://ctf.challs.example.com"]
+    result = classify_links(links)
+    assert result["services"] == links

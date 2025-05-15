@@ -5,7 +5,7 @@ from enum import Enum
 class AuthMethod(Enum):
     """Auth method"""
 
-    API_TOKEN = "api_token"
+    TOKEN = "token"
     CREDENTIALS = "credentials"
     COOKIES = "cookies"
 

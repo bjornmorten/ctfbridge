@@ -1,7 +1,7 @@
 import os
 import logging
 from typing import List, Optional
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 
 import httpx
 from ctfbridge.models.challenge import Attachment
@@ -21,7 +21,7 @@ class CoreAttachmentService(AttachmentService):
     ) -> str:
         os.makedirs(save_dir, exist_ok=True)
 
-        url = attachment.url
+        url = self._normalize_url(attachment.url)
         final_filename = filename or attachment.name
         save_path = os.path.join(save_dir, final_filename)
 
@@ -34,7 +34,6 @@ class CoreAttachmentService(AttachmentService):
                 else self._client._http
             )
             async with client.stream("GET", url) as response:
-                response.raise_for_status()
                 await self._save_stream_to_file(response, save_path)
             logger.info("Successfully downloaded: %s", save_path)
         except Exception as e:
@@ -54,6 +53,13 @@ class CoreAttachmentService(AttachmentService):
             except AttachmentDownloadError as e:
                 logger.warning("Skipping attachment '%s': %s", att.name, e)
         return paths
+
+    def _normalize_url(self, url: str) -> str:
+        parsed = urlparse(url)
+        if not parsed.scheme and not parsed.netloc:
+            # It's a relative path → join with the platform base URL
+            return urljoin(self._client.platform_url, url)
+        return url
 
     def _is_external_url(self, url: str) -> bool:
         base_netloc = urlparse(self._client.platform_url).netloc
