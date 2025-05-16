@@ -64,6 +64,8 @@ if __name__ == "__main__":
 | -------------------- | ----------------- |
 | CTFd                 | ✅ Supported      |
 | rCTF                 | ✅ Supported      |
+| Berg                 | ✅ Supported      |
+| EPT                  | ✅ Supported      |
 | _More platforms_     | 🚧 In development |
 
 ## Documentation

@@ -1,5 +1,7 @@
 from ctfbridge.base.services.challenge import ChallengeService
 from ctfbridge.models.challenge import Challenge
+from ctfbridge.parsers.enrich import enrich_challenge
+from ctfbridge.exceptions import ChallengeFetchError
 from typing import List
 
 
@@ -42,3 +44,12 @@ class CoreChallengeService(ChallengeService):
             result = [c for c in result if lower_sub in c.name.lower()]
 
         return result
+
+    async def get_by_id(self, challenge_id: str, enrich: bool = True) -> Challenge:
+        challenges = await self.get_all(enrich=False)
+        for chall in challenges:
+            if chall.id == challenge_id:
+                if enrich:
+                    chall = enrich_challenge(chall)
+                return chall
+        raise ChallengeFetchError(f"Challenge with id {challenge_id} not found.")

@@ -12,7 +12,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class RCTFChallengeService(CoreChallengeService):
+class BergChallengeService(CoreChallengeService):
     def __init__(self, client):
         self._client = client
 
@@ -30,13 +30,9 @@ class RCTFChallengeService(CoreChallengeService):
     ) -> List[Challenge]:
         try:
             resp = await self._client._http.get(
-                f"{self._client._platform_url}/api/v1/challs"
+                f"{self._client._platform_url}/api/v2/challenges"
             )
-            data = resp.json().get("data", [])
-
-            profile = await self._get_profile()
-            solves = profile["solves"]
-            solved_ids = [chal["id"] for chal in solves]
+            data = resp.json()
         except Exception as e:
             logger.exception("Failed to fetch challenges.")
             raise ChallengeFetchError("Invalid response format from server.") from e
@@ -45,16 +41,14 @@ class RCTFChallengeService(CoreChallengeService):
         for chall in data:
             challenges.append(
                 Challenge(
-                    id=chall["id"],
-                    name=chall["name"],
-                    categories=[chall["category"]],
-                    value=chall["points"],
+                    id=chall["name"],
+                    name=chall["displayName"],
+                    categories=chall["categories"],
                     description=chall["description"],
                     attachments=[
-                        Attachment(name=file["name"], url=file["url"])
-                        for file in chall["files"]
+                        Attachment(name=file["fileName"], url=file["downloadUrl"])
+                        for file in chall["attachments"]
                     ],
-                    solved=(chall["id"] in solved_ids),
                     author=chall.get("author"),
                 )
             )
@@ -71,29 +65,3 @@ class RCTFChallengeService(CoreChallengeService):
         )
 
         return filtered_challenges
-
-    async def submit(self, challenge_id: str, flag: str) -> SubmissionResult:
-        url = f"{self._client._platform_url}/api/v1/challs/{challenge_id}/submit"
-        payload = {"flag": flag}
-
-        resp = await self._client._http.post(url, json=payload)
-
-        try:
-            result = resp.json()
-        except Exception:
-            raise SubmissionError(
-                challenge_id=challenge_id,
-                flag=flag,
-                reason="Unexpected response from server",
-            )
-
-        return SubmissionResult(
-            correct=(resp.status_code == 200), message=result["message"]
-        )
-
-    async def _get_profile(self) -> Dict[str, Any]:
-        """Get user profile"""
-        url = f"{self._client._platform_url}/api/v1/users/me"
-        response = await self._client._http.get(url)
-        data = response.json()["data"]
-        return data

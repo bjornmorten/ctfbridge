@@ -15,7 +15,6 @@ class RCTFIdentifier(PlatformIdentifier):
         self.http = http
 
     async def static_detect(self, response: httpx.Response) -> bool:
-        print("lol")
         return "rctf-config" in response.text
 
     async def dynamic_detect(self, base_url: str) -> bool:

@@ -35,7 +35,7 @@ class Challenge(BaseModel):
     name: str
     categories: List[str] = Field(default_factory=list)
     normalized_categories: List[str] = Field(default_factory=list)
-    value: int
+    value: int | None = None
     description: str | None = None
     attachments: List[Attachment] = Field(default_factory=list)
     service: Service | None = None
