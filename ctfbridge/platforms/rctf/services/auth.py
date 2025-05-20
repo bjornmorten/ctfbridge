@@ -1,10 +1,12 @@
-from ctfbridge.core.services.auth import CoreAuthService
-from ctfbridge.models.auth import AuthMethod
-from ctfbridge.exceptions import LoginError, TokenAuthError, MissingAuthMethodError
-from typing import List
-from bs4 import BeautifulSoup, Tag
 import logging
+from typing import List
 from urllib.parse import parse_qs, unquote, urlparse
+
+from bs4 import BeautifulSoup, Tag
+
+from ctfbridge.core.services.auth import CoreAuthService
+from ctfbridge.exceptions import LoginError, MissingAuthMethodError, TokenAuthError
+from ctfbridge.models.auth import AuthMethod
 
 logger = logging.getLogger(__name__)
 

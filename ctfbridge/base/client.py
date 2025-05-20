@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
-from ctfbridge.base.services.session import SessionHelper
-from ctfbridge.base.services.auth import AuthService
+
 from ctfbridge.base.services.attachment import AttachmentService
+from ctfbridge.base.services.auth import AuthService
 from ctfbridge.base.services.challenge import ChallengeService
 from ctfbridge.base.services.scoreboard import ScoreboardService
+from ctfbridge.base.services.session import SessionHelper
 
 
 class CTFClient(ABC):

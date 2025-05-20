@@ -1,8 +1,9 @@
-from typing import Dict
-from ctfbridge.base.services.session import SessionHelper
 import json
-from ctfbridge.exceptions import SessionError
 import logging
+from typing import Dict
+
+from ctfbridge.base.services.session import SessionHelper
+from ctfbridge.exceptions import SessionError
 
 logger = logging.getLogger(__name__)
 

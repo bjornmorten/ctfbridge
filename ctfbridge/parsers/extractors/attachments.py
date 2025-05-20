@@ -1,8 +1,8 @@
-from ctfbridge.models.challenge import Challenge, Attachment
+from ctfbridge.models.challenge import Attachment, Challenge
 from ctfbridge.parsers.base import BaseChallengeParser
+from ctfbridge.parsers.helpers.url_classifier import classify_links
 from ctfbridge.parsers.helpers.url_extraction import extract_links
 from ctfbridge.parsers.registry import register_parser
-from ctfbridge.parsers.helpers.url_classifier import classify_links
 
 
 @register_parser

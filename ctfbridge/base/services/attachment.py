@@ -1,6 +1,5 @@
-from typing import List, Optional
 from abc import ABC
-
+from typing import List, Optional
 
 from ctfbridge.models.challenge import Attachment
 

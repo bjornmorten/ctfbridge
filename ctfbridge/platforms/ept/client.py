@@ -1,12 +1,12 @@
+import httpx
+
 from ctfbridge.core.client import CoreCTFClient
 from ctfbridge.core.services.attachment import CoreAttachmentService
 from ctfbridge.core.services.session import CoreSessionHelper
+from ctfbridge.platforms.ept.services.auth import EPTAuthService
 from ctfbridge.platforms.ept.services.challenge import EPTChallengeService
 from ctfbridge.platforms.ept.services.scoreboard import EPTScoreboardService
-from ctfbridge.platforms.ept.services.auth import EPTAuthService
 from ctfbridge.platforms.registry import platform
-
-import httpx
 
 
 @platform("ept")

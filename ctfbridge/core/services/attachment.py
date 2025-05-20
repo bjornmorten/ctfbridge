@@ -1,12 +1,13 @@
-import os
 import logging
+import os
 from typing import List, Optional
-from urllib.parse import urlparse, urljoin
+from urllib.parse import urljoin, urlparse
 
 import httpx
-from ctfbridge.models.challenge import Attachment
+
 from ctfbridge.base.services.attachment import AttachmentService
 from ctfbridge.exceptions import AttachmentDownloadError
+from ctfbridge.models.challenge import Attachment
 
 logger = logging.getLogger(__name__)
 

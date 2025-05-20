@@ -1,7 +1,8 @@
 import httpx
+
 from ctfbridge.base.identifier import PlatformIdentifier
-from ctfbridge.platforms.registry import register_identifier
 from ctfbridge.exceptions import UnauthorizedError
+from ctfbridge.platforms.registry import register_identifier
 
 
 @register_identifier("rctf")

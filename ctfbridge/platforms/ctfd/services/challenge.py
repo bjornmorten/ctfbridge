@@ -1,17 +1,16 @@
-from typing import List
-from urllib.parse import unquote, urlparse
-from ctfbridge.parsers.enrich import enrich_challenge
-
-from ctfbridge.exceptions import ChallengeFetchError, SubmissionError
-from ctfbridge.models.challenge import Attachment, Challenge
-from ctfbridge.models.submission import SubmissionResult
-from ctfbridge.core.services.challenge import CoreChallengeService
-
 import asyncio
 import logging
 import re
+from typing import List
+from urllib.parse import unquote, urlparse
 
 from bs4 import BeautifulSoup
+
+from ctfbridge.core.services.challenge import CoreChallengeService
+from ctfbridge.exceptions import ChallengeFetchError, SubmissionError
+from ctfbridge.models.challenge import Attachment, Challenge
+from ctfbridge.models.submission import SubmissionResult
+from ctfbridge.parsers.enrich import enrich_challenge
 
 logger = logging.getLogger(__name__)
 

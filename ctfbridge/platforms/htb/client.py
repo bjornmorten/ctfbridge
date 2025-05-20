@@ -1,13 +1,14 @@
-from ctfbridge.core.client import CoreCTFClient
-from ctfbridge.core.services.attachment import CoreAttachmentService
-from ctfbridge.core.services.session import CoreSessionHelper
-from ctfbridge.platforms.htb.services.challenge import HTBChallengeService
-from ctfbridge.platforms.htb.services.scoreboard import HTBScoreboardService
-from ctfbridge.platforms.htb.services.auth import HTBAuthService
-from ctfbridge.platforms.registry import platform
 from urllib.parse import urljoin
 
 import httpx
+
+from ctfbridge.core.client import CoreCTFClient
+from ctfbridge.core.services.attachment import CoreAttachmentService
+from ctfbridge.core.services.session import CoreSessionHelper
+from ctfbridge.platforms.htb.services.auth import HTBAuthService
+from ctfbridge.platforms.htb.services.challenge import HTBChallengeService
+from ctfbridge.platforms.htb.services.scoreboard import HTBScoreboardService
+from ctfbridge.platforms.registry import platform
 
 
 @platform("htb")

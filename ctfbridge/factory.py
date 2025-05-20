@@ -1,10 +1,11 @@
 import httpx
-from ctfbridge.platforms.detect import detect_platform
+
 from ctfbridge.base.client import CTFClient
-from ctfbridge.platforms import get_platform_client
-from ctfbridge.exceptions import UnknownPlatformError
-from ctfbridge.utils.platform_cache import get_cached_platform, set_cached_platform
 from ctfbridge.core.http import make_http_client
+from ctfbridge.exceptions import UnknownPlatformError
+from ctfbridge.platforms import get_platform_client
+from ctfbridge.platforms.detect import detect_platform
+from ctfbridge.utils.platform_cache import get_cached_platform, set_cached_platform
 
 
 async def create_client(

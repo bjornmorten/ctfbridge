@@ -1,16 +1,17 @@
-import httpx
 from importlib.metadata import version
+
+import httpx
 
 from ctfbridge.exceptions import (
     BadRequestError,
-    UnauthorizedError,
+    ConflictError,
     ForbiddenError,
     NotFoundError,
-    ConflictError,
-    ValidationError,
     RateLimitError,
     ServerError,
     ServiceUnavailableError,
+    UnauthorizedError,
+    ValidationError,
 )
 
 try:

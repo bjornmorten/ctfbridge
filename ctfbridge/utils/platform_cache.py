@@ -1,7 +1,7 @@
 import json
+import tempfile
 import time
 from pathlib import Path
-import tempfile
 from typing import Optional
 
 CACHE_PATH = Path(tempfile.gettempdir()) / ".ctfbridge_platform_cache.json"

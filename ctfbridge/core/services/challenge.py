@@ -1,8 +1,9 @@
+from typing import List
+
 from ctfbridge.base.services.challenge import ChallengeService
+from ctfbridge.exceptions import ChallengeFetchError
 from ctfbridge.models.challenge import Challenge
 from ctfbridge.parsers.enrich import enrich_challenge
-from ctfbridge.exceptions import ChallengeFetchError
-from typing import List
 
 
 class CoreChallengeService(ChallengeService):

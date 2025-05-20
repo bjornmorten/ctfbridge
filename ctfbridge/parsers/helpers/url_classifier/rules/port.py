@@ -1,4 +1,5 @@
 import re
+
 from ..utils import LinkClassifierContext
 
 PORT_PATTERN = re.compile(r"(?::|port=)(\d{2,5})")

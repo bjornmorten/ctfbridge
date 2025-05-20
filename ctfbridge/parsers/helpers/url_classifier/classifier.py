@@ -1,10 +1,11 @@
 from urllib.parse import urlparse
-from .utils import LinkClassifierContext
+
 from .rules.file_extensions import is_filetype
 from .rules.hostname import is_service_hostname
-from .rules.port import has_explicit_port
-from .rules.keyword import is_likely_service, is_likely_attachment
+from .rules.keyword import is_likely_attachment, is_likely_service
 from .rules.path import is_root_path
+from .rules.port import has_explicit_port
+from .utils import LinkClassifierContext
 
 
 def classify_links(links: list[str]) -> dict[str, list[str]]:

@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+
 from ctfbridge.models.challenge import Challenge
 
 

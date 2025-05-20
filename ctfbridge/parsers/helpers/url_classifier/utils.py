@@ -1,5 +1,5 @@
-from urllib.parse import ParseResult
 from dataclasses import dataclass
+from urllib.parse import ParseResult
 
 
 @dataclass

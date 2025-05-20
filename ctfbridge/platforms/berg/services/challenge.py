@@ -1,13 +1,11 @@
-from typing import List, Dict, Any
-from ctfbridge.parsers.enrich import enrich_challenge
+import logging
+from typing import Any, Dict, List
 
+from ctfbridge.core.services.challenge import CoreChallengeService
 from ctfbridge.exceptions import ChallengeFetchError, SubmissionError
 from ctfbridge.models.challenge import Attachment, Challenge
 from ctfbridge.models.submission import SubmissionResult
-from ctfbridge.core.services.challenge import CoreChallengeService
-
-import logging
-
+from ctfbridge.parsers.enrich import enrich_challenge
 
 logger = logging.getLogger(__name__)
 

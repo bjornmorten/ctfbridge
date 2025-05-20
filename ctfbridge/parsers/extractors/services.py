@@ -1,10 +1,11 @@
 import re
+from urllib.parse import urlparse
+
 from ctfbridge.models.challenge import Challenge, Service, ServiceType
 from ctfbridge.parsers.base import BaseChallengeParser
-from ctfbridge.parsers.registry import register_parser
 from ctfbridge.parsers.helpers.url_classifier import classify_links
 from ctfbridge.parsers.helpers.url_extraction import extract_links
-from urllib.parse import urlparse
+from ctfbridge.parsers.registry import register_parser
 
 NC_RE = re.compile(r"nc\s+(\S+)\s+(\d+)", re.IGNORECASE)
 TELNET_RE = re.compile(r"telnet\s+(\S+)\s+(\d+)", re.IGNORECASE)

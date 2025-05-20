@@ -1,12 +1,12 @@
+import httpx
+
 from ctfbridge.core.client import CoreCTFClient
 from ctfbridge.core.services.attachment import CoreAttachmentService
 from ctfbridge.core.services.session import CoreSessionHelper
+from ctfbridge.platforms.berg.services.auth import BergAuthService
 from ctfbridge.platforms.berg.services.challenge import BergChallengeService
 from ctfbridge.platforms.berg.services.scoreboard import BergScoreboardService
-from ctfbridge.platforms.berg.services.auth import BergAuthService
 from ctfbridge.platforms.registry import platform
-
-import httpx
 
 
 @platform("berg")

@@ -3,7 +3,7 @@ from urllib.parse import urlparse, urlunparse
 
 import httpx
 
-from ctfbridge.exceptions import UnknownPlatformError, UnknownBaseURLError
+from ctfbridge.exceptions import UnknownBaseURLError, UnknownPlatformError
 from ctfbridge.platforms.registry import get_all_identifiers
 
 IDENTIFIERS = get_all_identifiers()

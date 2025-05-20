@@ -1,5 +1,5 @@
-from ctfbridge.base.identifier import PlatformIdentifier
 from ctfbridge.base.client import CTFClient
+from ctfbridge.base.identifier import PlatformIdentifier
 from ctfbridge.exceptions import UnknownPlatformError
 
 IDENTIFIER_REGISTRY: dict[str, type[PlatformIdentifier]] = {}

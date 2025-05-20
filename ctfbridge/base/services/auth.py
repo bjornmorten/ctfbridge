@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import List
+
 from ctfbridge.models.auth import AuthMethod
 
 
