@@ -4,6 +4,7 @@ from ctfbridge.exceptions import LoginError, TokenAuthError, MissingAuthMethodEr
 from typing import List
 from bs4 import BeautifulSoup, Tag
 import logging
+from ctfbridge.exceptions import UnauthorizedError
 
 logger = logging.getLogger(__name__)
 
@@ -21,16 +22,16 @@ class CTFdAuthService(CoreAuthService):
         if token:
             try:
                 logger.debug("Attempting token-based authentication.")
-                await self._client.session.set_token(token)
-                resp = await http.get(f"{base_url}/api/v1/users/me")
-                if resp.status_code != 200:
-                    logger.warning(
-                        "Token authentication failed with status %s", resp.status_code
-                    )
-                    raise TokenAuthError("Unauthorized token")
+                await self._client.session.set_headers(
+                    {"Authorization": f"Token {token}"}
+                )
+                resp = await http.get(
+                    f"{base_url}/api/v1/users/me",
+                    headers={"Content-Type": "application/json"},
+                )
                 logger.info("Token authentication successful.")
-            except Exception as e:
-                raise TokenAuthError(str(e)) from e
+            except UnauthorizedError as e:
+                raise TokenAuthError("Unauthorized token") from e
 
         elif username and password:
             try:

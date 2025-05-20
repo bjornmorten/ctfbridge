@@ -23,7 +23,8 @@ dev = [
   "pytest",
   "ruff",
   "types-beautifulsoup4",
-  "pre-commit"
+  "pre-commit",
+  "pytest-asyncio"
 ]
 
 [project.urls]
@@ -55,3 +56,8 @@ addopts = "--strict-markers --tb=short"
 testpaths = ["tests"]
 pythonpath = ["."]
 python_files = "test_*.py"
+markers = [
+    "asyncio: mark a test as asyncio"
+]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"

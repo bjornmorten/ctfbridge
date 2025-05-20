@@ -2,6 +2,9 @@ from typing import Dict
 from ctfbridge.base.services.session import SessionHelper
 import json
 from ctfbridge.exceptions import SessionError
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class CoreSessionHelper(SessionHelper):
@@ -21,9 +24,19 @@ class CoreSessionHelper(SessionHelper):
 
     async def save(self, path: str) -> None:
         try:
+            cookies_data = []
+            for cookie in self._client._http.cookies.jar:
+                cookies_data.append(
+                    {
+                        "name": cookie.name,
+                        "value": cookie.value,
+                        "domain": cookie.domain,
+                    }
+                )
+
             session_state = {
                 "headers": dict(self._client._http.headers),
-                "cookies": self._client._http.cookies.jar.dict(),
+                "cookies": cookies_data,
             }
             with open(path, "w") as f:
                 json.dump(session_state, f)
@@ -32,12 +45,26 @@ class CoreSessionHelper(SessionHelper):
 
     async def load(self, path: str) -> None:
         try:
-            with open(path, "r") as f:
+            with open(path) as f:
                 session_state = json.load(f)
 
             self._client._http.headers.update(session_state.get("headers", {}))
-
-            for name, value in session_state.get("cookies", {}).items():
-                self._client._http.cookies.set(name, value)
+            for cookie in session_state.get("cookies", []):
+                self._client._http.cookies.set(
+                    name=cookie["name"],
+                    value=cookie["value"],
+                    domain=cookie.get("domain"),
+                )
+        except FileNotFoundError as e:
+            logger.warning("Session load skipped: %s", e)
+            raise SessionError(
+                path=path, operation="load", reason="File not found"
+            ) from e
+        except json.JSONDecodeError as e:
+            logger.error("Malformed session file at %s", path)
+            raise SessionError(
+                path=path, operation="load", reason="Malformed JSON"
+            ) from e
         except Exception as e:
+            logger.exception("Unexpected error during session load")
             raise SessionError(path=path, operation="load", reason=str(e)) from e
