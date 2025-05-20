@@ -3,10 +3,8 @@ import re
 import httpx
 
 from ctfbridge.base.identifier import PlatformIdentifier
-from ctfbridge.platforms.registry import register_identifier
 
 
-@register_identifier("htb")
 class HTBIdentifier(PlatformIdentifier):
     """
     Identifier for HTB platforms.

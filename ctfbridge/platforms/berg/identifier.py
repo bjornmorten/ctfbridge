@@ -1,10 +1,8 @@
 import httpx
 
 from ctfbridge.base.identifier import PlatformIdentifier
-from ctfbridge.platforms.registry import register_identifier
 
 
-@register_identifier("berg")
 class BergIdentifier(PlatformIdentifier):
     """
     Identifier for Berg platforms.

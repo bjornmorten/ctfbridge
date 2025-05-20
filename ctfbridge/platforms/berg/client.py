@@ -6,10 +6,8 @@ from ctfbridge.core.services.session import CoreSessionHelper
 from ctfbridge.platforms.berg.services.auth import BergAuthService
 from ctfbridge.platforms.berg.services.challenge import BergChallengeService
 from ctfbridge.platforms.berg.services.scoreboard import BergScoreboardService
-from ctfbridge.platforms.registry import platform
 
 
-@platform("berg")
 class BergClient(CoreCTFClient):
     def __init__(self, http: httpx.AsyncClient, url: str):
         self._platform_url = url

@@ -8,10 +8,8 @@ from ctfbridge.core.services.session import CoreSessionHelper
 from ctfbridge.platforms.htb.services.auth import HTBAuthService
 from ctfbridge.platforms.htb.services.challenge import HTBChallengeService
 from ctfbridge.platforms.htb.services.scoreboard import HTBScoreboardService
-from ctfbridge.platforms.registry import platform
 
 
-@platform("htb")
 class HTBClient(CoreCTFClient):
     def __init__(self, http: httpx.AsyncClient, url: str):
         self._platform_url = url

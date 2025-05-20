@@ -4,9 +4,7 @@ from urllib.parse import urlparse, urlunparse
 import httpx
 
 from ctfbridge.exceptions import UnknownBaseURLError, UnknownPlatformError
-from ctfbridge.platforms.registry import get_all_identifiers
-
-IDENTIFIERS = get_all_identifiers()
+from ctfbridge.platforms.registry import get_identifier_classes
 
 
 def generate_candidate_base_urls(full_url: str) -> list[str]:
@@ -44,6 +42,7 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
         UnknownBaseURL: If the platform is matched but no working base URL is found.
     """
     candidates = generate_candidate_base_urls(input_url)
+    identifiers = get_identifier_classes()
 
     # Step 1: Try static detection for each candidate
     for candidate in candidates:
@@ -52,7 +51,7 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
         except httpx.HTTPError:
             continue
 
-        for name, IdentifierClass in IDENTIFIERS:
+        for name, IdentifierClass in identifiers:
             identifier = IdentifierClass(http)
             if await identifier.static_detect(resp):
                 for base_candidate in candidates:
@@ -62,7 +61,7 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
 
     # Step 2: Fallback to dynamic detection
     for candidate in candidates:
-        for name, IdentifierClass in IDENTIFIERS:
+        for name, IdentifierClass in identifiers:
             identifier = IdentifierClass(http)
             if await identifier.dynamic_detect(candidate):
                 for base_candidate in candidates:

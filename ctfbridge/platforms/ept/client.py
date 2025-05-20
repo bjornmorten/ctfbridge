@@ -6,10 +6,8 @@ from ctfbridge.core.services.session import CoreSessionHelper
 from ctfbridge.platforms.ept.services.auth import EPTAuthService
 from ctfbridge.platforms.ept.services.challenge import EPTChallengeService
 from ctfbridge.platforms.ept.services.scoreboard import EPTScoreboardService
-from ctfbridge.platforms.registry import platform
 
 
-@platform("ept")
 class EPTClient(CoreCTFClient):
     def __init__(self, http: httpx.AsyncClient, url: str):
         self._platform_url = url

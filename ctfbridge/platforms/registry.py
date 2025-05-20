@@ -1,39 +1,38 @@
-from ctfbridge.base.client import CTFClient
-from ctfbridge.base.identifier import PlatformIdentifier
-from ctfbridge.exceptions import UnknownPlatformError
+import importlib
+from typing import Any, Type
 
-IDENTIFIER_REGISTRY: dict[str, type[PlatformIdentifier]] = {}
-PLATFORM_CLIENTS: dict[str, type[CTFClient]] = {}
+# Maps platform names to their client class paths
+PLATFORM_CLIENTS: dict[str, str] = {
+    "ctfd": "ctfbridge.platforms.ctfd.client.CTFdClient",
+    "rctf": "ctfbridge.platforms.rctf.client.RCTFClient",
+    "htb": "ctfbridge.platforms.htb.client.HTBClient",
+    "berg": "ctfbridge.platforms.berg.client.BergClient",
+    "ept": "ctfbridge.platforms.ept.client.EPTClient",
+}
 
-
-# Identifier
-def register_identifier(name: str):
-    def decorator(cls: type[PlatformIdentifier]):
-        if name in IDENTIFIER_REGISTRY:
-            raise ValueError(f"Identifier '{name}' already registered.")
-        IDENTIFIER_REGISTRY[name] = cls
-        return cls
-
-    return decorator
-
-
-def get_all_identifiers() -> list[tuple[str, type[PlatformIdentifier]]]:
-    return list(IDENTIFIER_REGISTRY.items())
-
-
-# Platform
-def platform(name: str):
-    def wrapper(cls: type[CTFClient]):
-        if name in PLATFORM_CLIENTS:
-            raise ValueError(f"Platform '{name}' already registered.")
-        PLATFORM_CLIENTS[name] = cls
-        return cls
-
-    return wrapper
+# Maps platform names to their identifier class paths
+PLATFORM_IDENTIFIERS: dict[str, str] = {
+    "ctfd": "ctfbridge.platforms.ctfd.identifier.CTFdIdentifier",
+    "rctf": "ctfbridge.platforms.rctf.identifier.RCTFIdentifier",
+    "htb": "ctfbridge.platforms.htb.identifier.HTBIdentifier",
+    "berg": "ctfbridge.platforms.berg.identifier.BergIdentifier",
+    "ept": "ctfbridge.platforms.ept.identifier.EPTIdentifier",
+}
 
 
-def get_platform_client(name: str):
-    try:
-        return PLATFORM_CLIENTS[name]
-    except KeyError as e:
-        raise UnknownPlatformError(name) from e
+def import_object(dotted_path: str) -> Any:
+    """Import a class or function by dotted path."""
+    module_path, object_name = dotted_path.rsplit(".", 1)
+    module = importlib.import_module(module_path)
+    return getattr(module, object_name)
+
+
+def get_platform_client(name: str) -> type:
+    """Lazily return the platform client class."""
+    if name not in PLATFORM_CLIENTS:
+        raise ValueError(f"Unknown platform: {name}")
+    return import_object(PLATFORM_CLIENTS[name])
+
+
+def get_identifier_classes() -> list[tuple[str, Type]]:
+    return [(name, import_object(path)) for name, path in PLATFORM_IDENTIFIERS.items()]

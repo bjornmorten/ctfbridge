@@ -6,10 +6,8 @@ from ctfbridge.core.services.session import CoreSessionHelper
 from ctfbridge.platforms.rctf.services.auth import RCTFAuthService
 from ctfbridge.platforms.rctf.services.challenge import RCTFChallengeService
 from ctfbridge.platforms.rctf.services.scoreboard import RCTFScoreboardService
-from ctfbridge.platforms.registry import platform
 
 
-@platform("rctf")
 class RCTFClient(CoreCTFClient):
     def __init__(self, http: httpx.AsyncClient, url: str):
         self._platform_url = url
