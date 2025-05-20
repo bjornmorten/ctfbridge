@@ -1,9 +1,10 @@
 import json
 import time
 from pathlib import Path
+import tempfile
 from typing import Optional
 
-CACHE_PATH = Path.home() / ".ctfbridge_platform_cache.json"
+CACHE_PATH = Path(tempfile.gettempdir()) / ".ctfbridge_platform_cache.json"
 CACHE_TTL_SECONDS = 86400
 
 CacheEntry = tuple[str, str, float]
