@@ -1,6 +1,7 @@
 import httpx
 from ctfbridge.base.identifier import PlatformIdentifier
 from ctfbridge.platforms.registry import register_identifier
+from ctfbridge.exceptions import UnauthorizedError
 
 
 @register_identifier("rctf")
@@ -22,7 +23,8 @@ class RCTFIdentifier(PlatformIdentifier):
 
     async def is_base_url(self, candidate: str) -> bool:
         try:
-            resp = await self.http.get(f"{candidate}/api/v1/users/me")
-            return "badToken" in resp.text
+            await self.http.get(f"{candidate}/api/v1/users/me")
+        except UnauthorizedError as e:
+            return str(e) == "The token provided is invalid."
         except (httpx.HTTPError, ValueError):
             return False

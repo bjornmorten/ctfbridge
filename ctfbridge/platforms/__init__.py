@@ -6,7 +6,9 @@ from ctfbridge.platforms.berg.client import BergClient
 from ctfbridge.platforms.berg.identifier import BergIdentifier
 from ctfbridge.platforms.ept.client import EPTClient
 from ctfbridge.platforms.ept.identifier import EPTIdentifier
+from ctfbridge.platforms.htb.client import HTBClient
+from ctfbridge.platforms.htb.identifier import HTBIdentifier
 from ctfbridge.exceptions import UnknownPlatformError
 from ctfbridge.platforms.registry import get_platform_client
 
-__all__ = ["PLATFORM_CLIENTS", "get_platform_client"]
+__all__ = ["get_platform_client"]

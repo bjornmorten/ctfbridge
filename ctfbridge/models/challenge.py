@@ -42,6 +42,7 @@ class Challenge(BaseModel):
     tags: List[Tag] = Field(default_factory=list)
     solved: bool | None = False
     author: str | None = None
+    difficulty: str | None = None
 
     @property
     def category(self) -> str | None:

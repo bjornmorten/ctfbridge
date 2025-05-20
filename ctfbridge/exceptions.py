@@ -20,6 +20,51 @@ class CTFBridgeError(Exception):
 
 
 # ──────────────────────────────
+# 🌐 General HTTP/API errors
+# ──────────────────────────────
+
+
+class APIError(CTFBridgeError):
+    """Base class for all HTTP API-related errors."""
+
+    def __init__(self, message: str, *, status_code: int | None = None):
+        super().__init__(message)
+        self.status_code = status_code
+
+
+class BadRequestError(APIError):
+    """400 Bad Request."""
+
+
+class UnauthorizedError(APIError):
+    """401 Unauthorized."""
+
+
+class ForbiddenError(APIError):
+    """403 Forbidden."""
+
+
+class NotFoundError(APIError):
+    """404 Not Found."""
+
+
+class ConflictError(APIError):
+    """409 Conflict."""
+
+
+class ValidationError(APIError):
+    """422 Unprocessable Entity."""
+
+
+class ServerError(APIError):
+    """5xx Server error."""
+
+
+class ServiceUnavailableError(APIError):
+    """503 Service unavailable."""
+
+
+# ──────────────────────────────
 # 🔐 Authentication-related errors
 # ──────────────────────────────
 
