@@ -10,8 +10,8 @@ CTFBridge supports the following CTF platforms through a unified interface.
 | 📋 List all challenges             | ✅   | ✅   | ✅   | ✅   |✅   |
 | 📄 View challenge details          | ✅   | ✅   | ✅   | ✅   |✅   |
 | 📎 Download challenge attachments  | ✅   | ✅   | ✅   | ✅   |✅   |
-| 🚩 Submit flags                    | ✅   | ✅   | ❌   | ❌   |❌   |
-| 🏆 View scoreboard                 | ✅   | ✅   | ❌   | ❌   |❌   |
+| 🚩 Submit flags                    | ✅   | ✅   | ❌   | ❌   |✅    |
+| 🏆 View scoreboard                 | ✅   | ✅   | ❌   | ❌   |✅    |
 | 👤 View user or team information   | ❌   | ❌   | ❌   | ❌   |❌   |
 | 🧭 View platform or CTF details    | ❌   | ❌   | ❌   | ❌   |❌   |
 | 🛠️ Start on-demand services        | ❌   | ❌   | ❌   | ❌   |❌   |

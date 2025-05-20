@@ -5,6 +5,7 @@ from ctfbridge.exceptions import ChallengeFetchError, SubmissionError
 from ctfbridge.models.challenge import Attachment, Challenge
 from ctfbridge.models.submission import SubmissionResult
 from ctfbridge.core.services.challenge import CoreChallengeService
+from ctfbridge.exceptions import BadRequestError
 
 import logging
 
@@ -83,6 +84,31 @@ class HTBChallengeService(CoreChallengeService):
         )
 
         return filtered_challenges
+
+    async def submit(self, challenge_id: str, flag: str) -> SubmissionResult:
+        logger.debug("Submitting flag for challenge ID %s", challenge_id)
+
+        try:
+            resp = await self._client._http.post(
+                self._client._get_api_url("flags/own"),
+                json={"challenge_id": challenge_id, "flag": flag},
+            )
+            data = resp.json()
+            message = data.get("message")
+            return SubmissionResult(correct=(resp.status_code == 200), message=message)
+
+        except BadRequestError as e:
+            message = str(e)
+            if "already owned" in message.lower():
+                return SubmissionResult(correct=True, message=message)
+            else:
+                return SubmissionResult(correct=False, message=message)
+
+        except Exception:
+            logger.exception("Unexpected error during flag submission.")
+            return SubmissionResult(
+                correct=False, message="Submission failed due to an unexpected error."
+            )
 
     async def _get_challenge_categories(self) -> Dict[int, str]:
         resp = await self._client._http.get(
