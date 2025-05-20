@@ -60,7 +60,7 @@ class HTBChallengeService(CoreChallengeService):
                             Attachment(
                                 name=chall.get("filename"),
                                 url=self._client._get_api_url(
-                                    f"challenge/{chall['id']}/download"
+                                    f"challenges/{chall['id']}/download"
                                 ),
                             )
                         ]
