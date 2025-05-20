@@ -66,6 +66,7 @@ if __name__ == "__main__":
 | rCTF                 | ✅ Supported      |
 | Berg                 | ✅ Supported      |
 | EPT                  | ✅ Supported      |
+| HTB                  | ✅ Supported      |
 | _More platforms_     | 🚧 In development |
 
 ## Documentation
