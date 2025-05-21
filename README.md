@@ -4,33 +4,37 @@
 [![Docs](https://img.shields.io/badge/docs-readthedocs-blue.svg)](https://ctfbridge.readthedocs.io)
 ![License](https://img.shields.io/github/license/bjornmorten/ctfbridge)
 
-CTFBridge is a Python library for interacting with multiple CTF platforms through a unified interface.
-
 > [!WARNING]
 > **Under active development** – expect breaking changes.
 
-## Overview
+## 🧠 Overview
 
-CTFBridge provides a simple, unified API to interact with different Capture the Flag (CTF) competition platforms like CTFd and more.
+CTFBridge is a Python library that standardizes interaction with Capture The Flag (CTF) platforms like CTFd, rCTF, and HTB — so you can focus on solving challenges, not reverse-engineering APIs.
 
-It hides platform-specific quirks and gives you consistent access to challenges, submissions, and authentication across platforms.
+Use a single API to:
+- 🧩 Fetch challenges and metadata
+- 🚩 Submit flags
+- 🏆 Access scoreboards
+- 🔐 Manage sessions and authentication
 
-## Features
+## ✨ Features
 
-- 🌟 Unified API across different CTF platforms
-- 📄 Fetch challenges, attachments, and challenge metadata
-- 🔑 Handle logins, sessions, and authentication cleanly
-- ⚡ Automatic rate-limiting and retry handling
-- 🧩 Easy to extend with new platform clients
-- 🧪 Demo client for quick testing without external servers
+- ✅ Unified API for multiple CTF platforms — one interface, no per-platform hacks
+- 🧩 Easy to extend with your own platform clients and parsers
+- 📦 Challenge enrichment (authors, services, attachments) included out of the box
+- 🔒 Clean authentication flow (supports credentials and API tokens)
+- 🏁 Submit flags and access scoreboards with ease
+- ⚙️  Platform auto-detection from just a URL — no config required
+- 🔄 Session save/load support for persistent sessions
+- 🤖 Designed for automation and scripting (async-first)
 
-## Installation
+## 📦 Installation
 
 ```bash
 pip install ctfbridge
 ```
 
-## Basic Usage
+## 🚀 Quickstart
 
 ```python
 import asyncio
@@ -58,7 +62,9 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-## Supported Platforms
+## 🧩 Supported Platforms
+
+CTFBridge works out of the box with:
 
 | Platform             | Status            |
 | -------------------- | ----------------- |
@@ -69,17 +75,23 @@ if __name__ == "__main__":
 | HTB                  | ✅ Supported      |
 | _More platforms_     | 🚧 In development |
 
-## Documentation
+## 📚 Documentation
 
-Full documentation: [ctfbridge.readthedocs.io](https://ctfbridge.readthedocs.io/)
+Explore the full documentation at: **[ctfbridge.readthedocs.io](https://ctfbridge.readthedocs.io/)**
 
-## Projects Using CTFBridge
+Includes:
+- Setup and usage guides
+- Platform details
+- API reference
+- Contribution instructions
 
-These projects use `ctfbridge`:
+## 🛠️ Projects Using CTFBridge
 
-- [`ctf-dl`](https://github.com/bjornmorten/ctf-dl) — Automates downloading all challenges from a CTF.
-- [`pwnv`](https://github.com/CarixoHD/pwnv) — Manages CTFs and challenges.
+These open-source projects are already using CTFBridge:
 
-## License
+- [`ctf-dl`](https://github.com/bjornmorten/ctf-dl) — 🗃️ Automates downloading all challenges from a CTF.
+- [`pwnv`](https://github.com/CarixoHD/pwnv) — 🧠 Manages CTFs and challenges.
+
+## 📄 License
 
 MIT License © 2025 bjornmorten
