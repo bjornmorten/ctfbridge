@@ -12,7 +12,7 @@ All functionality is grouped by feature and accessed through submodules of the c
 
 ---
 
-## 📋 `client.auth`
+## 🔑 `client.auth`
 
 ::: ctfbridge.base.services.auth.AuthService
 
