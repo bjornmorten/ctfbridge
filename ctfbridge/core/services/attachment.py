@@ -59,7 +59,7 @@ class CoreAttachmentService(AttachmentService):
         parsed = urlparse(url)
         if not parsed.scheme and not parsed.netloc:
             # It's a relative path → join with the platform base URL
-            return urljoin(self._client.platform_url, url)
+            return urljoin(self._client.platform_url.rstrip("/") + "/", url.lstrip("/"))
         return url
 
     def _is_external_url(self, url: str) -> bool:
