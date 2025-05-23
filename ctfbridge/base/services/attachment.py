@@ -27,7 +27,11 @@ class AttachmentService(ABC):
             str: Full path to the saved file.
 
         Raises:
-            Exception: If the download fails (non-200 response).
+            AttachmentDownloadError: If download or file saving fails.
+            NotAuthenticatedError: If authentication is required but missing.
+            SessionExpiredError: If session has expired.
+            NotFoundError: If attachment URL returns 404.
+            ServiceUnavailableError: If the platform is down or unreachable.
         """
         raise NotImplementedError
 
@@ -43,5 +47,12 @@ class AttachmentService(ABC):
 
         Returns:
             List[str]: List of full paths to the downloaded files.
+
+        Raises:
+            AttachmentDownloadError: If download or file saving fails.
+            NotAuthenticatedError: If authentication is required but missing.
+            SessionExpiredError: If session has expired.
+            NotFoundError: If attachment URL returns 404.
+            ServiceUnavailableError: If the platform is down or unreachable.
         """
         raise NotImplementedError

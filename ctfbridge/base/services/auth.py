@@ -21,9 +21,11 @@ class AuthService(ABC):
             token: Optional authentication token.
 
         Raises:
-            TokenAuthError: If token-based authentication fails.
-            LoginError: If username/password login fails.
-            MissingAuthMethodError: If no authentication method is provided.
+            TokenAuthError: If token authentication fails.
+            LoginError: If username/password authentication fails.
+            MissingAuthMethodError: If no auth method is provided.
+            UnauthorizedError: If credentials are invalid.
+            ServiceUnavailableError: If auth endpoint is unavailable.
         """
         raise NotImplementedError
 

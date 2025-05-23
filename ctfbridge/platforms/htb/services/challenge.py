@@ -18,6 +18,7 @@ class HTBChallengeService(CoreChallengeService):
     async def get_all(
         self,
         *,
+        detailed: bool = True,
         enrich: bool = True,
         solved: bool | None = None,
         min_points: int | None = None,

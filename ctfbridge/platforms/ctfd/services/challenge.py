@@ -22,6 +22,7 @@ class CTFdChallengeService(CoreChallengeService):
     async def get_all(
         self,
         *,
+        detailed: bool = True,
         enrich: bool = True,
         solved: bool | None = None,
         min_points: int | None = None,
@@ -40,8 +41,33 @@ class CTFdChallengeService(CoreChallengeService):
             logger.exception("Failed to fetch challenges.")
             raise ChallengeFetchError("Invalid response format from server.") from e
 
+        challenges = [
+            Challenge(
+                id=str(chal.get("id", "")),
+                name=chal.get("name", "Unnamed Challenge"),
+                categories=[chal.get("category", "misc")],
+                value=chal.get("value", 0),
+                solved=chal.get("solved_by_me", False),
+            )
+            for chal in data
+        ]
+
+        filtered_challenges = self._filter_challenges(
+            challenges,
+            solved=solved,
+            min_points=min_points,
+            max_points=max_points,
+            category=category,
+            categories=categories,
+            tags=tags,
+            name_contains=name_contains,
+        )
+
+        if not detailed:
+            return filtered_challenges
+
         challenges = await asyncio.gather(
-            *(self.get_by_id(str(chal.get("id"))) for chal in data)
+            *(self.get_by_id(str(chal.id)) for chal in filtered_challenges)
         )
 
         filtered_challenges = self._filter_challenges(

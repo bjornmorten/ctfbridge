@@ -4,7 +4,7 @@ All custom errors inherit from CTFBridgeError.
 """
 
 # ──────────────────────────────
-# Base class
+# 🧱 Base class
 # ──────────────────────────────
 
 
@@ -14,6 +14,9 @@ class CTFBridgeError(Exception):
 
     Subclasses should format their message in __init__ and pass it to super().
     """
+
+    def __init__(self, message: str = None):
+        super().__init__(message or self.__class__.__name__)
 
     def __str__(self):
         return self.args[0] if self.args else self.__class__.__name__
@@ -129,7 +132,7 @@ class ScoreboardFetchError(CTFBridgeError):
 
 
 # ──────────────────────────────
-# 🎯 Challenge-related errors
+# 🧩 Challenge-related errors
 # ──────────────────────────────
 
 
@@ -151,6 +154,35 @@ class SubmissionError(CTFBridgeError):
         self.challenge_id = challenge_id
         self.flag = flag
         self.reason = reason
+
+
+# ──────────────────────────────
+# 🔒 CTF state errors
+# ──────────────────────────────
+
+
+class CTFInactiveError(CTFBridgeError):
+    """Raised when the CTF is not currently active (not started, ended, or locked)."""
+
+    def __init__(self, reason: str = "The CTF is not currently active."):
+        super().__init__(reason)
+
+
+# ──────────────────────────────
+# 🚫 Feature/capability errors
+# ──────────────────────────────
+
+
+class FeatureNotImplementedError(CTFBridgeError):
+    """Raised when a platform does not support a specific feature."""
+
+    def __init__(self, feature: str, platform: str | None = None):
+        message = f"The feature '{feature}' is not supported"
+        if platform:
+            message += f" on platform '{platform}'"
+        super().__init__(message)
+        self.feature = feature
+        self.platform = platform
 
 
 # ──────────────────────────────
@@ -183,7 +215,7 @@ class AttachmentDownloadError(CTFBridgeError):
 
 
 # ──────────────────────────────
-# 🧭 Platform and config errors
+# 🧭 Platform/config/detection errors
 # ──────────────────────────────
 
 
@@ -201,3 +233,12 @@ class UnknownBaseURLError(CTFBridgeError):
     def __init__(self, url: str):
         super().__init__(f"Could not determine base URL from {url}")
         self.url = url
+
+
+class PlatformMismatchError(CTFBridgeError):
+    """Raised when the detected platform does not match the expected one."""
+
+    def __init__(self, platform: str, expected: str):
+        super().__init__(f"Expected platform '{expected}', but got '{platform}'")
+        self.platform = platform
+        self.expected = expected

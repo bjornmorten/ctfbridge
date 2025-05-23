@@ -8,6 +8,7 @@ class ChallengeService(ABC):
     async def get_all(
         self,
         *,
+        detailed: bool = True,
         enrich: bool = True,
         solved: bool | None = None,
         min_points: int | None = None,
@@ -21,6 +22,10 @@ class ChallengeService(ABC):
         Fetch all challenges.
 
         Args:
+            detailed: If True, fetch full detail for each challenge using additional requests.
+                      If False, return only the basic metadata from the listing endpoint.
+                      Note: Setting this to False improves performance on platforms where
+                      detailed challenge data requires per-challenge requests.
             enrich: If True, apply parsers to enrich the challenge (e.g., author, services).
             solved: If set, filter by solved status (True for solved, False for unsolved).
             min_points: If set, only include challenges worth at least this many points.
@@ -34,7 +39,10 @@ class ChallengeService(ABC):
             List[Challenge]: A list of all challenges.
 
         Raises:
-            ChallengeFetchError: If challenge data cannot be fetched.
+            ChallengeFetchError: If challenge listing fails.
+            CTFInactiveError: If CTF has not started.
+            NotAuthenticatedError: If login is required.
+            ServiceUnavailableError: If the server is down.
         """
         raise NotImplementedError
 
@@ -52,7 +60,10 @@ class ChallengeService(ABC):
             Challenge: The challenge details.
 
         Raises:
-            ChallengeFetchError: If challenge data cannot be fetched.
+            ChallengeFetchError: If challenge cannot be found or loaded.
+            NotFoundError: If challenge ID is invalid.
+            NotAuthenticatedError: If login is required.
+            CTFInactiveError: If the CTF has not started.
         """
         raise NotImplementedError
 
@@ -68,6 +79,9 @@ class ChallengeService(ABC):
             SubmissionResult: The result of the submission.
 
         Raises:
-            SubmissionError: If submission fails or the response is invalid.
+            SubmissionError: If the submission endpoint fails or returns an invalid response.
+            NotAuthenticatedError: If the user is not logged in.
+            CTFInactiveError: If the CTF is locked.
+            RateLimitError: If submitting too quickly.
         """
         raise NotImplementedError

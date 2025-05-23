@@ -18,5 +18,10 @@ class ScoreboardService(ABC):
 
         Returns:
             List[ScoreboardEntry]: A list of scoreboard entries sorted by rank or score.
+
+        Raises:
+            ScoreboardFetchError: If scoreboard cannot be retrieved.
+            CTFInactiveError: If scoreboard is locked.
+            ServiceUnavailableError: If platform is down.
         """
         raise NotImplementedError
