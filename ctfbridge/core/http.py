@@ -70,12 +70,8 @@ def handle_response(resp: httpx.Response) -> httpx.Response:
         raise ServiceUnavailableError(
             message or "Service unavailable", status_code=status
         )
-    elif status in (200, 201):
-        return resp
-    elif status == 204:
-        return None
     else:
-        raise APIError(f"Unexpected HTTP status {status}", status_code=status)
+        return resp
 
 
 class CTFBridgeClient(httpx.AsyncClient):

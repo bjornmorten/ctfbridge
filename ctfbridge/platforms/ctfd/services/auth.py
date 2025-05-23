@@ -52,6 +52,7 @@ class CTFdAuthService(CoreAuthService):
                 resp = await http.post(
                     f"{base_url}/login",
                     data={"name": username, "password": password, "nonce": nonce},
+                    follow_redirects=False,
                 )
 
                 if "incorrect" in resp.text.lower():
