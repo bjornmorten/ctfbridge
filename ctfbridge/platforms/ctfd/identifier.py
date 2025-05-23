@@ -21,7 +21,7 @@ class CTFdIdentifier(PlatformIdentifier):
             url = f"{base_url}/api/v1/swagger.json"
             resp = await self.http.get(url, timeout=5)
             if resp.status_code == 200:
-                data = resp.json()
+                data = resp.text
                 return "Endpoint to disband your current team. Can only" in data
         except (httpx.HTTPError, ValueError):
             pass
