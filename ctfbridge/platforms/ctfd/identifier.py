@@ -18,11 +18,11 @@ class CTFdIdentifier(PlatformIdentifier):
 
     async def dynamic_detect(self, base_url: str) -> bool:
         try:
-            url = f"{base_url}/api/v1/config"
+            url = f"{base_url}/api/v1/swagger.json"
             resp = await self.http.get(url, timeout=5)
             if resp.status_code == 200:
                 data = resp.json()
-                return "ctfd_version" in data
+                return "Endpoint to disband your current team. Can only" in data
         except (httpx.HTTPError, ValueError):
             pass
         return False
