@@ -15,9 +15,7 @@ class HTBAuthService(CoreAuthService):
     def __init__(self, client):
         self._client = client
 
-    async def login(
-        self, *, username: str = "", password: str = "", token: str = ""
-    ) -> None:
+    async def login(self, *, username: str = "", password: str = "", token: str = "") -> None:
         if token:
             try:
                 logger.debug("Attempting token-based authentication.")
@@ -26,9 +24,7 @@ class HTBAuthService(CoreAuthService):
                     self._client._get_api_url(f"ctfs/{self._client._ctf_id}")
                 )
                 if resp.status_code != 200:
-                    logger.warning(
-                        "Token authentication failed with status %s", resp.status_code
-                    )
+                    logger.warning("Token authentication failed with status %s", resp.status_code)
                     raise TokenAuthError("Unauthorized token")
                 logger.info("Token authentication successful.")
             except Exception as e:

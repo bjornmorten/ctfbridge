@@ -1,7 +1,5 @@
-import asyncio
 import logging
 import re
-from typing import List
 from urllib.parse import unquote, urlparse
 
 from bs4 import BeautifulSoup
@@ -19,109 +17,57 @@ class CTFdChallengeService(CoreChallengeService):
     def __init__(self, client):
         self._client = client
 
-    async def get_all(
-        self,
-        *,
-        detailed: bool = True,
-        enrich: bool = True,
-        solved: bool | None = None,
-        min_points: int | None = None,
-        max_points: int | None = None,
-        category: str | None = None,
-        categories: list[str] | None = None,
-        tags: list[str] | None = None,
-        name_contains: str | None = None,
-    ) -> List[Challenge]:
+    @property
+    def base_has_details(self) -> bool:
+        return False
+
+    async def _fetch_base_challenges(self) -> list[Challenge]:
         try:
-            resp = await self._client._http.get(
-                f"{self._client._platform_url}/api/v1/challenges"
-            )
+            resp = await self._client.get("challenges")
             data = resp.json().get("data", [])
+            return [self._parse_challenge(chal, full=False) for chal in data]
         except Exception as e:
-            logger.exception("Failed to fetch challenges.")
-            raise ChallengeFetchError("Invalid response format from server.") from e
+            logger.exception("Failed to fetch base challenges")
+            raise ChallengeFetchError("Failed to fetch challenges from CTFd.") from e
 
-        challenges = [
-            Challenge(
-                id=str(chal.get("id", "")),
-                name=chal.get("name", "Unnamed Challenge"),
-                categories=[chal.get("category", "misc")],
-                value=chal.get("value", 0),
-                solved=chal.get("solved_by_me", False),
-            )
-            for chal in data
-        ]
-
-        filtered_challenges = self._filter_challenges(
-            challenges,
-            solved=solved,
-            min_points=min_points,
-            max_points=max_points,
-            category=category,
-            categories=categories,
-            tags=tags,
-            name_contains=name_contains,
-        )
-
-        if not detailed:
-            return filtered_challenges
-
-        challenges = await asyncio.gather(
-            *(self.get_by_id(str(chal.id)) for chal in filtered_challenges)
-        )
-
-        filtered_challenges = self._filter_challenges(
-            challenges,
-            solved=solved,
-            min_points=min_points,
-            max_points=max_points,
-            category=category,
-            categories=categories,
-            tags=tags,
-            name_contains=name_contains,
-        )
-
-        return filtered_challenges
-
-    async def get_by_id(self, challenge_id: str, enrich: bool = True) -> Challenge:
+    async def _fetch_challenge_by_id(self, challenge_id: str, enrich: bool = True) -> Challenge:
         try:
-            resp = await self._client._http.get(
-                f"{self._client._platform_url}/api/v1/challenges/{challenge_id}"
-            )
-            chal = resp.json().get("data", {})
+            resp = await self._client.get("challenge_detail", id=challenge_id)
+            data = resp.json().get("data", {})
         except Exception as e:
             logger.exception("Failed to fetch challenge ID %s", challenge_id)
-            raise ChallengeFetchError("Invalid response format from server.") from e
+            raise ChallengeFetchError(f"Could not load challenge ID {challenge_id}") from e
 
-        attachments = [
-            Attachment(
-                name=unquote(urlparse(url).path.split("/")[-1]),
-                url=url
-                if url.startswith(("http://", "https://"))
-                else f"{self._client._platform_url}/{url}",
-            )
-            for url in chal.get("files", [])
-        ]
+        challenge = self._parse_challenge(data, full=True)
+        return enrich_challenge(challenge) if enrich else challenge
 
-        challenge = Challenge(
-            id=str(chal.get("id", "")),
-            name=chal.get("name", "Unnamed Challenge"),
-            categories=[chal.get("category", "misc")],
-            value=chal.get("value", 0),
-            description=chal.get("description", ""),
-            attachments=attachments,
-            solved=chal.get("solved_by_me", False),
+    def _parse_challenge(self, data: dict, full: bool = False) -> Challenge:
+        attachments = []
+        if full:
+            attachments = [
+                Attachment(
+                    name=unquote(urlparse(url).path.split("/")[-1]),
+                    url=url
+                    if url.startswith(("http://", "https://"))
+                    else f"{self._client._platform_url}/{url}",
+                )
+                for url in data.get("files", [])
+            ]
+
+        return Challenge(
+            id=str(data["id"]),
+            name=data["name"],
+            categories=[data["category"]] if data.get("category") else [],
+            value=data.get("value"),
+            description=data.get("description") if full else None,
+            attachments=attachments if full else [],
+            solved=data.get("solved_by_me"),
         )
-
-        if enrich:
-            challenge = enrich_challenge(challenge)
-
-        return challenge
 
     async def submit(self, challenge_id: str, flag: str) -> SubmissionResult:
         try:
             logger.debug("Fetching CSRF token from base page.")
-            resp = await self._client._http.get(self._client._platform_url)
+            resp = await self._client.get("base_page")
             csrf_token = self._extract_csrf_nonce(resp.text)
 
             if not csrf_token:
@@ -132,8 +78,8 @@ class CTFdChallengeService(CoreChallengeService):
                 )
 
             logger.debug("Submitting flag for challenge ID %s", challenge_id)
-            resp = await self._client._http.post(
-                f"{self._client._platform_url}/api/v1/challenges/attempt",
+            resp = await self._client.post(
+                "submit",
                 json={"challenge_id": challenge_id, "submission": flag},
                 headers={"CSRF-Token": csrf_token},
             )

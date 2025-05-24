@@ -15,9 +15,7 @@ class RCTFAuthService(CoreAuthService):
     def __init__(self, client):
         self._client = client
 
-    async def login(
-        self, *, username: str = "", password: str = "", token: str = ""
-    ) -> None:
+    async def login(self, *, username: str = "", password: str = "", token: str = "") -> None:
         base_url = self._client._platform_url
         http = self._client._http
 
@@ -31,14 +29,10 @@ class RCTFAuthService(CoreAuthService):
                     token = unquote(token)
 
                 logger.debug("Attempting rCTF team-token login.")
-                resp = await http.post(
-                    f"{base_url}/api/v1/auth/login", json={"teamToken": token}
-                )
+                resp = await http.post(f"{base_url}/api/v1/auth/login", json={"teamToken": token})
 
                 if resp.status_code != 200:
-                    logger.warning(
-                        "Team token login failed with status %s", resp.status_code
-                    )
+                    logger.warning("Team token login failed with status %s", resp.status_code)
                     raise TokenAuthError("Unauthorized token")
 
                 result = resp.json()

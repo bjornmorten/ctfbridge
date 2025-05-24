@@ -28,9 +28,7 @@ class RCTFChallengeService(CoreChallengeService):
         name_contains: str | None = None,
     ) -> List[Challenge]:
         try:
-            resp = await self._client._http.get(
-                f"{self._client._platform_url}/api/v1/challs"
-            )
+            resp = await self._client._http.get(f"{self._client._platform_url}/api/v1/challs")
             data = resp.json().get("data", [])
 
             profile = await self._get_profile()
@@ -50,8 +48,7 @@ class RCTFChallengeService(CoreChallengeService):
                     value=chall["points"],
                     description=chall["description"],
                     attachments=[
-                        Attachment(name=file["name"], url=file["url"])
-                        for file in chall["files"]
+                        Attachment(name=file["name"], url=file["url"]) for file in chall["files"]
                     ],
                     solved=(chall["id"] in solved_ids),
                     author=chall.get("author"),
@@ -86,9 +83,7 @@ class RCTFChallengeService(CoreChallengeService):
                 reason="Unexpected response from server",
             )
 
-        return SubmissionResult(
-            correct=(resp.status_code == 200), message=result["message"]
-        )
+        return SubmissionResult(correct=(resp.status_code == 200), message=result["message"])
 
     async def _get_profile(self) -> Dict[str, Any]:
         """Get user profile"""

@@ -95,9 +95,7 @@ class MissingAuthMethodError(CTFBridgeError):
     """Raised when no authentication method is provided."""
 
     def __init__(self):
-        super().__init__(
-            "No authentication method provided (username/password or API token)"
-        )
+        super().__init__("No authentication method provided (username/password or API token)")
 
 
 class SessionExpiredError(CTFBridgeError):
@@ -148,9 +146,7 @@ class SubmissionError(CTFBridgeError):
     """Raised when submitting a flag fails."""
 
     def __init__(self, challenge_id: str, flag: str, reason: str):
-        super().__init__(
-            f"Failed to submit flag to challenge '{challenge_id}': {reason}"
-        )
+        super().__init__(f"Failed to submit flag to challenge '{challenge_id}': {reason}")
         self.challenge_id = challenge_id
         self.flag = flag
         self.reason = reason

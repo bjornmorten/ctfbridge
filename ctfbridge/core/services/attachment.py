@@ -29,11 +29,7 @@ class CoreAttachmentService(AttachmentService):
         logger.info("Downloading attachment from %s to %s", url, save_path)
 
         try:
-            client = (
-                self._external_http
-                if self._is_external_url(url)
-                else self._client._http
-            )
+            client = self._external_http if self._is_external_url(url) else self._client._http
             async with client.stream("GET", url) as response:
                 await self._save_stream_to_file(response, save_path)
             logger.info("Successfully downloaded: %s", save_path)
@@ -43,9 +39,7 @@ class CoreAttachmentService(AttachmentService):
 
         return save_path
 
-    async def download_all(
-        self, attachments: List[Attachment], save_dir: str
-    ) -> List[str]:
+    async def download_all(self, attachments: List[Attachment], save_dir: str) -> List[str]:
         paths = []
         for att in attachments:
             try:

@@ -20,9 +20,7 @@ class HTBScoreboardService(CoreScoreboardService):
         try:
             data = resp.json()["scores"]
         except Exception as e:
-            raise ScoreboardFetchError(
-                "Invalid response format from server (scoreboard)."
-            ) from e
+            raise ScoreboardFetchError("Invalid response format from server (scoreboard).") from e
 
         scoreboard = []
         for i, entry in enumerate(data):

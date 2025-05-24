@@ -20,9 +20,7 @@ class RCTFScoreboardService(CoreScoreboardService):
         try:
             total = resp.json()["data"]["total"]
         except Exception as e:
-            raise ScoreboardFetchError(
-                "Invalid response format from server (scoreboard)."
-            ) from e
+            raise ScoreboardFetchError("Invalid response format from server (scoreboard).") from e
 
         if limit:
             limit = min(limit, total)
@@ -39,9 +37,7 @@ class RCTFScoreboardService(CoreScoreboardService):
             partial_scoreboard = resp.json()["data"]["leaderboard"]
             for i, entry in enumerate(partial_scoreboard):
                 scoreboard.append(
-                    ScoreboardEntry(
-                        name=entry["name"], score=entry["score"], rank=offset + i + 1
-                    )
+                    ScoreboardEntry(name=entry["name"], score=entry["score"], rank=offset + i + 1)
                 )
 
         return scoreboard

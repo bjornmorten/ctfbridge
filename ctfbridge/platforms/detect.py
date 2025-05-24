@@ -18,9 +18,7 @@ def generate_candidate_base_urls(full_url: str) -> list[str]:
 
     for i in range(len(parts), -1, -1):
         path = "/" + "/".join(parts[:i]) if i > 0 else ""
-        candidate = urlunparse(
-            (parsed.scheme, parsed.netloc, path.rstrip("/"), "", "", "")
-        )
+        candidate = urlunparse((parsed.scheme, parsed.netloc, path.rstrip("/"), "", "", ""))
         candidates.append(candidate)
 
     return candidates

@@ -25,9 +25,7 @@ class SessionHelper(ABC):
         """
         raise NotImplementedError
 
-    async def set_cookie(
-        self, name: str, value: str, domain: str | None = None
-    ) -> None:
+    async def set_cookie(self, name: str, value: str, domain: str | None = None) -> None:
         """
         Set a cookie in the session.
 

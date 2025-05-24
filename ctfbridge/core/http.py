@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from importlib.metadata import version
-from typing import Optional, Callable, Any
+from typing import Any, Callable, Optional
 
 import httpx
 
@@ -33,12 +33,7 @@ def extract_error_message(resp: httpx.Response) -> str:
     if not is_html and "application/json" in content_type:
         try:
             data = resp.json()
-            return (
-                data.get("message")
-                or data.get("detail")
-                or data.get("error")
-                or str(data)
-            )
+            return data.get("message") or data.get("detail") or data.get("error") or str(data)
         except Exception:
             pass
 
@@ -67,9 +62,7 @@ def handle_response(resp: httpx.Response) -> httpx.Response:
     elif 500 <= status < 600:
         raise ServerError(f"Server error ({status}): {message}", status_code=status)
     elif status == 503:
-        raise ServiceUnavailableError(
-            message or "Service unavailable", status_code=status
-        )
+        raise ServiceUnavailableError(message or "Service unavailable", status_code=status)
     else:
         return resp
 
@@ -94,9 +87,7 @@ class CTFBridgeClient(httpx.AsyncClient):
         self._before_request = before_request
         self._after_response = after_response
 
-    async def request(
-        self, method: str, url: str, raw: bool = False, **kwargs
-    ) -> httpx.Response:
+    async def request(self, method: str, url: str, raw: bool = False, **kwargs) -> httpx.Response:
         if self._before_request:
             self._before_request(method, url, kwargs)
 

@@ -47,6 +47,7 @@ local_scheme = "no-local-version"
 
 [tool.ruff]
 lint.ignore = ["F401", "F403"]
+line-length = 100
 
 
 [tool.pytest.ini_options]

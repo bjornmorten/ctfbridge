@@ -49,17 +49,13 @@ class HTBChallengeService(CoreChallengeService):
                     name=chall.get("name"),
                     value=chall.get("points"),
                     difficulty=chall.get("difficulty"),
-                    categories=[
-                        self._category_cache[chall.get("challenge_category_id")]
-                    ],
+                    categories=[self._category_cache[chall.get("challenge_category_id")]],
                     description=chall.get("description"),
                     attachments=(
                         [
                             Attachment(
                                 name=chall.get("filename"),
-                                url=self._client._get_api_url(
-                                    f"challenges/{chall['id']}/download"
-                                ),
+                                url=self._client._get_api_url(f"challenges/{chall['id']}/download"),
                             )
                         ]
                         if chall.get("filename")

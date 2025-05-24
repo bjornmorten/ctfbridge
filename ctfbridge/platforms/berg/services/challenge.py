@@ -28,9 +28,7 @@ class BergChallengeService(CoreChallengeService):
         name_contains: str | None = None,
     ) -> List[Challenge]:
         try:
-            resp = await self._client._http.get(
-                f"{self._client._platform_url}/api/v2/challenges"
-            )
+            resp = await self._client._http.get(f"{self._client._platform_url}/api/v2/challenges")
             data = resp.json()
         except Exception as e:
             logger.exception("Failed to fetch challenges.")

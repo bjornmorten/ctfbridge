@@ -1,4 +1,5 @@
 import pytest
+
 from ctfbridge.models.challenge import Challenge
 
 

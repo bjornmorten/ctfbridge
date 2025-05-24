@@ -1,8 +1,10 @@
+import json
+from unittest.mock import AsyncMock, MagicMock, mock_open, patch
+
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch, mock_open
+
 from ctfbridge.core.services.session import CoreSessionHelper
 from ctfbridge.exceptions import SessionError
-import json
 
 
 @pytest.fixture
@@ -32,9 +34,7 @@ async def test_set_headers(mock_client):
 async def test_set_cookie(mock_client):
     helper = CoreSessionHelper(mock_client)
     await helper.set_cookie("sessionid", "123", "example.com")
-    mock_client._http.cookies.set.assert_called_with(
-        "sessionid", "123", domain="example.com"
-    )
+    mock_client._http.cookies.set.assert_called_with("sessionid", "123", domain="example.com")
 
 
 @pytest.mark.asyncio
@@ -70,9 +70,7 @@ async def test_load(mock_file, mock_client):
     await helper.load("session.json")
 
     assert mock_client._http.headers["Authorization"] == "Bearer abc"
-    mock_client._http.cookies.set.assert_called_with(
-        name="sid", value="abc", domain="example.com"
-    )
+    mock_client._http.cookies.set.assert_called_with(name="sid", value="abc", domain="example.com")
 
 
 @pytest.mark.asyncio
@@ -87,9 +85,7 @@ async def test_load_file_not_found(mock_file, mock_client):
 @pytest.mark.asyncio
 @patch("builtins.open", new_callable=mock_open, read_data="bad json")
 async def test_load_malformed_json(mock_file, mock_client):
-    with patch(
-        "json.load", side_effect=json.JSONDecodeError("Expecting value", "bad json", 0)
-    ):
+    with patch("json.load", side_effect=json.JSONDecodeError("Expecting value", "bad json", 0)):
         helper = CoreSessionHelper(mock_client)
         with pytest.raises(SessionError) as e:
             await helper.load("session.json")

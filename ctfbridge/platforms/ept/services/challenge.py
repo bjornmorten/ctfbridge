@@ -28,9 +28,7 @@ class EPTChallengeService(CoreChallengeService):
         name_contains: str | None = None,
     ) -> List[Challenge]:
         try:
-            resp = await self._client._http.get(
-                f"{self._client._platform_url}/api/challenges"
-            )
+            resp = await self._client._http.get(f"{self._client._platform_url}/api/challenges")
             data = resp.json()
         except Exception as e:
             logger.exception("Failed to fetch challenges.")
@@ -46,11 +44,7 @@ class EPTChallengeService(CoreChallengeService):
                     categories=chall["tags"],
                     description=chall["description"],
                     attachments=(
-                        [
-                            Attachment(
-                                name=chall["id"], url=f"/api/challenge/{chall['file']}"
-                            )
-                        ]
+                        [Attachment(name=chall["id"], url=f"/api/challenge/{chall['file']}")]
                         if chall["file"]
                         else []
                     ),

@@ -18,9 +18,7 @@ class CoreSessionHelper(SessionHelper):
     async def set_headers(self, headers: Dict[str, str]) -> None:
         self._client._http.headers.update(headers)
 
-    async def set_cookie(
-        self, name: str, value: str, domain: str | None = None
-    ) -> None:
+    async def set_cookie(self, name: str, value: str, domain: str | None = None) -> None:
         self._client._http.cookies.set(name, value, domain=domain)
 
     async def save(self, path: str) -> None:
@@ -58,14 +56,10 @@ class CoreSessionHelper(SessionHelper):
                 )
         except FileNotFoundError as e:
             logger.warning("Session load skipped: %s", e)
-            raise SessionError(
-                path=path, operation="load", reason="File not found"
-            ) from e
+            raise SessionError(path=path, operation="load", reason="File not found") from e
         except json.JSONDecodeError as e:
             logger.error("Malformed session file at %s", path)
-            raise SessionError(
-                path=path, operation="load", reason="Malformed JSON"
-            ) from e
+            raise SessionError(path=path, operation="load", reason="Malformed JSON") from e
         except Exception as e:
             logger.exception("Unexpected error during session load")
             raise SessionError(path=path, operation="load", reason=str(e)) from e

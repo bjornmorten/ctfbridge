@@ -9,9 +9,7 @@ class AuthService(ABC):
     Authentication service.
     """
 
-    async def login(
-        self, *, username: str = "", password: str = "", token: str = ""
-    ) -> None:
+    async def login(self, *, username: str = "", password: str = "", token: str = "") -> None:
         """
         Authenticate using the platform's authentication service.
 

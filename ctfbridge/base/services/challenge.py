@@ -46,9 +46,7 @@ class ChallengeService(ABC):
         """
         raise NotImplementedError
 
-    async def get_by_id(
-        self, challenge_id: str, enrich: bool = True
-    ) -> Optional[Challenge]:
+    async def get_by_id(self, challenge_id: str, enrich: bool = True) -> Optional[Challenge]:
         """
         Fetch details for a specific challenge.
 

@@ -35,9 +35,7 @@ class AttachmentService(ABC):
         """
         raise NotImplementedError
 
-    async def download_all(
-        self, attachments: List[Attachment], save_dir: str
-    ) -> List[str]:
+    async def download_all(self, attachments: List[Attachment], save_dir: str) -> List[str]:
         """
         Download a list of attachments to the specified directory.
 
