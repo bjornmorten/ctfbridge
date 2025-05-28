@@ -1,0 +1,31 @@
+from urllib.parse import unquote, urlparse
+
+from ctfbridge.models.challenge import Attachment, Challenge
+from ctfbridge.models.scoreboard import ScoreboardEntry
+
+
+def parse_ctfd_challenge(data: dict) -> Challenge:
+    attachments = [
+        Attachment(
+            name=unquote(urlparse(url).path.split("/")[-1]),
+            url=url if url.startswith(("http://", "https://")) else f"/{url}",
+        )
+        for url in data.get("files", [])
+    ]
+    return Challenge(
+        id=str(data["id"]),
+        name=data["name"],
+        categories=[data["category"]] if data.get("category") else [],
+        value=data.get("value"),
+        description=data.get("description"),
+        attachments=attachments,
+        solved=data.get("solved_by_me", False),
+    )
+
+
+def parse_scoreboard_entry(data: dict) -> ScoreboardEntry:
+    return ScoreboardEntry(
+        name=str(data["name"]),
+        score=int(data["score"]),
+        rank=int(data["pos"]),
+    )

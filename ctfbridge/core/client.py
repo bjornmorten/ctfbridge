@@ -1,3 +1,5 @@
+from typing import Optional
+
 import httpx
 
 from ctfbridge.base.client import CTFClient

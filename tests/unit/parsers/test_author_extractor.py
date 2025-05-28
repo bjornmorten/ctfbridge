@@ -1,4 +1,4 @@
-from ctfbridge.parsers.extractors.authors import AuthorExtractor
+from ctfbridge.processors.extractors.authors import AuthorExtractor
 
 
 def test_extracts_author_from_description(base_challenge):

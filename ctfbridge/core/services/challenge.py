@@ -1,13 +1,19 @@
+import asyncio
+from abc import abstractmethod
 from typing import List
 
 from ctfbridge.base.services.challenge import ChallengeService
 from ctfbridge.exceptions import ChallengeFetchError
 from ctfbridge.models.challenge import Challenge
 from ctfbridge.models.filter import FilterOptions
-from ctfbridge.parsers.enrich import enrich_challenge
+from ctfbridge.processors.enrich import enrich_challenge
 
 
 class CoreChallengeService(ChallengeService):
+    @property
+    def base_has_details(self) -> bool:
+        return False
+
     async def get_all(
         self,
         *,
@@ -29,10 +35,9 @@ class CoreChallengeService(ChallengeService):
             categories=categories,
             tags=tags,
             name_contains=name_contains,
-            enrich=enrich,
         )
 
-        base = await self._fetch_base_challenges()
+        base = await self._fetch_challenges()
 
         if self.base_has_details:
             if enrich:
@@ -42,14 +47,14 @@ class CoreChallengeService(ChallengeService):
 
         base = self._filter_challenges(base, filters)
 
-        detailed = await self._fetch_details(base)
+        detailed_challenges = await self._fetch_details(base)
 
         if enrich:
-            detailed = self._enrich(detailed)
+            detailed_challenges = self._enrich(detailed_challenges)
 
-        detailed = self._filter_challenges(detailed, filters)
+        detailed_challenges = self._filter_challenges(detailed_challenges, filters)
 
-        return detailed
+        return detailed_challenges
 
     async def get_by_id(self, challenge_id: str, enrich: bool = True) -> Challenge:
         if self.base_has_details:
@@ -61,19 +66,28 @@ class CoreChallengeService(ChallengeService):
         else:
             return await self._fetch_challenge_by_id(challenge_id, enrich=enrich)
 
+    @abstractmethod
+    async def _fetch_challenges(self, enrich: bool = True) -> List[Challenge]:
+        pass
+
     async def _fetch_challenge_by_id(self, challenge_id: str, enrich: bool = True) -> Challenge:
         raise NotImplementedError(
             "Platform must implement _fetch_challenge_by_id if base_has_details is False."
         )
 
     async def _fetch_details(self, base: List[Challenge]) -> List[Challenge]:
-        challenges = [await self.get_by_id(chal.id, enrich=False) for chal in base]
-        return challenges
+        if not base:
+            return []
+        tasks = [self.get_by_id(chal.id, enrich=False) for chal in base]
+        detailed_challenges = await asyncio.gather(*tasks)
+        return [chal for chal in detailed_challenges if chal is not None]
 
     def _enrich(self, challenges: List[Challenge]) -> List[Challenge]:
         return [enrich_challenge(c) for c in challenges]
 
-    def _filter_challenges(self, challenges, filters: FilterOptions) -> List[Challenge]:
+    def _filter_challenges(
+        self, challenges: List[Challenge], filters: FilterOptions
+    ) -> List[Challenge]:
         result = challenges
         if filters.solved is not None:
             result = [c for c in result if c.solved == filters.solved]
@@ -93,7 +107,3 @@ class CoreChallengeService(ChallengeService):
             lc = filters.name_contains.lower()
             result = [c for c in result if lc in c.name.lower()]
         return result
-
-    @property
-    def base_has_details(self) -> bool:
-        return False

@@ -12,7 +12,7 @@ async def run_demo():
     await client.auth.login(username="user", password="password")
 
     print("Fetching challenges...")
-    challenges = await client.challenges.get_all()
+    challenges = await client.challenges.get_all(detailed=True)
 
     for chal in challenges:
         print(f"[{chal.category}] {chal.name} ({chal.value} pts)")

@@ -5,6 +5,8 @@ from pydantic import BaseModel, Field
 
 
 class ServiceType(str, Enum):
+    """Enumeration of possible service types for CTF challenges."""
+
     TCP = "tcp"
     UDP = "udp"
     HTTP = "http"
@@ -14,48 +16,96 @@ class ServiceType(str, Enum):
 
 
 class Attachment(BaseModel):
-    name: str
-    url: str
+    """Represents a downloadable attachment file for a challenge."""
+
+    name: str = Field(..., description="The display name of the attachment file.")
+    url: str = Field(..., description="The URL from which the attachment can be downloaded.")
 
 
 class Service(BaseModel):
-    type: ServiceType
-    host: str | None = None
-    port: int | None = None
-    url: str | None = None
-    raw: str | None = None
+    """Describes a network service associated with a challenge (e.g., nc host port, http URL)."""
+
+    type: ServiceType = Field(..., description="The type of the network service (e.g., tcp, http).")
+    host: str | None = Field(
+        None, description="The hostname or IP address of the service, if applicable."
+    )
+    port: int | None = Field(None, description="The port number for the service, if applicable.")
+    url: str | None = Field(None, description="The full URL for web-based services.")
+    raw: str | None = Field(
+        None,
+        description="The raw connection string or information provided (e.g., 'nc example.com 12345').",
+    )
 
 
 class Tag(BaseModel):
-    value: str
+    """Represents a tag or keyword associated with a challenge (e.g., 'pwn', 'web', 'crypto')."""
+
+    value: str = Field(..., description="The string value of the tag.")
 
 
 class Challenge(BaseModel):
-    id: str
-    name: str
-    categories: List[str] = Field(default_factory=list)
-    normalized_categories: List[str] = Field(default_factory=list)
-    value: int | None = None
-    description: str | None = None
-    attachments: List[Attachment] = Field(default_factory=list)
-    service: Service | None = None
-    tags: List[Tag] = Field(default_factory=list)
-    solved: bool | None = False
-    author: str | None = None
-    difficulty: str | None = None
+    """Represents a challenge in a Capture The Flag (CTF) event."""
+
+    id: str = Field(
+        ...,
+        description="The unique identifier of the challenge, typically a number or short string.",
+    )
+    name: str = Field(..., description="The display name of the challenge.")
+    categories: List[str] = Field(
+        default_factory=list,
+        description="A list of raw categories the challenge belongs to as provided by the platform.",
+    )
+    normalized_categories: List[str] = Field(
+        default_factory=list,
+        description="A list of normalized categories (e.g., 'rev' for 'Reverse Engineering').",
+    )
+    value: int | None = Field(
+        None,
+        description="The point value awarded for solving the challenge. Can be None if points are dynamic or not applicable.",
+    )
+    description: str | None = Field(
+        None,
+        description="The main description, prompt, or story for the challenge. May contain HTML or Markdown.",
+    )
+    attachments: List[Attachment] = Field(
+        default_factory=list,
+        description="A list of downloadable files (attachments) associated with the challenge.",
+    )
+    service: Service | None = Field(
+        None,
+        description="Details of a network service (e.g., a netcat listener or web server) associated with the challenge, if any.",
+    )
+    tags: List[Tag] = Field(
+        default_factory=list, description="A list of tags or keywords categorizing the challenge."
+    )
+    solved: bool | None = Field(
+        False,
+        description="Indicates if the challenge has been solved by the current user/team. Can be None if status is unknown.",
+    )
+    author: str | None = Field(
+        None, description="The author or creator of the challenge, if specified."
+    )
+    difficulty: str | None = Field(
+        None,
+        description="The perceived difficulty of the challenge (e.g., 'Easy', 'Medium', 'Hard'), if specified.",
+    )
 
     @property
     def category(self) -> str | None:
+        """The primary category of the challenge. Returns the first category from the `categories` list, or None if no categories are present."""
         return self.categories[0] if self.categories else None
 
     @property
     def normalized_category(self) -> str | None:
+        """The primary normalized category of the challenge. Returns the first category from the `normalized_categories` list, or None."""
         return self.normalized_categories[0] if self.normalized_categories else None
 
     @property
     def has_attachments(self) -> bool:
+        """Returns True if the challenge has one or more attachments, False otherwise."""
         return bool(self.attachments)
 
     @property
     def has_service(self) -> bool:
+        """Returns True if the challenge has an associated network service, False otherwise."""
         return self.service is not None

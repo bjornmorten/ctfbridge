@@ -1,4 +1,4 @@
-from ctfbridge.parsers.base import BaseChallengeParser
+from ctfbridge.processors.base import BaseChallengeParser
 
 PARSER_REGISTRY: list[type[BaseChallengeParser]] = []
 

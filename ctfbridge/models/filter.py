@@ -11,4 +11,3 @@ class FilterOptions(BaseModel):
     categories: Optional[List[str]] = None
     tags: Optional[List[str]] = None
     name_contains: Optional[str] = None
-    enrich: bool = True

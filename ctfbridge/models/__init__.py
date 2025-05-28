@@ -9,7 +9,6 @@ from .user import Team, User
 __all__ = [
     "Challenge",
     "Attachment",
-    "Hint",
     "Tag",
     "SubmissionResult",
     "ScoreboardEntry",

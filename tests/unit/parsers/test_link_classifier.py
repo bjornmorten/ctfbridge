@@ -1,4 +1,4 @@
-from ctfbridge.parsers.helpers.url_classifier import classify_links
+from ctfbridge.processors.helpers.url_classifier import classify_links
 
 
 def test_attachment_with_file_extension():

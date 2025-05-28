@@ -1,3 +1,5 @@
+from typing import Optional
+
 import httpx
 
 from ctfbridge.base.identifier import PlatformIdentifier
@@ -12,23 +14,44 @@ class CTFdIdentifier(PlatformIdentifier):
     def __init__(self, http: httpx.AsyncClient):
         self.http = http
 
-    async def static_detect(self, response: httpx.Response) -> bool:
-        return "ctfd" in response.text.lower()
+    @property
+    def platform_name(self):
+        return "CTFd"
 
-    async def dynamic_detect(self, base_url: str) -> bool:
-        try:
-            url = f"{base_url.rstrip('/')}{ENDPOINTS['swagger']}"
-            resp = await self.http.get(url, timeout=5)
-            if resp.status_code == 200:
-                return "Endpoint to disband your current team. Can only" in resp.text
-        except (httpx.HTTPError, ValueError):
-            pass
-        return False
+    def match_url_pattern(self, url: str) -> bool:
+        return "ctfd.io" in url.lower()
+
+    async def static_detect(self, response: httpx.Response) -> Optional[bool]:
+        """
+        Lightweight static detection by checking HTML or response text for 'ctfd'.
+        """
+        text = response.text
+        if "Powered by CTFd" in text:
+            return True
+        return None
 
     async def is_base_url(self, candidate: str) -> bool:
+        """
+        A base URL is valid if the CTFd /api/v1/swagger endpoint is reachable.
+        """
         try:
             url = f"{candidate.rstrip('/')}{ENDPOINTS['swagger']}"
             resp = await self.http.get(url, timeout=5)
             return resp.status_code == 200
         except (httpx.HTTPError, ValueError):
             return False
+
+    async def dynamic_detect(self, base_url: str) -> bool:
+        """
+        Confirm platform identity by checking known CTFd API response signature.
+        """
+        try:
+            url = f"{base_url.rstrip('/')}{ENDPOINTS['swagger']}"
+            resp = await self.http.get(url, timeout=5)
+
+            # Check both content and structure (optional improvement)
+            if resp.status_code == 200 and "disband your current team" in resp.text:
+                return True
+        except (httpx.HTTPError, ValueError):
+            pass
+        return False

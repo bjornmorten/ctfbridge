@@ -1,8 +1,8 @@
 import re
 
 from ctfbridge.models.challenge import Challenge
-from ctfbridge.parsers.base import BaseChallengeParser
-from ctfbridge.parsers.registry import register_parser
+from ctfbridge.processors.base import BaseChallengeParser
+from ctfbridge.processors.registry import register_parser
 
 
 @register_parser

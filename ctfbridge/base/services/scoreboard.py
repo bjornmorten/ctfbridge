@@ -14,7 +14,7 @@ class ScoreboardService(ABC):
         Return the top scoreboard entries.
 
         Args:
-            limit (int): Maximum number of entries to return. If 0, return all entries.
+            limit: Maximum number of entries to return. If 0, return all entries.
 
         Returns:
             List[ScoreboardEntry]: A list of scoreboard entries sorted by rank or score.

@@ -1,4 +1,4 @@
-from ctfbridge.parsers.registry import get_all_parsers
+from ctfbridge.processors.registry import get_all_parsers
 
 
 class ChallengeEnricher:

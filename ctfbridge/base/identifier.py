@@ -1,51 +1,71 @@
 from abc import ABC, abstractmethod
+from typing import Optional
+from urllib.parse import urlparse, urlunparse
 
 import httpx
 
 
 class PlatformIdentifier(ABC):
-    """Abstract base class for platform detection."""
+    """
+    Abstract base class for CTF platform detection logic.
+    Subclasses must implement platform-specific logic for detecting
+    whether a given URL belongs to this platform.
+    """
 
     def __init__(self, http: httpx.AsyncClient):
         self.http = http
 
+    @property
     @abstractmethod
-    async def static_detect(self, response: httpx.Response) -> bool:
-        """Perform quick static checks to determine if the platform is reachable.
-
-        This method should be used to check for simple platform detection,
-        such as HTTP response status or headers.
-
-        Returns:
-            True if the platform can be detected using quick checks, False otherwise.
-
-        Raises:
-            NotImplementedError: If not implemented in the subclass.
+    def platform_name(self) -> str:
+        """
+        Name of the platform (e.g., 'CTFd', 'rCTF').
         """
         pass
 
     @abstractmethod
-    async def dynamic_detect(self, base_url: str) -> bool:
-        """Perform a full dynamic probe to confirm the platform.
+    def match_url_pattern(self, url: str) -> bool:
+        """
+        Fast string-based check to determine if this platform should be considered.
+        Should not make network calls.
 
-        This method should be used for more detailed checks, such as querying
-        specific API endpoints or platform-specific data to fully confirm the platform type.
+        Return:
+            True if this identifier might match the URL, else False.
+        """
+        pass
 
-        Returns:
-            True if the platform is confirmed, False otherwise.
+    @abstractmethod
+    async def static_detect(self, response: httpx.Response) -> Optional[bool]:
+        """
+        Inspect the HTTP response (HTML, headers, etc.) to quickly confirm or rule out the platform.
 
-        Raises:
-            NotImplementedError: If not implemented in the subclass.
+        Return:
+            - True: Definitely this platform
+            - False: Definitely not this platform
+            - None: Inconclusive
         """
         pass
 
     @abstractmethod
     async def is_base_url(self, candidate: str) -> bool:
-        """Confirm if a candidate URL is the actual base of the platform.
-
-        Args:
-            candidate: The candidate base URL.
-
-        Returns:
-            True if the config endpoint is reachable and valid.
         """
+        Check if the given candidate URL is the correct base for this platform.
+
+        Typically this checks that a key endpoint exists (e.g., /api/config).
+
+        Return:
+            True if it's the base URL, else False.
+        """
+        pass
+
+    @abstractmethod
+    async def dynamic_detect(self, base_url: str) -> bool:
+        """
+        Full detection using platform-specific requests (e.g., API checks, data validation).
+
+        Should only be called after is_base_url returns True.
+
+        Return:
+            True if platform is confirmed, else False.
+        """
+        pass

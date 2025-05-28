@@ -5,7 +5,7 @@ from ctfbridge.core.services.challenge import CoreChallengeService
 from ctfbridge.exceptions import ChallengeFetchError, SubmissionError
 from ctfbridge.models.challenge import Attachment, Challenge
 from ctfbridge.models.submission import SubmissionResult
-from ctfbridge.parsers.enrich import enrich_challenge
+from ctfbridge.processors.enrich import enrich_challenge
 
 logger = logging.getLogger(__name__)
 

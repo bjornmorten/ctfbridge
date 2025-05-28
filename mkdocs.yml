@@ -33,6 +33,11 @@ plugins:
             show_bases: false
             show_root_full_path: false
             members_order: source
+            extensions:
+              - griffe_pydantic:
+                  schema: false
+          inventories:
+            - https://docs.pydantic.dev/latest/objects.inv
 
 markdown_extensions:
   - pymdownx.highlight:

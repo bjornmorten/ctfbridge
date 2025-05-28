@@ -5,7 +5,7 @@ ENDPOINTS = {
     "me": "/api/v1/users/me",
     # Challenges
     "challenges": "/api/v1/challenges",
-    "challenge_detail": "/api/v1/challenges/{id}",
+    "challenge": "/api/v1/challenges/{id}",
     "submit": "/api/v1/challenges/attempt",
     # Scoreboard
     "scoreboard": "/api/v1/scoreboard",

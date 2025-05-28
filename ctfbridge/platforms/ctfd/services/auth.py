@@ -1,16 +1,10 @@
 import logging
 from typing import List
 
-from bs4 import BeautifulSoup, Tag
-
 from ctfbridge.core.services.auth import CoreAuthService
-from ctfbridge.exceptions import (
-    LoginError,
-    MissingAuthMethodError,
-    TokenAuthError,
-    UnauthorizedError,
-)
+from ctfbridge.exceptions import LoginError, TokenAuthError, UnauthorizedError
 from ctfbridge.models.auth import AuthMethod
+from ctfbridge.platforms.ctfd.utils import extract_csrf_nonce
 
 logger = logging.getLogger(__name__)
 
@@ -19,32 +13,16 @@ class CTFdAuthService(CoreAuthService):
     def __init__(self, client):
         self._client = client
 
-    async def login(self, *, username: str = "", password: str = "", token: str = "") -> None:
-        if token:
-            await self._login_with_token(token)
-        elif username and password:
-            await self._login_with_credentials(username, password)
-        else:
-            logger.error("No authentication method provided.")
-            raise MissingAuthMethodError()
-
     async def _login_with_token(self, token: str) -> None:
-        try:
-            logger.debug("Attempting token-based authentication.")
-            await self._client.session.set_headers(
-                {"Authorization": f"Token {token}", "Content-Type": "application/json"}
-            )
-            await self._client.get("me")
-            logger.info("Token authentication successful.")
-        except UnauthorizedError as e:
-            logger.warning("Unauthorized token provided.")
-            raise TokenAuthError("Unauthorized token") from e
+        logger.debug("Setting token-based authentication.")
+        await self._client.session.set_headers(
+            {"Authorization": f"Token {token}", "Content-Type": "application/json"}
+        )
 
     async def _login_with_credentials(self, username: str, password: str) -> None:
         try:
-            logger.debug("Fetching login page for nonce.")
             resp = await self._client.get("login")
-            nonce = self._extract_login_nonce(resp.text)
+            nonce = extract_csrf_nonce(resp.text)
             if not nonce:
                 logger.warning("Login nonce not found in login page.")
                 raise LoginError(username)
@@ -64,12 +42,6 @@ class CTFdAuthService(CoreAuthService):
         except Exception as e:
             logger.exception("Credential-based login failed")
             raise LoginError(username) from e
-
-    @staticmethod
-    def _extract_login_nonce(html: str) -> str:
-        soup = BeautifulSoup(html, "html.parser")
-        tag = soup.find("input", {"name": "nonce", "type": "hidden"})
-        return tag.get("value", "") if tag and isinstance(tag, Tag) else ""
 
     async def get_supported_auth_methods(self) -> List[AuthMethod]:
         return [AuthMethod.CREDENTIALS, AuthMethod.TOKEN]

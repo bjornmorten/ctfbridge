@@ -1,9 +1,5 @@
 # Supported Platforms
 
-CTFBridge supports the following CTF platforms through a unified interface.
-
-## Platform Support Matrix
-
 | Feature                            | CTFd | rCTF | Berg | EPT  | HTB |
 |------------------------------------|:----:|:----:|:----:|:----:|:----:
 | 🔐 Login and authentication        | ✅   | ✅   | ❌   | ❌   |✅   |
@@ -15,7 +11,3 @@ CTFBridge supports the following CTF platforms through a unified interface.
 | 👤 View user or team information   | ❌   | ❌   | ❌   | ❌   |❌   |
 | 🧭 View platform or CTF details    | ❌   | ❌   | ❌   | ❌   |❌   |
 | 🛠️ Start on-demand services        | ❌   | ❌   | ❌   | ❌   |❌   |
-
-## Adding New Platforms
-
-TBD

@@ -1,4 +1,4 @@
-from ctfbridge.parsers.extractors.normalize_category import CategoryNormalizer
+from ctfbridge.processors.extractors.normalize_category import CategoryNormalizer
 
 
 def test_normalizes_category_to_rev(base_challenge):
