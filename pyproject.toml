@@ -41,10 +41,9 @@ include-package-data = true
 [tool.setuptools.package-data]
 "ctfbridge" = ["py.typed"]
 
-[tool.setuptools.exclude-package-data]
-"ctfbridge.platforms.*" = ["tests/*"]
-"ctfbridge.tests" = ["*"]
-
+[tool.setuptools.packages.find]
+include = ['ctfbridge*']
+exclude = ['ctfbridge*tests']
 
 [tool.setuptools_scm]
 version_scheme = "post-release"
@@ -53,7 +52,6 @@ local_scheme = "no-local-version"
 [tool.ruff]
 lint.ignore = ["F401", "F403"]
 line-length = 100
-
 
 [tool.pytest.ini_options]
 minversion = "7.0"
