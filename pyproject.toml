@@ -20,10 +20,11 @@ dependencies = [
 dev = [
   "mypy",
   "pytest",
+  "pytest-asyncio",
   "ruff",
   "types-beautifulsoup4",
   "pre-commit",
-  "pytest-asyncio"
+  "twine"
 ]
 
 [project.urls]
