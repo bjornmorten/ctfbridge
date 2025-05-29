@@ -24,7 +24,8 @@ dev = [
   "ruff",
   "types-beautifulsoup4",
   "pre-commit",
-  "twine"
+  "twine",
+  "build"
 ]
 
 [project.urls]
