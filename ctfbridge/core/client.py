@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from typing import Optional
 
 import httpx
@@ -46,8 +47,13 @@ class CoreCTFClient(CTFClient):
     def session(self) -> CoreSessionHelper | None:
         return self._session
 
+    @property
+    @abstractmethod
+    def platform_url(self) -> str:
+        pass
+
     def url(self, path: str) -> str:
-        return f"{self._platform_url}{path}"
+        return f"{self.platform_url}{path}"
 
     async def get(self, path: str, *, params=None, **kwargs):
         return await self._http.get(
