@@ -1,10 +1,13 @@
+"""CTFd auth service"""
+
 import logging
 from typing import List
 
 from ctfbridge.core.services.auth import CoreAuthService
-from ctfbridge.exceptions import LoginError, TokenAuthError, UnauthorizedError
+from ctfbridge.exceptions import LoginError
 from ctfbridge.models.auth import AuthMethod
-from ctfbridge.platforms.ctfd.utils import extract_csrf_nonce
+from ctfbridge.platforms.ctfd.http.endpoints import Endpoints
+from ctfbridge.platforms.ctfd.utils.csrf import extract_csrf_nonce
 
 logger = logging.getLogger(__name__)
 
@@ -16,20 +19,27 @@ class CTFdAuthService(CoreAuthService):
     async def _login_with_token(self, token: str) -> None:
         logger.debug("Setting token-based authentication.")
         await self._client.session.set_headers(
-            {"Authorization": f"Token {token}", "Content-Type": "application/json"}
+            {
+                "Authorization": f"Token {token}",
+                "Content-Type": "application/json",
+            }
         )
 
     async def _login_with_credentials(self, username: str, password: str) -> None:
         try:
-            resp = await self._client.get("login")
+            login_url = Endpoints.Auth.LOGIN
+
+            logger.debug("Fetching login page for CSRF nonce.")
+            resp = await self._client.get(login_url)
             nonce = extract_csrf_nonce(resp.text)
+
             if not nonce:
                 logger.warning("Login nonce not found in login page.")
                 raise LoginError(username)
 
             logger.debug("Posting credentials for user %s", username)
             resp = await self._client.post(
-                "login",
+                login_url,
                 data={"name": username, "password": password, "nonce": nonce},
                 follow_redirects=False,
             )
@@ -39,6 +49,7 @@ class CTFdAuthService(CoreAuthService):
                 raise LoginError(username)
 
             logger.info("Credential-based login successful for user %s", username)
+
         except Exception as e:
             logger.exception("Credential-based login failed")
             raise LoginError(username) from e

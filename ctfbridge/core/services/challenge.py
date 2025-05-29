@@ -64,13 +64,13 @@ class CoreChallengeService(ChallengeService):
                     return enrich_challenge(chal) if enrich else chal
             raise ChallengeFetchError(f"Challenge with ID '{challenge_id}' not found.")
         else:
-            return await self._fetch_challenge_by_id(challenge_id, enrich=enrich)
+            return await self._fetch_challenge_by_id(challenge_id)
 
     @abstractmethod
-    async def _fetch_challenges(self, enrich: bool = True) -> List[Challenge]:
+    async def _fetch_challenges(self) -> List[Challenge]:
         pass
 
-    async def _fetch_challenge_by_id(self, challenge_id: str, enrich: bool = True) -> Challenge:
+    async def _fetch_challenge_by_id(self, challenge_id: str) -> Challenge:
         raise NotImplementedError(
             "Platform must implement _fetch_challenge_by_id if base_has_details is False."
         )

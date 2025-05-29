@@ -3,7 +3,7 @@ from typing import Optional
 import httpx
 
 from ctfbridge.base.identifier import PlatformIdentifier
-from ctfbridge.platforms.ctfd.endpoints import ENDPOINTS
+from ctfbridge.platforms.ctfd.http.endpoints import Endpoints
 
 
 class CTFdIdentifier(PlatformIdentifier):
@@ -35,7 +35,7 @@ class CTFdIdentifier(PlatformIdentifier):
         A base URL is valid if the CTFd /api/v1/swagger endpoint is reachable.
         """
         try:
-            url = f"{candidate.rstrip('/')}{ENDPOINTS['swagger']}"
+            url = f"{candidate.rstrip('/')}{Endpoints.Misc.SWAGGER}"
             resp = await self.http.get(url, timeout=5)
             return resp.status_code == 200
         except (httpx.HTTPError, ValueError):
@@ -46,7 +46,7 @@ class CTFdIdentifier(PlatformIdentifier):
         Confirm platform identity by checking known CTFd API response signature.
         """
         try:
-            url = f"{base_url.rstrip('/')}{ENDPOINTS['swagger']}"
+            url = f"{base_url.rstrip('/')}{Endpoints.Misc.SWAGGER}"
             resp = await self.http.get(url, timeout=5)
 
             # Check both content and structure (optional improvement)

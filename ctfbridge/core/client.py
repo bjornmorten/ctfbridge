@@ -18,14 +18,12 @@ class CoreCTFClient(CTFClient):
         challenges: CoreChallengeService | None = None,
         scoreboard: CoreScoreboardService | None = None,
         session: CoreSessionHelper | None = None,
-        endpoints: dict[str, str] = {},
     ):
         self._auth = auth
         self._attachments = attachments
         self._challenges = challenges
         self._scoreboard = scoreboard
         self._session = session
-        self._endpoints = endpoints
         self._http: httpx.AsyncClient
 
     @property
@@ -48,32 +46,21 @@ class CoreCTFClient(CTFClient):
     def session(self) -> CoreSessionHelper | None:
         return self._session
 
-    def url(self, key: str, **kwargs) -> str:
-        try:
-            path = self._endpoints[key].format(**kwargs)
-            return f"{self._platform_url}{path}"
-        except KeyError:
-            raise ValueError(f"Missing endpoint '{key}'")
-        except Exception as e:
-            raise ValueError(f"Bad formatting for endpoint '{key}': {e}") from e
+    def url(self, path: str) -> str:
+        return f"{self._platform_url}{path}"
 
-    async def get(self, key: str, **kwargs):
-        return await self._http.get(self.url(key, **kwargs))
+    async def get(self, path: str, *, params=None, **kwargs):
+        return await self._http.get(
+            self.url(path),
+            params=params,
+            **kwargs,
+        )
 
-    async def post(
-        self,
-        key: str,
-        *,
-        json=None,
-        data=None,
-        headers=None,
-        follow_redirects=True,
-        **kwargs,
-    ):
+    async def post(self, path: str, *, json=None, data=None, headers=None, **kwargs):
         return await self._http.post(
-            self.url(key, **kwargs),
+            self.url(path),
             json=json,
             data=data,
             headers=headers,
-            follow_redirects=follow_redirects,
+            **kwargs,
         )
