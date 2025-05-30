@@ -2,6 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/ctfbridge)](https://pypi.org/project/ctfbridge/)
 [![Docs](https://img.shields.io/badge/docs-readthedocs-blue.svg)](https://ctfbridge.readthedocs.io)
+[![CI](https://github.com/bjornmorten/ctfbridge/actions/workflows/test.yml/badge.svg)](https://github.com/bjornmorten/ctfbridge/actions/workflows/test.yml)
 ![License](https://img.shields.io/github/license/bjornmorten/ctfbridge)
 
 > [!WARNING]
