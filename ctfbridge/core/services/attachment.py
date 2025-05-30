@@ -13,13 +13,38 @@ logger = logging.getLogger(__name__)
 
 
 class CoreAttachmentService(AttachmentService):
+    """
+    Core implementation of the attachment service.
+    Provides functionality for downloading challenge attachments from both platform and external URLs.
+    """
+
     def __init__(self, client):
+        """
+        Initialize the attachment service.
+
+        Args:
+            client: The CTF client instance
+        """
         self._client = client
         self._external_http = httpx.AsyncClient(follow_redirects=True)
 
     async def download(
         self, attachment: Attachment, save_dir: str, filename: Optional[str] = None
     ) -> str:
+        """
+        Download a single attachment to the specified directory.
+
+        Args:
+            attachment: The attachment to download
+            save_dir: Directory to save the file in
+            filename: Optional custom filename (defaults to attachment name)
+
+        Returns:
+            Path to the downloaded file
+
+        Raises:
+            AttachmentDownloadError: If the download fails
+        """
         os.makedirs(save_dir, exist_ok=True)
 
         url = self._normalize_url(attachment.url)
@@ -40,6 +65,16 @@ class CoreAttachmentService(AttachmentService):
         return save_path
 
     async def download_all(self, attachments: List[Attachment], save_dir: str) -> List[str]:
+        """
+        Download multiple attachments to the specified directory.
+
+        Args:
+            attachments: List of attachments to download
+            save_dir: Directory to save the files in
+
+        Returns:
+            List of paths to successfully downloaded files
+        """
         paths = []
         for att in attachments:
             try:
@@ -50,6 +85,15 @@ class CoreAttachmentService(AttachmentService):
         return paths
 
     def _normalize_url(self, url: str) -> str:
+        """
+        Convert relative URLs to absolute URLs using the platform base URL.
+
+        Args:
+            url: The URL to normalize
+
+        Returns:
+            Absolute URL
+        """
         parsed = urlparse(url)
         if not parsed.scheme and not parsed.netloc:
             # It's a relative path → join with the platform base URL
@@ -57,11 +101,30 @@ class CoreAttachmentService(AttachmentService):
         return url
 
     def _is_external_url(self, url: str) -> bool:
+        """
+        Check if a URL points to an external domain.
+
+        Args:
+            url: The URL to check
+
+        Returns:
+            True if the URL is external, False if it's on the platform domain
+        """
         base_netloc = urlparse(self._client.platform_url).netloc
         target_netloc = urlparse(url).netloc
         return base_netloc != target_netloc
 
     async def _save_stream_to_file(self, response: httpx.Response, path: str):
+        """
+        Save a streaming response to a file.
+
+        Args:
+            response: The HTTP response to stream from
+            path: Path to save the file to
+
+        Raises:
+            OSError: If writing to the file fails
+        """
         try:
             with open(path, "wb") as f:
                 async for chunk in response.aiter_bytes(chunk_size=10485760):
@@ -70,7 +133,9 @@ class CoreAttachmentService(AttachmentService):
             raise OSError(f"Failed to save file to {path}: {e}") from e
 
     async def __aenter__(self):
+        """Enter the async context manager."""
         return self
 
     async def __aexit__(self, *args):
+        """Exit the async context manager and close the external HTTP client."""
         await self._external_http.aclose()

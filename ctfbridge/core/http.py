@@ -27,6 +27,16 @@ except Exception:
 
 
 def extract_error_message(resp: httpx.Response) -> str:
+    """
+    Extract a human-readable error message from an HTTP response.
+    Attempts to parse JSON responses first, falling back to HTTP status reason.
+
+    Args:
+        resp: The HTTP response to extract the error message from
+
+    Returns:
+        A string containing the error message
+    """
     content_type = resp.headers.get("Content-Type", "")
     is_html = "text/html" in content_type or "<html" in resp.text.lower()
 
@@ -41,6 +51,20 @@ def extract_error_message(resp: httpx.Response) -> str:
 
 
 def handle_response(resp: httpx.Response) -> httpx.Response:
+    """
+    Handle common HTTP response status codes and raise appropriate exceptions.
+
+    Args:
+        resp: The HTTP response to handle
+
+    Returns:
+        The response if no error was detected
+
+    Raises:
+        RateLimitError: When rate limit is exceeded (429)
+        ServiceUnavailableError: When service is unavailable (503)
+        ServerError: For other 5xx server errors
+    """
     status = resp.status_code
     message = extract_error_message(resp)
 

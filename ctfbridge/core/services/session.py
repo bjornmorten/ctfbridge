@@ -9,7 +9,18 @@ logger = logging.getLogger(__name__)
 
 
 class CoreSessionHelper(SessionHelper):
+    """
+    Core implementation of the session helper.
+    Provides functionality for managing HTTP session state including headers, cookies, and tokens.
+    """
+
     def __init__(self, client):
+        """
+        Initialize the session helper.
+
+        Args:
+            client: The CTF client instance
+        """
         self._client = client
 
     async def set_token(self, token: str) -> None:
