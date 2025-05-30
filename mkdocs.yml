@@ -7,6 +7,10 @@ theme:
     - navigation.top
   logo: assets/logo.svg
   favicon: assets/logo.svg
+  palette:
+    scheme: slate
+    primary: blue
+    accent: blue
 repo_url: https://github.com/bjornmorten/ctfbridge
 repo_name: ctfbridge
 
