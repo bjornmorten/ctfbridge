@@ -35,6 +35,10 @@ class Service(BaseModel):
         None,
         description="The raw connection string or information provided (e.g., 'nc example.com 12345').",
     )
+    container: str | None = Field(
+        None,
+        description="For Docker services, the container image/name.",
+    )
 
 
 class Tag(BaseModel):
@@ -71,9 +75,9 @@ class Challenge(BaseModel):
         default_factory=list,
         description="A list of downloadable files (attachments) associated with the challenge.",
     )
-    service: Service | None = Field(
-        None,
-        description="Details of a network service (e.g., a netcat listener or web server) associated with the challenge, if any.",
+    services: List[Service] = Field(
+        default_factory=list,
+        description="A list of network services (e.g., netcat listeners, web servers, databases) associated with the challenge.",
     )
     tags: List[Tag] = Field(
         default_factory=list, description="A list of tags or keywords categorizing the challenge."
@@ -82,8 +86,8 @@ class Challenge(BaseModel):
         False,
         description="Indicates if the challenge has been solved by the current user/team. Can be None if status is unknown.",
     )
-    author: str | None = Field(
-        None, description="The author or creator of the challenge, if specified."
+    authors: List[str] = Field(
+        default_factory=list, description="The authors or creators of the challenge."
     )
     difficulty: str | None = Field(
         None,
@@ -106,6 +110,16 @@ class Challenge(BaseModel):
         return bool(self.attachments)
 
     @property
-    def has_service(self) -> bool:
-        """Returns True if the challenge has an associated network service, False otherwise."""
-        return self.service is not None
+    def has_services(self) -> bool:
+        """Returns True if the challenge has one or more network services, False otherwise."""
+        return bool(self.services)
+
+    @property
+    def service(self) -> Service | None:
+        """Returns the primary service (first service) for backward compatibility."""
+        return self.services[0] if self.services else None
+
+    @property
+    def author(self) -> str | None:
+        """Returns the primary author (first author) for backward compatibility."""
+        return self.authors[0] if self.authors else None
