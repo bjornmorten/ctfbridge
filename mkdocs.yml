@@ -5,8 +5,9 @@ theme:
     - navigation.instant
     - navigation.sections
     - navigation.top
-  logo: assets/logo.svg
-  favicon: assets/logo.svg
+  icon:
+    logo: material/flag
+  favicon: assets/flag.svg
   palette:
     scheme: slate
     primary: blue
