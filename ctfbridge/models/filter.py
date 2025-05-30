@@ -1,13 +1,19 @@
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class FilterOptions(BaseModel):
-    solved: Optional[bool] = None
-    min_points: Optional[int] = None
-    max_points: Optional[int] = None
-    category: Optional[str] = None
-    categories: Optional[List[str]] = None
-    tags: Optional[List[str]] = None
-    name_contains: Optional[str] = None
+    """Represents filtering options for challenge queries."""
+
+    solved: Optional[bool] = Field(
+        None, description="Filter by solved status (True for solved, False for unsolved)."
+    )
+    min_points: Optional[int] = Field(None, description="Minimum point value for challenges.")
+    max_points: Optional[int] = Field(None, description="Maximum point value for challenges.")
+    category: Optional[str] = Field(None, description="Single category to filter by.")
+    categories: Optional[List[str]] = Field(None, description="List of categories to include.")
+    tags: Optional[List[str]] = Field(None, description="List of required tags.")
+    name_contains: Optional[str] = Field(
+        None, description="Case-insensitive substring to search in challenge names."
+    )

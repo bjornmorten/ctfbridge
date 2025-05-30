@@ -1,18 +1,24 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class User(BaseModel):
-    id: int
-    name: str
-    team_id: Optional[int] = None
-    score: Optional[int] = None
-    rank: Optional[int] = None
+    """Represents a user participating in the CTF."""
+
+    id: int = Field(..., description="The unique identifier of the user.")
+    name: str = Field(..., description="The username or display name of the user.")
+    team_id: Optional[int] = Field(
+        None, description="The ID of the team the user belongs to, if any."
+    )
+    score: Optional[int] = Field(None, description="The user's individual score, if applicable.")
+    rank: Optional[int] = Field(None, description="The user's individual rank, if applicable.")
 
 
 class Team(BaseModel):
-    id: int
-    name: str
-    score: int
-    rank: int
+    """Represents a team participating in the CTF."""
+
+    id: int = Field(..., description="The unique identifier of the team.")
+    name: str = Field(..., description="The team's display name.")
+    score: int = Field(..., description="The team's total score.")
+    rank: int = Field(..., description="The team's current position on the scoreboard.")
