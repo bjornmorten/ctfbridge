@@ -28,6 +28,12 @@ from ctfbridge.processors.helpers.url_classifier.classifier import classify_url
         ("https://example.com/ws/connect", "service"),
         ("https://example.com/admin/dashboard", "service"),
         ("https://example.com/health", "service"),
+        ("https://example.com/index.php", "service"),
+        ("https://example.com/admin/login.php", "service"),
+        ("https://example.com/admin/register.php", "service"),
+        ("https://example.com/login.php", "service"),
+        ("https://example.com/register.php", "service"),
+        ("https://example.com/index.html", "service"),
         # Service endpoints by cloud domains
         ("https://app.herokuapp.com/", "service"),
         ("https://api.amazonaws.com/", "service"),
