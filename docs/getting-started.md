@@ -11,16 +11,32 @@ Install CTFBridge via pip:
 pip install ctfbridge
 ```
 
-Initialize a client for a supported platform:
+Here's a basic example demonstrating how to authenticate, interact with challenges, submit a flag, and view the scoreboard:
 
 ```python
+import asyncio
 from ctfbridge import create_client
 
 async def main():
+    # Connect and authenticate
     client = await create_client("https://demo.ctfd.io")
     await client.auth.login(username="admin", password="password")
 
-asyncio.run(main())
+    # Get challenges
+    challenges = await client.challenges.get_all()
+    for chal in challenges:
+        print(f"[{chal.category}] {chal.name} ({chal.value} points)")
+
+    # Submit a flag
+    await client.challenges.submit(challenge_id=1, flag="CTF{flag}")
+
+    # View the scoreboard
+    scoreboard = await client.scoreboard.get_top(5)
+    for entry in scoreboard:
+        print(f"[+] {entry.rank}. {entry.name} - {entry.score} points")
+
+if __name__ == "__main__":
+    asyncio.run(main())
 ```
 
 You can now begin interacting with challenges, scoreboards, and flags.
