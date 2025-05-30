@@ -14,6 +14,10 @@ class FilterOptions(BaseModel):
     category: Optional[str] = Field(None, description="Single category to filter by.")
     categories: Optional[List[str]] = Field(None, description="List of categories to include.")
     tags: Optional[List[str]] = Field(None, description="List of required tags.")
+    has_attachments: Optional[bool] = Field(
+        None, description="Filter by attachments being present."
+    )
+    has_services: Optional[bool] = Field(None, description="Filter by services being present.")
     name_contains: Optional[str] = Field(
         None, description="Case-insensitive substring to search in challenge names."
     )

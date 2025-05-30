@@ -35,7 +35,7 @@ class HTBChallengeService(CoreChallengeService):
             data = resp.json()
             challenges_raw = data["challenges"]
         except Exception as e:
-            logger.exception("Failed to fetch challenges.")
+            logger.debug("Failed to fetch challenges.")
             raise ChallengeFetchError("Invalid response format from server.") from e
 
         if not self._category_cache:
@@ -99,7 +99,7 @@ class HTBChallengeService(CoreChallengeService):
                 return SubmissionResult(correct=False, message=message)
 
         except Exception:
-            logger.exception("Unexpected error during flag submission.")
+            logger.debug("Unexpected error during flag submission.")
             return SubmissionResult(
                 correct=False, message="Submission failed due to an unexpected error."
             )

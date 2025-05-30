@@ -28,7 +28,7 @@ class CTFdChallengeService(CoreChallengeService):
             data = response.json()
             return [parse_ctfd_challenge(chal) for chal in data.get("data", [])]
         except Exception as e:
-            logger.exception("Failed to fetch challenges")
+            logger.debug("Failed to fetch challenges")
             raise ChallengeFetchError("Failed to fetch challenges from CTFd.") from e
 
     async def _fetch_challenge_by_id(self, challenge_id: str) -> Challenge:
@@ -38,7 +38,7 @@ class CTFdChallengeService(CoreChallengeService):
             data = response.json()
             return parse_ctfd_challenge(data.get("data", {}))
         except Exception as e:
-            logger.exception("Failed to fetch challenge ID %s", challenge_id)
+            logger.debug("Failed to fetch challenge ID %s", challenge_id)
             raise ChallengeFetchError(f"Could not load challenge ID {challenge_id}") from e
 
     async def submit(self, challenge_id: str, flag: str) -> SubmissionResult:
@@ -69,7 +69,7 @@ class CTFdChallengeService(CoreChallengeService):
             return SubmissionResult(correct=(status == "correct"), message=message)
 
         except Exception as e:
-            logger.exception("Flag submission failed")
+            logger.debug("Flag submission failed")
             raise SubmissionError(
                 challenge_id=challenge_id, flag=flag, reason="Submission failed"
             ) from e

@@ -32,7 +32,7 @@ class RCTFAuthService(CoreAuthService):
                 resp = await http.post(f"{base_url}/api/v1/auth/login", json={"teamToken": token})
 
                 if resp.status_code != 200:
-                    logger.warning("Team token login failed with status %s", resp.status_code)
+                    logger.debug("Team token login failed with status %s", resp.status_code)
                     raise TokenAuthError("Unauthorized token")
 
                 result = resp.json()

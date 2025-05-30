@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 def extract_csrf_nonce(html: str) -> Optional[str]:
     if not html:
-        logger.warning("HTML text provided for CSRF extraction was empty.")
+        logger.debug("HTML text provided for CSRF extraction was empty.")
         return None
 
     soup = BeautifulSoup(html, "html.parser")
@@ -19,5 +19,5 @@ def extract_csrf_nonce(html: str) -> Optional[str]:
             if match:
                 return match.group(1)
 
-    logger.warning("CSRF nonce not found in the provided HTML.")
+    logger.debug("CSRF nonce not found in the provided HTML.")
     return None

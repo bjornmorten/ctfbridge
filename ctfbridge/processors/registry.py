@@ -25,7 +25,7 @@ def register_parser(cls: Type[BaseChallengeParser]) -> Type[BaseChallengeParser]
         raise TypeError(f"Parser {cls.__name__} must inherit from BaseChallengeParser")
 
     if cls in PARSER_REGISTRY:
-        logger.warning(f"Parser {cls.__name__} is already registered")
+        logger.debug(f"Parser {cls.__name__} is already registered")
         return cls
 
     logger.debug(f"Registering parser: {cls.__name__}")

@@ -22,5 +22,9 @@ class CTFdClient(CoreCTFClient):
         )
 
     @property
+    def platform_name(self) -> str:
+        return "CTFd"
+
+    @property
     def platform_url(self) -> str:
         return self._platform_url

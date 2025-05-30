@@ -24,7 +24,7 @@ class HTBAuthService(CoreAuthService):
                     self._client._get_api_url(f"ctfs/{self._client._ctf_id}")
                 )
                 if resp.status_code != 200:
-                    logger.warning("Token authentication failed with status %s", resp.status_code)
+                    logger.debug("Token authentication failed with status %s", resp.status_code)
                     raise TokenAuthError("Unauthorized token")
                 logger.info("Token authentication successful.")
             except Exception as e:

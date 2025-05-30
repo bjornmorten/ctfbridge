@@ -31,7 +31,7 @@ class BergChallengeService(CoreChallengeService):
             resp = await self._client._http.get(f"{self._client._platform_url}/api/v2/challenges")
             data = resp.json()
         except Exception as e:
-            logger.exception("Failed to fetch challenges.")
+            logger.debug("Failed to fetch challenges.")
             raise ChallengeFetchError("Invalid response format from server.") from e
 
         challenges = []

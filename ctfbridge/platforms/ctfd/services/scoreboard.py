@@ -21,7 +21,7 @@ class CTFdScoreboardService(CoreScoreboardService):
             resp = await self._client.get(Endpoints.Scoreboard.FULL)
             data = resp.json().get("data", [])
         except Exception as e:
-            logger.exception("Failed to fetch scoreboard")
+            logger.debug("Failed to fetch scoreboard")
             raise ScoreboardFetchError("Invalid response format from server (scoreboard).") from e
 
         scoreboard = [parse_scoreboard_entry(entry) for entry in data]

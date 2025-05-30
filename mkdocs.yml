@@ -1,10 +1,19 @@
 site_name: CTFBridge
+site_author: bjornmorten
+repo_url: https://github.com/bjornmorten/ctfbridge
+repo_name: ctfbridge
+copyright: Copyright © 2025 bjornmorten
+
 theme:
   name: material
   features:
     - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
     - navigation.sections
     - navigation.top
+    - navigation.footer
+    - content.code.copy
   icon:
     logo: material/flag
   favicon: assets/flag.svg
@@ -12,20 +21,25 @@ theme:
     scheme: slate
     primary: blue
     accent: blue
-repo_url: https://github.com/bjornmorten/ctfbridge
-repo_name: ctfbridge
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/bjornmorten/ctfbridge/
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/ctfbridge/
 
 nav:
-  - Home: index.md
-  - Getting Started: getting-started.md
-  - Usage Guide: usage.md
-  - Supported Platforms: platforms.md
+  - 🏠 Home: index.md
+  - 🚀 Getting Started: getting-started.md
+  - 📘 Usage Guide: usage.md
+  - 💻 Supported Platforms: platforms.md
   - API Reference:
-      - Client: api/client.md
-      - Models: api/models.md
+      - ⚙️ Client: api/client.md
+      - 🧱 Models: api/models.md
 
 plugins:
-  #- social
   - search
   - mkdocstrings:
       handlers:
@@ -52,6 +66,10 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.blocks.tab
+  - pymdownx.magiclink
+  - pymdownx.emoji
   - toc:
       permalink: true
 

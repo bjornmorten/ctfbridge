@@ -17,6 +17,18 @@ class CTFClient(ABC):
 
     @property
     @abstractmethod
+    def platform_name(self) -> str:
+        """Platform name"""
+        pass
+
+    @property
+    @abstractmethod
+    def platform_url(self) -> str:
+        """Platform URL"""
+        pass
+
+    @property
+    @abstractmethod
     def auth(self) -> AuthService | None:
         """Authentication service."""
         pass

@@ -34,6 +34,8 @@ class CoreChallengeService(ChallengeService):
         category: str | None = None,
         categories: list[str] | None = None,
         tags: list[str] | None = None,
+        has_attachments: bool | None = None,
+        has_services: bool | None = None,
         name_contains: str | None = None,
     ) -> List[Challenge]:
         filters = FilterOptions(
@@ -43,6 +45,8 @@ class CoreChallengeService(ChallengeService):
             category=category,
             categories=categories,
             tags=tags,
+            has_attachments=has_attachments,
+            has_services=has_services,
             name_contains=name_contains,
         )
 
@@ -54,7 +58,8 @@ class CoreChallengeService(ChallengeService):
             base = self._filter_challenges(base, filters)
             return base
 
-        base = self._filter_challenges(base, filters)
+        # Only works for some of the filters if the data is present in base
+        # base = self._filter_challenges(base, filters)
 
         detailed_challenges = await self._fetch_details(base)
 
@@ -159,6 +164,10 @@ class CoreChallengeService(ChallengeService):
             result = [
                 c for c in result if all(t in [tag.value for tag in c.tags] for t in filters.tags)
             ]
+        if filters.has_attachments:
+            result = [c for c in result if c.has_attachments]
+        if filters.has_services:
+            result = [c for c in result if c.has_services]
         if filters.name_contains:
             lc = filters.name_contains.lower()
             result = [c for c in result if lc in c.name.lower()]

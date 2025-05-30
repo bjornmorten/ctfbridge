@@ -44,8 +44,8 @@ class CoreAuthService(AuthService):
             raise InvalidAuthMethodError("No valid authentication method provided.")
 
     async def logout(self):
-        self._client.http.cookies.clear()
-        self._client.http.session.headers.pop("Authorization", None)
+        self._client._http.cookies.clear()
+        self._client._http.headers.pop("Authorization", None)
 
     @abstractmethod
     async def get_supported_auth_methods(self) -> List[AuthMethod]:

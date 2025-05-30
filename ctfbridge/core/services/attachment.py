@@ -81,7 +81,7 @@ class CoreAttachmentService(AttachmentService):
                 path = await self.download(att, save_dir)
                 paths.append(path)
             except AttachmentDownloadError as e:
-                logger.warning("Skipping attachment '%s': %s", att.name, e)
+                logger.debug("Skipping attachment '%s': %s", att.name, e)
         return paths
 
     def _normalize_url(self, url: str) -> str:

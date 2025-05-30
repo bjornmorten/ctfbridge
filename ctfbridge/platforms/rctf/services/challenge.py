@@ -35,7 +35,7 @@ class RCTFChallengeService(CoreChallengeService):
             solves = profile["solves"]
             solved_ids = [chal["id"] for chal in solves]
         except Exception as e:
-            logger.exception("Failed to fetch challenges.")
+            logger.debug("Failed to fetch challenges.")
             raise ChallengeFetchError("Invalid response format from server.") from e
 
         challenges = []

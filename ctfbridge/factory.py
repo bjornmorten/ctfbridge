@@ -42,6 +42,8 @@ async def create_client(
                 set_cached_platform(url, platform, base_url)
         else:
             platform, base_url = await detect_platform(url, http)
+    else:
+        base_url = url
 
     try:
         client_class = get_platform_client(platform)

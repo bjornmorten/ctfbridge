@@ -1,3 +1,8 @@
+---
+title: CTFBridge
+description: CTFBridge is a Python library that unifies interaction with CTF platforms like CTFd, rCTF, and HTB. Fetch challenges, submit flags, and automate workflows using a consistent API.
+---
+
 # CTFBridge
 
 CTFBridge is a Python library that standardizes interaction with Capture The Flag (CTF) platforms like CTFd, rCTF, and HTB — so you can focus on solving challenges, not reverse-engineering APIs.
@@ -15,7 +20,7 @@ Use a single, consistent API to:
 - 🧩 Easy to extend with your own platform clients and parsers
 - 📦 Challenge enrichment (authors, services, attachments) included out of the box
 - 🔒 Clean authentication flow (supports credentials and API tokens)
-- ⚙️  Platform auto-detection from just a URL — no config required
+- ⚙️ Platform auto-detection from just a URL — no config required
 - 🔄 Session save/load support for persistent sessions
 - 🤖 Designed for automation and scripting (async-first)
 

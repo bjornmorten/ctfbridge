@@ -7,7 +7,7 @@ def parse_ctfd_challenge(data: dict) -> Challenge:
     attachments = [
         Attachment(
             name=unquote(urlparse(url).path.split("/")[-1]),
-            url=url if url.startswith(("http://", "https://")) else f"/{url}",
+            url=url,
         )
         for url in data.get("files", [])
     ]

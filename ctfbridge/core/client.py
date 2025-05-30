@@ -67,15 +67,6 @@ class CoreCTFClient(CTFClient):
         """Get the session helper instance."""
         return self._session
 
-    @property
-    @abstractmethod
-    def platform_url(self) -> str:
-        """
-        Get the base URL for the CTF platform.
-        Must be implemented by platform-specific clients.
-        """
-        pass
-
     def url(self, path: str) -> str:
         """
         Construct a full URL by combining the platform base URL with the given path.

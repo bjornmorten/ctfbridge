@@ -34,7 +34,7 @@ class CTFdAuthService(CoreAuthService):
             nonce = extract_csrf_nonce(resp.text)
 
             if not nonce:
-                logger.warning("Login nonce not found in login page.")
+                logger.debug("Login nonce not found in login page.")
                 raise LoginError(username)
 
             logger.debug("Posting credentials for user %s", username)
@@ -45,13 +45,13 @@ class CTFdAuthService(CoreAuthService):
             )
 
             if resp.status_code == 403 or "incorrect" in resp.text.lower():
-                logger.warning("Incorrect credentials or login denied for user %s", username)
+                logger.debug("Incorrect credentials or login denied for user %s", username)
                 raise LoginError(username)
 
             logger.info("Credential-based login successful for user %s", username)
 
         except Exception as e:
-            logger.exception("Credential-based login failed")
+            logger.debug("Credential-based login failed")
             raise LoginError(username) from e
 
     async def get_supported_auth_methods(self) -> List[AuthMethod]:

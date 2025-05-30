@@ -66,11 +66,11 @@ class CoreSessionHelper(SessionHelper):
                     domain=cookie.get("domain"),
                 )
         except FileNotFoundError as e:
-            logger.warning("Session load skipped: %s", e)
+            logger.debug("Session load skipped: %s", e)
             raise SessionError(path=path, operation="load", reason="File not found") from e
         except json.JSONDecodeError as e:
             logger.error("Malformed session file at %s", path)
             raise SessionError(path=path, operation="load", reason="Malformed JSON") from e
         except Exception as e:
-            logger.exception("Unexpected error during session load")
+            logger.debug("Unexpected error during session load")
             raise SessionError(path=path, operation="load", reason=str(e)) from e
