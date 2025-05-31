@@ -5,42 +5,44 @@ description: CTFBridge is a Python library that unifies interaction with CTF pla
 
 # CTFBridge
 
-CTFBridge is a Python library that standardizes interaction with Capture The Flag (CTF) platforms like CTFd, rCTF, and HTB — so you can focus on solving challenges, not reverse-engineering APIs.
+**CTFBridge** is your all-in-one Python toolkit for automating Capture The Flag (CTF) workflows — whether you're farming flags, building bots, or writing automation tools.
 
-Use a single, consistent API to:
+Forget juggling inconsistent APIs or hacking together one-off scripts. CTFBridge gives you **one clean interface** for multiple CTF platforms — so you can focus on solving challenges.
 
-- 🧩 Fetch challenges and metadata
-- 🚩 Submit flags
-- 🏆 Access scoreboards
-- 🔐 Manage sessions and authentication
+## ⚡ What You Can Do
 
-## ✨ Features
+* 🧩 Fetch challenges, metadata, files, and services
+* 🚩 Submit flags
+* 🏆 Access scoreboards, rankings, and team info
+* 🔐 Manage sessions (login, API tokens, persistence)
+* 🤖 Build bots, auto-solvers, or monitoring tools with async-first design
 
-- ✅ Unified API for multiple CTF platforms — one interface, no per-platform hacks
-- 🧩 Easy to extend with your own platform clients and parsers
-- 📦 Challenge enrichment (authors, services, attachments) included out of the box
-- 🔒 Clean authentication flow (supports credentials and API tokens)
-- ⚙️ Platform auto-detection from just a URL — no config required
-- 🔄 Session save/load support for persistent sessions
-- 🤖 Designed for automation and scripting (async-first)
+## ✨ Why CTFBridge?
 
-## 🚀 Getting Started
+* ✅ **One API for all major platforms** — CTFd, rCTF, HTB, and more
+* 🧠 **Smart auto-detection** — just give a URL, and we handle the rest
+* 🧩 **Challenge enrichment** — attachments, services and more built in
+* 🔄 **Persistent sessions** — save & resume your session state
+* 🔌 **Extensible design** — plug in your own clients or parsers
+* 🚀 **Made for automation** — fully async and script-friendly
 
-Ready to dive in? Head over to our [Getting Started](getting-started.md) guide to install CTFBridge and make your first API calls.
+## 🚀 Quickstart
+
+Head to the [Getting Started](getting-started.md) guide to install CTFBridge and run your first script.
 
 ## 🧩 Supported Platforms
 
-CTFBridge works with several popular platforms:
+Currently supports:
 
-- CTFd
-- rCTF
-- Berg
-- EPT
-- HTB
+* CTFd
+* rCTF
+* HTB
+* Berg
+* EPT
 
-For a detailed feature support matrix, see the [Supported Platforms](platforms.md) page.
+For detailed compatibility, check the [Supported Platforms](platforms.md) page.
 
-## 📚 Dive Deeper
+## 📚 Want More?
 
-- Explore the full [API Reference (Client)](api/client.md) and [API Reference (Models)](api/models.md) to understand all available functionalities.
-- Check out the [Usage Guide](usage.md) for more examples.
+* Browse the [API Reference (Client)](api/client.md) and [API Reference (Models)](api/models.md)
+* See real-world examples in the [Usage Guide](usage.md)

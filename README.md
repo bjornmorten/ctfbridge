@@ -21,14 +21,12 @@ Use a single API to:
 
 ## ✨ Features
 
-- ✅ Unified API for multiple CTF platforms — one interface, no per-platform hacks
-- 🧩 Easy to extend with your own platform clients and parsers
-- 📦 Challenge enrichment (authors, services, attachments) included out of the box
-- 🔒 Clean authentication flow (supports credentials and API tokens)
-- 🏁 Submit flags and access scoreboards with ease
-- ⚙️  Platform auto-detection from just a URL — no config required
-- 🔄 Session save/load support for persistent sessions
-- 🤖 Designed for automation and scripting (async-first)
+- ✅ **Unified API** for multiple CTF platforms — no per-platform hacks
+- 🧠 **Auto-detect platform type** from just a URL
+- 🔐 **Clean auth flow** with support for credentials and API tokens
+- 🧩 **Challenge enrichment** — authors, categories, services, attachments
+- 🔄 **Persistent sessions** — save/load session state with ease
+- 🤖 **Async-first design** — perfect for scripts, tools, and automation
 
 ## 📦 Installation
 
@@ -75,24 +73,26 @@ CTFBridge works out of the box with:
 | Berg                 | ✅ Supported      |
 | EPT                  | ✅ Supported      |
 | HTB                  | ✅ Supported      |
-| _More platforms_     | 🚧 In development |
+| _More coming soon_   | 🚧 Planned        |
+
+📖 See [docs.ctfbridge.io/platforms](https://ctfbridge.readthedocs.io/en/latest/platforms/) for details.
 
 ## 📚 Documentation
 
-Explore the full documentation at: **[ctfbridge.readthedocs.io](https://ctfbridge.readthedocs.io/)**
+All guides, API references, and platform notes are available at: **[ctfbridge.readthedocs.io](https://ctfbridge.readthedocs.io/)**
 
 Includes:
-- Setup and usage guides
-- Platform details
-- API reference
-- Contribution instructions
+
+- ✅ Getting Started
+- 🛠 Usage Patterns
+- 🔍 API Reference
 
 ## 🛠️ Projects Using CTFBridge
 
 These open-source projects are already using CTFBridge:
 
-- [`ctf-dl`](https://github.com/bjornmorten/ctf-dl) — 🗃️ Automates downloading all challenges from a CTF.
-- [`pwnv`](https://github.com/CarixoHD/pwnv) — 🧠 Manages CTFs and challenges.
+- [`ctf-dl`](https://github.com/bjornmorten/ctf-dl) — 🗃️ Download all CTF challenges in bulk
+- [`pwnv`](https://github.com/CarixoHD/pwnv) — 🧠 CLI to manage CTFs and challenges
 
 ## 📄 License
 
