@@ -84,12 +84,6 @@ CTFBridge works out of the box with:
 
 All guides, API references, and platform notes are available at: **[ctfbridge.readthedocs.io](https://ctfbridge.readthedocs.io/)**
 
-Includes:
-
-- ✅ Getting Started
-- 🛠 Usage Patterns
-- 🔍 API Reference
-
 ## 🛠️ Projects Using CTFBridge
 
 These open-source projects are already using CTFBridge:
