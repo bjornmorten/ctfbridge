@@ -29,6 +29,7 @@ dev = [
   "mypy",
   "pytest",
   "pytest-asyncio",
+  "pytest-mock",
   "ruff",
   "types-beautifulsoup4",
   "pre-commit",
