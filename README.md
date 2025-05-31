@@ -13,11 +13,11 @@
 </p>
 
 <p align="center">
-  <a href="#overview">Overview</a> •
-  <a href="#installation">Install</a> •
-  <a href="#quickstart">Quickstart</a> •
-  <a href="#documentation">Docs</a> •
-  <a href="#license">License</a>
+  <a href="#-overview">Overview</a> •
+  <a href="#-installation">Install</a> •
+  <a href="#-quickstart">Quickstart</a> •
+  <a href="#-documentation">Docs</a> •
+  <a href="#-license">License</a>
 </p>
 
 ---
