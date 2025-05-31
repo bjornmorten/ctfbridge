@@ -1,3 +1,0 @@
-global-include py.typed
-recursive-exclude platforms/*/tests *
-recursive-exclude tests *
