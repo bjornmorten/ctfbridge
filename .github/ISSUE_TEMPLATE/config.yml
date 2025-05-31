@@ -1,0 +1,19 @@
+blank_issues_enabled: true
+contact_links: []
+
+issue_templates:
+  - name: 🐛 Bug Report
+    description: Something isn't working correctly.
+    file: bug_report.md
+
+  - name: 💡 Feature Request
+    description: Propose a general improvement or new feature.
+    file: feature_request.md
+
+  - name: 📄 Documentation Issue
+    description: Report missing or unclear documentation.
+    file: documentation.md
+
+  - name: 🧩 Platform Support Request
+    description: Suggest adding support for a new CTF platform.
+    file: platform_support_request.md
