@@ -1,41 +1,38 @@
-name: 🐛 Bug Report
-description: Report something that's not working correctly
-labels: ["bug", "needs triage"]
-body:
-  - type: markdown
-    attributes:
-      value: |
-        Please describe the issue you're experiencing. Include as much detail as possible.
+---
+name: Bug report
+about: Create a report to help us improve
+title: ''
+labels: ''
+assignees: ''
 
-  - type: textarea
-    id: description
-    attributes:
-      label: What happened?
-      description: A clear and concise description of what the bug is.
-      placeholder: The `submit` function raises a 403 error when...
-    validations:
-      required: true
+---
 
-  - type: textarea
-    id: steps
-    attributes:
-      label: Steps to Reproduce
-      description: How can we reproduce the bug?
-      placeholder: |
-        1. Go to '...'
-        2. Run the script
-        3. See the error
-    validations:
-      required: true
+**Describe the bug**
+A clear and concise description of what the bug is.
 
-  - type: input
-    id: version
-    attributes:
-      label: CTFBridge Version
-      placeholder: e.g. 1.2.3
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
-  - type: textarea
-    id: environment
-    attributes:
-      label: Environment
-      placeholder: OS, Python version, CTF platform, etc.
+**Expected behavior**
+A clear and concise description of what you expected to happen.
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+**Desktop (please complete the following information):**
+ - OS: [e.g. iOS]
+ - Browser [e.g. chrome, safari]
+ - Version [e.g. 22]
+
+**Smartphone (please complete the following information):**
+ - Device: [e.g. iPhone6]
+ - OS: [e.g. iOS8.1]
+ - Browser [e.g. stock browser, safari]
+ - Version [e.g. 22]
+
+**Additional context**
+Add any other context about the problem here.
