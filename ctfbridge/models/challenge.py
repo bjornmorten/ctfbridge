@@ -48,7 +48,7 @@ class Tag(BaseModel):
 
 
 class Challenge(BaseModel):
-    """Represents a challenge in a Capture The Flag (CTF) event."""
+    """Represents a challenge."""
 
     id: str = Field(
         ...,
@@ -116,10 +116,10 @@ class Challenge(BaseModel):
 
     @property
     def service(self) -> Service | None:
-        """Returns the primary service (first service) for backward compatibility."""
+        """Returns the first service."""
         return self.services[0] if self.services else None
 
     @property
     def author(self) -> str | None:
-        """Returns the primary author (first author) for backward compatibility."""
+        """Returns the first author."""
         return self.authors[0] if self.authors else None
