@@ -2,18 +2,18 @@ blank_issues_enabled: false
 contact_links: []
 
 issue_templates:
-  - name: 🐛 Bug Report
-    description: Something isn't working correctly.
-    file: bug_report.md
+  - name: "🐞 Bug Report"
+    description: Report something not working correctly in CTFBridge
+    file: bug_report.yaml
 
-  - name: 💡 Feature Request
-    description: Propose a general improvement or new feature.
-    file: feature_request.md
+  - name: "✨ Feature Request"
+    description: Suggest a new feature or change
+    file: feature_request.yaml
 
-  - name: 📄 Documentation Issue
-    description: Report missing or unclear documentation.
-    file: documentation.md
+  - name: "🌐 Platform Request"
+    description: Suggest a new platform to support
+    file: platform_support_request.yaml
 
-  - name: 🧩 Platform Support Request
-    description: Suggest adding support for a new CTF platform.
-    file: platform_support_request.md
+  - name: "📝 Documentation Improvement"
+    description: Help us improve our docs
+    file: documentation.yaml

@@ -1,24 +1,31 @@
-name: 📄 Documentation Issue
-description: Report missing or unclear documentation
-labels: ["documentation"]
+name: "📝 Documentation Improvement"
+description: Suggest improvements to CTFBridge's documentation
+title: "[Docs]: "
+labels: [documentation]
 body:
-  - type: textarea
-    id: area
+  - type: markdown
     attributes:
-      label: What part of the documentation needs improvement?
-      placeholder: Examples, API Reference, Installation, etc.
-      validations:
-        required: true
+      value: |
+        Found something confusing or missing in our documentation? Let us know below!
+
+  - type: input
+    id: location
+    attributes:
+      label: "Location of the documentation"
+      placeholder: "e.g., docs/usage.md or README.md"
+    validations:
+      required: true
 
   - type: textarea
     id: suggestion
     attributes:
-      label: What would you like to see changed?
-      description: Be as specific as possible.
-      placeholder: Add a full example for auth with rCTF.
+      label: "Describe your suggestion"
+      placeholder: "Clarify the Quickstart guide by adding an example for async login..."
+    validations:
+      required: true
 
-  - type: input
-    id: link
+  - type: textarea
+    id: context
     attributes:
-      label: Link to the affected documentation
-      placeholder: https://ctfbridge.readthedocs.io/en/latest/...
+      label: "Additional context"
+      placeholder: "Links, screenshots, related issues..."

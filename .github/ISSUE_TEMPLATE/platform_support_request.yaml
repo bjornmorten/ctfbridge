@@ -1,0 +1,52 @@
+name: "🌐 Platform Suggestion"
+description: Suggest a new CTF platform to support
+title: "[Platform]: "
+labels: [platform, enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a platform! Please fill out the form to help us evaluate and prioritize it.
+
+  - type: input
+    id: platform_name
+    attributes:
+      label: "Platform Name"
+      placeholder: "e.g., MetaCTF, FBCTF, RootTheBox"
+    validations:
+      required: true
+
+  - type: input
+    id: homepage
+    attributes:
+      label: "Official Website or GitHub Repo"
+      placeholder: "https://example.com or https://github.com/example/platform"
+    validations:
+      required: false
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: "Why should this platform be supported?"
+      placeholder: "e.g., It's widely used in collegiate CTFs, has an API, and supports flag submissions."
+    validations:
+      required: true
+
+  - type: textarea
+    id: api_docs
+    attributes:
+      label: "API Documentation or Reverse-Engineering Info"
+      description: Links to docs, Swagger, Postman, browser devtools dumps, etc.
+      placeholder: "https://example.com/docs/api"
+    validations:
+      required: false
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: "Example Instance URLs (if public)"
+      placeholder: |
+        - https://ctf.example.org
+        - https://2025.platform.io
+    validations:
+      required: false
