@@ -16,7 +16,7 @@ All custom exceptions live in `ctfbridge.exceptions`. These include:
 - `CTFBridgeError` – base class for all library errors
 - `PlatformNotDetectedError`
 - `AuthenticationError`
-- `ChallengeNotFoundError`
+- `NotFoundError`
 - `InvalidResponseError`
 
 Each one represents a specific failure scenario and provides a helpful message or context object.

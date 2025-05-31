@@ -120,19 +120,39 @@ class CTFBridgeClient(httpx.AsyncClient):
 
 
 def make_http_client(
-    verify_ssl: bool = False,
-    user_agent: Optional[str] = None,
+    *,
+    config: dict[str, Any] = {},
 ) -> CTFBridgeClient:
     """
     Create a preconfigured HTTP client.
+
+    Args:
+        config: Dictionary containing httpx client configuration options:
+            - timeout: Request timeout in seconds (int/float)
+            - retries: Number of retries for failed requests (int)
+            - max_connections: Maximum number of concurrent connections (int)
+            - http2: Whether to enable HTTP/2 (bool)
+            - auth: Authentication credentials (tuple/httpx.Auth)
+            - event_hooks: Request/response event hooks (dict)
+            - verify_ssl: Whether to verify SSL certificates (bool)
+            - headers: Custom HTTP headers (dict)
+            - proxy: Proxy configuration (dict/str)
+            - user_agent: Custom User-Agent string (str)
     """
-    return CTFBridgeClient(
-        limits=httpx.Limits(max_connections=20),
-        timeout=10,
-        follow_redirects=True,
-        verify=verify_ssl,
-        headers={
-            "User-Agent": user_agent or f"CTFBridge/{__version__}",
-        },
-        transport=httpx.AsyncHTTPTransport(retries=5),
-    )
+    # Extract special configuration options
+    max_conns = config.pop("max_connections", 20)
+    retries = config.pop("retries", 5)
+    user_agent = config.pop("user_agent", f"CTFBridge/{__version__}")
+    custom_headers = config.pop("headers", {})
+
+    # Build the final configuration
+    client_config = {
+        "limits": httpx.Limits(max_connections=max_conns),
+        "timeout": config.pop("timeout", 10),
+        "verify": config.pop("verify_ssl", True),
+        "headers": {"User-Agent": user_agent, **custom_headers},
+        "transport": httpx.AsyncHTTPTransport(retries=retries),
+        **config,  # Include any remaining config options
+    }
+
+    return CTFBridgeClient(**client_config)

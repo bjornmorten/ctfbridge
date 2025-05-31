@@ -1,4 +1,5 @@
 import httpx
+from typing import Any
 
 from ctfbridge.base.client import CTFClient
 from ctfbridge.core.http import make_http_client
@@ -9,9 +10,9 @@ async def create_client(
     url: str,
     *,
     platform: str = "auto",
-    verify_ssl: bool = True,
     cache_platform: bool = True,
     http: httpx.AsyncClient | None = None,
+    http_config: dict[str, Any] = {},
 ) -> CTFClient:
     """
     Create and return a resolved CTF client.
@@ -19,9 +20,19 @@ async def create_client(
     Args:
         url: Full or base URL of the platform.
         platform: Platform name or 'auto'.
-        verify_ssl: Whether to verify SSL certs.
         cache_platform: Whether to cache platform detection.
         http: Optional preconfigured HTTP client.
+        http_config: Configuration dictionary for the HTTP client with options:
+            - timeout: Request timeout in seconds (int/float)
+            - retries: Number of retries for failed requests (int)
+            - max_connections: Maximum number of concurrent connections (int)
+            - http2: Whether to enable HTTP/2 (bool)
+            - auth: Authentication credentials (tuple/httpx.Auth)
+            - event_hooks: Request/response event hooks (dict)
+            - verify_ssl: Whether to verify SSL certificates (bool)
+            - headers: Custom HTTP headers (dict)
+            - proxy: Proxy configuration (dict/str)
+            - user_agent: Custom User-Agent string (str)
 
     Returns:
         A resolved and ready-to-use CTFClient instance.
@@ -30,7 +41,7 @@ async def create_client(
     from ctfbridge.platforms.detect import detect_platform
     from ctfbridge.utils.platform_cache import get_cached_platform, set_cached_platform
 
-    http = http or make_http_client()
+    http = http or make_http_client(config=http_config)
 
     if platform == "auto":
         if cache_platform:

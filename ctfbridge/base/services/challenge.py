@@ -42,7 +42,7 @@ class ChallengeService(ABC):
 
         Raises:
             ChallengeFetchError: If challenge listing fails.
-            CTFInactiveError: If CTF has not started.
+            ChallengesUnavailableError: If the challenges are not available
             NotAuthenticatedError: If login is required.
             ServiceUnavailableError: If the server is down.
         """
@@ -87,7 +87,7 @@ class ChallengeService(ABC):
 
         Raises:
             ChallengeFetchError: If challenge listing fails.
-            CTFInactiveError: If the CTF has not started.
+            ChallengesUnavailableError: If the challenges are not available
             NotAuthenticatedError: If login is required.
             ServiceUnavailableError: If the server is down.
         """
@@ -106,10 +106,10 @@ class ChallengeService(ABC):
             Challenge: The challenge details.
 
         Raises:
-            ChallengeFetchError: If challenge cannot be found or loaded.
-            NotFoundError: If challenge ID is invalid.
+            ChallengeFetchError: If challenge cannot be loaded.
+            ChallengeNotFoundError: If the challenge could not be found.
             NotAuthenticatedError: If login is required.
-            CTFInactiveError: If the CTF has not started.
+            ChallengesUnavailableError: If the challenges are not available
         """
         raise NotImplementedError
 
@@ -126,6 +126,7 @@ class ChallengeService(ABC):
 
         Raises:
             SubmissionError: If the submission endpoint fails or returns an invalid response.
+            ChallengeNotFoundError: If the challenge could not be found.
             NotAuthenticatedError: If the user is not logged in.
             CTFInactiveError: If the CTF is locked.
             RateLimitError: If submitting too quickly.

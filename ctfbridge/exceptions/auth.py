@@ -28,3 +28,10 @@ class InvalidAuthMethodError(CTFBridgeError):
 class SessionExpiredError(CTFBridgeError):
     def __init__(self):
         super().__init__("Session has expired or is invalid. Please re-authenticate.")
+
+
+class NotAuthenticatedError(CTFBridgeError):
+    """Raised when an action is attempted without being authenticated (i.e., not logged in)."""
+
+    def __init__(self, msg="You must be logged in to perform this action."):
+        super().__init__(msg)
