@@ -25,6 +25,7 @@ class CoreScoreboardService(ScoreboardService):
 
         return scoreboard if limit == 0 else scoreboard[:limit]
 
+    @abstractmethod
     async def _fetch_scoreboard(self, limit) -> List[ScoreboardEntry]:
         """
         Fetch the scoreboard from the platform.
