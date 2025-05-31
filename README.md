@@ -69,7 +69,7 @@ if __name__ == "__main__":
 
 CTFBridge works out of the box with:
 
-| Platform  | &nbsp;&nbsp;&nbsp;Auth&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;Challenges&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;Scoreboard&nbsp;&nbsp; |
+| Platform  | &nbsp;&nbsp;&nbsp;Auth&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;Challenges&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;Flags&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;Scoreboard&nbsp;&nbsp; |
 | --------- | :--------------------------------------: | :--------------------------------: | :----------------------------------------: | :--------------------------------: |
 | **CTFd**  |                    ✅                    |                 ✅                 |                     ✅                     |                 ✅                 |
 | **rCTF**  |                    ✅                    |                 ✅                 |                     ✅                     |                 ✅                 |
