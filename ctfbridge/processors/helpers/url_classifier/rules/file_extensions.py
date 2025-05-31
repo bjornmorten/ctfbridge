@@ -14,6 +14,7 @@ FILE_EXTENSIONS: Tuple[str, ...] = (
     ".7z",
     ".iso",
     ".img",
+    ".raw",
     ".dmg",
     # Documents
     ".txt",
