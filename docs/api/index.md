@@ -6,7 +6,7 @@ Welcome to the API reference section of **CTFBridge**. This section documents th
 
 ## 🔧 API Structure
 
-CTFBridge exposes its functionality through a centralized `client` object created using the `factory()` function. This object provides access to service modules grouped by functionality:
+CTFBridge exposes its functionality through a centralized `client` object created using the `create_client()` function. This object provides access to service modules grouped by functionality:
 
 | Client Attribute     | Description                                        |
 | -------------------- | -------------------------------------------------- |
@@ -23,14 +23,19 @@ Each of these modules is implemented as a **service class** (e.g. `AuthService`,
 ## 🏁 Getting Started with the Client
 
 ```python
+import asyncio
 from ctfbridge import create_client
 
-client = create_client("https://examplectf.com")
-client.auth.login(username="username", password="password")
+async def main():
+    client = await create_client("https://demo.ctfd.io")
+    await client.auth.login(username="admin", password="password")
 
-challenges = client.challenges.get_all()
-for chal in challenges:
-    print(chal.name, chal.points)
+    challenges = await client.challenges.get_all()
+    for chal in challenges:
+        print(chal.category, chal.name, chal.value)
+
+if __name__ == "__main__":
+    asyncio.run(main())
 ```
 
 ---

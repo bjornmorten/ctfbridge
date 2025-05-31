@@ -37,7 +37,7 @@ This document provides a high-level overview of the architecture of the `ctfbrid
   <!-- prettier-ignore -->
     - `Challenge`, `User`, `ScoreboardEntry`, `Submission`
 
-### `ctfbridge.factory`
+### `ctfbridge.create_client`
 
 - Provides the main entry point to create the appropriate client based on the target platform.
 - Handles platform detection and instantiation logic.
@@ -89,7 +89,7 @@ This document provides a high-level overview of the architecture of the `ctfbrid
 
 ## 🎯 Flow Summary
 
-1.  **User initializes** a client via `ctfbridge.factory()`.
+1.  **User initializes** a client via `ctfbridge.create_client()`.
 2.  **Platform detection** selects the appropriate subclass.
 3.  The selected **platform client** uses:
 

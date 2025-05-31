@@ -58,7 +58,7 @@ PLATFORM_REGISTRY = {
 }
 ```
 
-This lets `factory()` automatically instantiate the right implementation.
+This lets `create_client()` automatically instantiate the right implementation.
 
 ---
 
