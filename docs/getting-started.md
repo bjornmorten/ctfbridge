@@ -39,8 +39,6 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-You can now begin interacting with challenges, scoreboards, and flags.
-
 ## Requirements
 
 Python 3.8+
