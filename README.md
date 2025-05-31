@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="#-overview">Overview</a> •
+  <a href="#-features">Features</a> •
   <a href="#-installation">Install</a> •
   <a href="#-quickstart">Quickstart</a> •
   <a href="#-documentation">Docs</a> •
@@ -21,17 +21,6 @@
 </p>
 
 ---
-
-## 🧠 Overview
-
-CTFBridge is a Python library that provides a consistent API for interacting with CTF platforms like CTFd, rCTF, and HTB — no more platform-specific code.
-
-Use a single API to:
-
-- 🧩 Fetch challenges and metadata
-- 🚩 Submit flags
-- 🏆 Access scoreboards
-- 🔐 Manage sessions and authentication
 
 ## ✨ Features
 
