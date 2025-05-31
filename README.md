@@ -28,7 +28,8 @@
   <a href="#license">License</a>
 </p>
 
-> [!WARNING] > **Under active development** – expect breaking changes.
+> [!WARNING]
+> **Under active development** – expect breaking changes.
 
 ---
 
