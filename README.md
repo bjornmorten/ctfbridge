@@ -78,7 +78,7 @@ CTFBridge works out of the box with:
 | **EPT**   |                    ❌                    |                 ✅                 |                     ❌                     |                 ❌                 |
 | _More..._ |                    🚧                    |                 🚧                 |                     🚧                     |                 🚧                 |
 
-📖 See [docs.ctfbridge.io/platforms](https://ctfbridge.readthedocs.io/en/latest/platforms/) for details.
+📖 See [docs.ctfbridge.io/platforms](https://ctfbridge.readthedocs.io/latest/platforms/) for details.
 
 ## 📚 Documentation
 

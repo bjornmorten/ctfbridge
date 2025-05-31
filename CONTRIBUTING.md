@@ -2,7 +2,7 @@
 
 First off, thank you for considering contributing to CTFBridge! We welcome any contributions, from bug reports and feature requests to code enhancements and documentation improvements.
 
-This document provides a quick guide to get you started. For more detailed information on the project's architecture, how to add new platforms, and other development aspects, please refer to our full [Developer Guide](https://ctfbridge.readthedocs.io/en/latest/developer/).
+This document provides a quick guide to get you started. For more detailed information on the project's architecture, how to add new platforms, and other development aspects, please refer to our full [Developer Guide](https://ctfbridge.readthedocs.io/latest/developer/).
 
 ## How Can I Contribute?
 
