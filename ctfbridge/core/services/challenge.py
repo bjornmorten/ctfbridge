@@ -1,12 +1,44 @@
 import asyncio
+from typing import List, AsyncGenerator, Sequence
 from abc import abstractmethod
-from typing import List
 
 from ctfbridge.base.services.challenge import ChallengeService
 from ctfbridge.exceptions import ChallengeFetchError
 from ctfbridge.models.challenge import Challenge
 from ctfbridge.models.filter import FilterOptions
 from ctfbridge.processors.enrich import enrich_challenge
+
+
+def _match_value(actual, expected, *, strict: bool) -> bool:
+    if expected is None:
+        return True
+    if actual is None:
+        return not strict
+    return actual == expected
+
+
+def _match_min(actual, minimum, *, strict: bool) -> bool:
+    if minimum is None:
+        return True
+    if actual is None:
+        return not strict
+    return actual >= minimum
+
+
+def _match_max(actual, maximum, *, strict: bool) -> bool:
+    if maximum is None:
+        return True
+    if actual is None:
+        return not strict
+    return actual <= maximum
+
+
+def _match_subset(actual_set, expected_list, *, strict: bool) -> bool:
+    if not expected_list:
+        return True
+    if not actual_set:
+        return not strict
+    return set(expected_list).issubset(actual_set)
 
 
 class CoreChallengeService(ChallengeService):
@@ -28,6 +60,7 @@ class CoreChallengeService(ChallengeService):
         *,
         detailed: bool = True,
         enrich: bool = True,
+        concurrency: int = -1,
         solved: bool | None = None,
         min_points: int | None = None,
         max_points: int | None = None,
@@ -38,6 +71,40 @@ class CoreChallengeService(ChallengeService):
         has_services: bool | None = None,
         name_contains: str | None = None,
     ) -> List[Challenge]:
+        return [
+            c
+            async for c in self.iter_all(
+                detailed=detailed,
+                enrich=enrich,
+                concurrency=concurrency,
+                solved=solved,
+                min_points=min_points,
+                max_points=max_points,
+                category=category,
+                categories=categories,
+                tags=tags,
+                has_attachments=has_attachments,
+                has_services=has_services,
+                name_contains=name_contains,
+            )
+        ]
+
+    async def iter_all(
+        self,
+        *,
+        detailed: bool = True,
+        enrich: bool = True,
+        concurrency: int = -1,
+        solved: bool | None = None,
+        min_points: int | None = None,
+        max_points: int | None = None,
+        category: str | None = None,
+        categories: list[str] | None = None,
+        tags: list[str] | None = None,
+        has_attachments: bool | None = None,
+        has_services: bool | None = None,
+        name_contains: str | None = None,
+    ) -> AsyncGenerator[Challenge, None]:
         filters = FilterOptions(
             solved=solved,
             min_points=min_points,
@@ -49,26 +116,58 @@ class CoreChallengeService(ChallengeService):
             has_services=has_services,
             name_contains=name_contains,
         )
-
         base = await self._fetch_challenges()
 
+        # -------------------------------------------------------------
+        # Case 1 – Details already present
+        # -------------------------------------------------------------
         if self.base_has_details:
+            for chal in base:
+                if enrich:
+                    chal = enrich_challenge(chal)
+                if self._passes_filters(chal, filters, strict=True):
+                    yield chal
+            return
+
+        # -------------------------------------------------------------
+        # Case 2 – Details required → choose concurrency strategy
+        # -------------------------------------------------------------
+
+        async def fetch_detail(stub: Challenge) -> Challenge | None:
+            detail = await self.get_by_id(stub.id, enrich=False)
             if enrich:
-                base = self._enrich(base)
-            base = self._filter_challenges(base, filters)
-            return base
+                detail = enrich_challenge(detail)
+            return detail if self._passes_filters(detail, filters, strict=True) else None
 
-        # Only works for some of the filters if the data is present in base
-        # base = self._filter_challenges(base, filters)
+        stubs: Sequence[Challenge] = [
+            s for s in base if self._passes_filters(s, filters, strict=False)
+        ]
+        if not stubs:
+            return
 
-        detailed_challenges = await self._fetch_details(base)
+        # ------------------------ strategy ---------------------------
+        if concurrency == 0:
+            for stub in stubs:
+                res = await fetch_detail(stub)
+                if res:
+                    yield res
+            return
 
-        if enrich:
-            detailed_challenges = self._enrich(detailed_challenges)
+        async def run_tasks(max_workers: int | None):
+            sem = asyncio.Semaphore(max_workers) if max_workers is not None else None
 
-        detailed_challenges = self._filter_challenges(detailed_challenges, filters)
+            async def limited(stub: Challenge):
+                if sem:
+                    async with sem:
+                        return await fetch_detail(stub)
+                return await fetch_detail(stub)
 
-        return detailed_challenges
+            tasks = [asyncio.create_task(limited(s)) for s in stubs]
+            for coro in asyncio.as_completed(tasks):
+                yield await coro
+
+        async for item in run_tasks(None if concurrency < 0 else concurrency):
+            yield item
 
     async def get_by_id(self, challenge_id: str, enrich: bool = True) -> Challenge:
         if self.base_has_details:
@@ -80,6 +179,7 @@ class CoreChallengeService(ChallengeService):
         else:
             return await self._fetch_challenge_by_id(challenge_id)
 
+    @abstractmethod
     async def _fetch_challenges(self) -> List[Challenge]:
         """
         Fetch the base list of challenges from the platform.
@@ -124,51 +224,55 @@ class CoreChallengeService(ChallengeService):
         detailed_challenges = await asyncio.gather(*tasks)
         return [chal for chal in detailed_challenges if chal is not None]
 
-    def _enrich(self, challenges: List[Challenge]) -> List[Challenge]:
+    def _passes_filters(self, chal: Challenge, filters: FilterOptions, *, strict: bool) -> bool:
         """
-        Enrich challenges with additional metadata.
+        Check whether a challenge satisfies every filter.
 
         Args:
-            challenges: List of challenges to enrich
+            chal: The :class:`~ctfbridge.models.challenge.Challenge` under evaluation.
+            filters: Filter criteria supplied by the caller.
+            strict: ``False`` during the stub stage - missing fields count as
+                match; ``True`` during the detail stage - missing values count
+                as failures.
 
         Returns:
-            List of enriched challenges
+            bool: ``True`` if the challenge passes all filters under the
+            given strictness level.
         """
-        return [enrich_challenge(c) for c in challenges]
+        if not _match_value(chal.solved, filters.solved, strict=strict):
+            return False
+        if not _match_min(chal.value, filters.min_points, strict=strict):
+            return False
+        if not _match_max(chal.value, filters.max_points, strict=strict):
+            return False
+        if not _match_value(chal.category, filters.category, strict=strict):
+            return False
+        if filters.categories and (
+            chal.category not in filters.categories if chal.category else strict
+        ):
+            return False
+        if not _match_subset(set(chal.tags or []), filters.tags or [], strict=strict):
+            return False
 
-    def _filter_challenges(
-        self, challenges: List[Challenge], filters: FilterOptions
-    ) -> List[Challenge]:
-        """
-        Filter challenges based on the provided filter options.
+        # --- attachment / service flags ---------------------------------
+        if filters.has_attachments is not None:
+            if chal.has_attachments is None:
+                if strict:
+                    return False
+            elif chal.has_attachments is not filters.has_attachments:
+                return False
+        if filters.has_services is not None:
+            if chal.has_services is None:
+                if strict:
+                    return False
+            elif chal.has_services is not filters.has_services:
+                return False
 
-        Args:
-            challenges: List of challenges to filter
-            filters: Filter criteria to apply
-
-        Returns:
-            List of challenges matching all filter criteria
-        """
-        result = challenges
-        if filters.solved is not None:
-            result = [c for c in result if c.solved == filters.solved]
-        if filters.min_points is not None:
-            result = [c for c in result if c.value and c.value >= filters.min_points]
-        if filters.max_points is not None:
-            result = [c for c in result if c.value and c.value <= filters.max_points]
-        if filters.category:
-            result = [c for c in result if c.category == filters.category]
-        if filters.categories:
-            result = [c for c in result if c.category in filters.categories]
-        if filters.tags:
-            result = [
-                c for c in result if all(t in [tag.value for tag in c.tags] for t in filters.tags)
-            ]
-        if filters.has_attachments:
-            result = [c for c in result if c.has_attachments]
-        if filters.has_services:
-            result = [c for c in result if c.has_services]
+        # --- name substring ---------------------------------------------
         if filters.name_contains:
-            lc = filters.name_contains.lower()
-            result = [c for c in result if lc in c.name.lower()]
-        return result
+            if chal.name is None:
+                if strict:
+                    return False
+            elif filters.name_contains.lower() not in chal.name.lower():
+                return False
+        return True
