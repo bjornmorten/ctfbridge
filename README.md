@@ -1,19 +1,43 @@
-# CTFBridge
+<h1 align="center">
+  CTFBridge
+</h1>
 
-[![PyPI](https://img.shields.io/pypi/v/ctfbridge)](https://pypi.org/project/ctfbridge/)
-[![Python Versions](https://img.shields.io/pypi/pyversions/ctfbridge)](https://pypi.org/project/ctfbridge/)
-[![Docs](https://img.shields.io/badge/docs-readthedocs-blue.svg)](https://ctfbridge.readthedocs.io)
-[![CI](https://github.com/bjornmorten/ctfbridge/actions/workflows/test.yml/badge.svg)](https://github.com/bjornmorten/ctfbridge/actions/workflows/test.yml)
-![License](https://img.shields.io/github/license/bjornmorten/ctfbridge)
+<h4 align="center">A unified Python interface for all major CTF platforms </h4>
 
-> [!WARNING]
-> **Under active development** – expect breaking changes.
+<p align="center">
+  <a href="https://pypi.org/project/ctfbridge/">
+    <img src="https://img.shields.io/pypi/v/ctfbridge" alt="PyPI">
+  </a>
+  <a href="https://pypi.org/project/ctfbridge/">
+    <img src="https://img.shields.io/pypi/pyversions/ctfbridge" alt="Python Versions">
+  </a>
+  <a href="https://ctfbridge.readthedocs.io">
+    <img src="https://img.shields.io/badge/docs-readthedocs-blue.svg" alt="Docs">
+  </a>
+  <a href="https://github.com/bjornmorten/ctfbridge/actions/workflows/test.yml">
+    <img src="https://github.com/bjornmorten/ctfbridge/actions/workflows/test.yml/badge.svg" alt="CI">
+  </a>
+  <img src="https://img.shields.io/github/license/bjornmorten/ctfbridge" alt="License">
+</p>
+
+<p align="center">
+  <a href="#overview">Overview</a> •
+  <a href="#installation">Install</a> •
+  <a href="#quickstart">Quickstart</a> •
+  <a href="#documentation">Docs</a> •
+  <a href="#license">License</a>
+</p>
+
+> [!WARNING] > **Under active development** – expect breaking changes.
+
+---
 
 ## 🧠 Overview
 
-CTFBridge is a Python library that standardizes interaction with Capture The Flag (CTF) platforms like CTFd, rCTF, and HTB — so you can focus on solving challenges, not reverse-engineering APIs.
+CTFBridge is a Python library that provides a consistent API for interacting with CTF platforms like CTFd, rCTF, and HTB — no more platform-specific code.
 
 Use a single API to:
+
 - 🧩 Fetch challenges and metadata
 - 🚩 Submit flags
 - 🏆 Access scoreboards
@@ -66,14 +90,14 @@ if __name__ == "__main__":
 
 CTFBridge works out of the box with:
 
-| Platform             | Status            |
-| -------------------- | ----------------- |
-| CTFd                 | ✅ Supported      |
-| rCTF                 | ✅ Supported      |
-| Berg                 | ✅ Supported      |
-| EPT                  | ✅ Supported      |
-| HTB                  | ✅ Supported      |
-| _More coming soon_   | 🚧 Planned        |
+| Platform  | &nbsp;&nbsp;&nbsp;Auth&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;Challenges&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;Scoreboard&nbsp;&nbsp; |
+| --------- | :--------------------------------------: | :--------------------------------: | :----------------------------------------: | :--------------------------------: |
+| **CTFd**  |                    ✅                    |                 ✅                 |                     ✅                     |                 ✅                 |
+| **rCTF**  |                    ✅                    |                 ✅                 |                     ✅                     |                 ✅                 |
+| **HTB**   |                    ✅                    |                 ✅                 |                     ✅                     |                 ✅                 |
+| **Berg**  |                    ❌                    |                 ✅                 |                     ❌                     |                 ❌                 |
+| **EPT**   |                    ❌                    |                 ✅                 |                     ❌                     |                 ❌                 |
+| _More..._ |                    🚧                    |                 🚧                 |                     🚧                     |                 🚧                 |
 
 📖 See [docs.ctfbridge.io/platforms](https://ctfbridge.readthedocs.io/en/latest/platforms/) for details.
 
