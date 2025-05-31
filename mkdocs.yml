@@ -14,6 +14,7 @@ theme:
     - navigation.top
     - navigation.footer
     - content.code.copy
+    - navigation.tabs
   icon:
     logo: material/flag
   favicon: assets/flag.svg
@@ -32,12 +33,24 @@ extra:
 
 nav:
   - 🏠 Home: index.md
-  - 🚀 Getting Started: getting-started.md
-  - 📘 Usage Guide: usage.md
-  - 💻 Supported Platforms: platforms.md
-  - API Reference:
+  - 🚀 Getting Started:
+      - 🗺️ Overview: getting-started/index.md
+      - 📘 Usage Guide: getting-started/usage.md
+      - 💻 Supported Platforms: getting-started/platforms.md
+      - ❓ FAQ: getting-started/faq.md
+  - 📚 API Reference:
+      - 🗺️ Overview: api/index.md
       - ⚙️ Client: api/client.md
       - 🧱 Models: api/models.md
+  - 🛠️ Developer Guide:
+      - 🗺️ Overview: dev/index.md
+      - 🧩 Architecture: dev/architecture.md
+      - 💻 Platform: dev/platforms.md
+      - 🧵 Services: dev/services.md
+      - 🧪 Testing: dev/testing.md
+      - 📐 Style Guide: dev/style.md
+      - 🧬 Models: dev/models.md
+      - 🧯 Error Handling: dev/errors.md
 
 plugins:
   - search
