@@ -18,7 +18,7 @@ pip install ctfbridge
 Here's a basic example demonstrating how to authenticate, interact with challenges, submit a flag, and view the scoreboard:
 
 ```python
---8<-- "examples/quickstart.py"
+--8<-- "examples/00_quickstart.py"
 ```
 
 ## Requirements
