@@ -16,8 +16,8 @@ class TokenAuthError(CTFBridgeError):
 
 
 class MissingAuthMethodError(CTFBridgeError):
-    def __init__(self):
-        super().__init__("No authentication method provided (username/password or API token)")
+    def __init__(self, msg="No authentication method provided (username/password or API token)"):
+        super().__init__(msg)
 
 
 class InvalidAuthMethodError(CTFBridgeError):

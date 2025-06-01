@@ -1,15 +1,28 @@
-from typing import List, Dict, Any
+from typing import Optional, List
 from pydantic import BaseModel
 
 
 class RCTFSolve(BaseModel):
-    id: str  # Challenge ID
-    # other solve details if needed
+    id: str
+    name: str
+    category: str
+    points: int
+    solves: int
+    createdAt: Optional[int] = None
 
 
 class RCTFUserProfileData(BaseModel):
     id: str
     name: str
-    # teamToken: Optional[str] = None # if present
-    solves: List[RCTFSolve] = []
-    # Add other user/team fields from /api/v1/users/me
+    email: str
+    division: str
+    ctftimeId: Optional[int]
+    score: int
+    globalPlace: Optional[int]
+    divisionPlace: Optional[int]
+    solves: List[RCTFSolve]
+    teamToken: str
+    allowedDivisions: List[str]
+
+    def has_solved(self, challenge_id: str) -> bool:
+        return any(s.id == challenge_id for s in self.solves)

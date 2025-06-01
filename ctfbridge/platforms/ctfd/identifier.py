@@ -50,7 +50,6 @@ class CTFdIdentifier(PlatformIdentifier):
             url = f"{base_url.rstrip('/')}{Endpoints.Misc.SWAGGER}"
             resp = await self.http.get(url, timeout=5)
 
-            # Check both content and structure (optional improvement)
             if resp.status_code == 200 and "disband your current team" in resp.text:
                 return True
         except (httpx.HTTPError, ValueError):

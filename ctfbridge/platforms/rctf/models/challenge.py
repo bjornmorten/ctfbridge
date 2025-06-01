@@ -1,49 +1,31 @@
-from typing import List, Optional
-from pydantic import BaseModel, Field
-from ctfbridge.models import Challenge as CoreChallenge, Attachment as CoreAttachment
-from ctfbridge.models.submission import SubmissionResult as CoreSubmissionResult
+from typing import Optional, List
+from pydantic import BaseModel
+from ctfbridge.models.challenge import Challenge, Attachment
 
 
-class RCTFFile(BaseModel):
-    name: str
+class RCTFChallengeFile(BaseModel):
     url: str
-
-    def to_core_model(self) -> CoreAttachment:
-        return CoreAttachment(name=self.name, url=self.url)
+    name: str
 
 
 class RCTFChallengeData(BaseModel):
     id: str
     name: str
+    description: Optional[str]
     category: str
-    description: str
+    author: str
     points: int
-    author: Optional[str] = None
-    files: List[RCTFFile] = Field(default_factory=list)
-    # Add any other fields rCTF provides for a challenge
-    # e.g., tags, hints, etc.
+    solves: int
+    files: List[RCTFChallengeFile] = []
 
-    def to_core_model(self, solved: bool) -> CoreChallenge:
-        return CoreChallenge.model_construct(
+    def to_core_model(self, solved: bool = False) -> Challenge:
+        return Challenge.model_construct(
             id=self.id,
             name=self.name,
-            categories=[self.category] if self.category else [],
             value=self.points,
+            categories=[self.category],
             description=self.description,
-            attachments=[file.to_core_model() for file in self.files],
-            authors=[self.author] if self.author else [],
+            attachments=[Attachment(name=f.name, url=f.url) for f in self.files],
             solved=solved,
-            # Map other fields if available
+            tags=[],
         )
-
-
-class RCTFSubmissionResponse(BaseModel):
-    kind: str  # e.g., "goodFlag", "badFlag", "alreadySolvedChallenge"
-    message: str
-    # data: Optional[Any] = None # If rCTF includes additional data
-
-    def to_core_model(self) -> CoreSubmissionResult:
-        is_correct = self.kind == "goodFlag" or self.message.lower().startswith(
-            "correct"
-        )  # Adjust based on rCTF's actual responses
-        return CoreSubmissionResult(correct=is_correct, message=self.message)

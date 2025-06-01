@@ -1,12 +1,12 @@
+from typing import List
 from pydantic import BaseModel
 from ctfbridge.models.scoreboard import ScoreboardEntry
 
 
 class RCTFScoreboardEntryData(BaseModel):
+    id: str
     name: str
     score: int
-    # Add other fields rCTF provides, e.g., user_id, last_solve_time
-    # You will also need the rank from the iteration, not from the object itself usually
 
     def to_core_model(self, rank: int) -> ScoreboardEntry:
         return ScoreboardEntry.model_construct(
@@ -14,3 +14,14 @@ class RCTFScoreboardEntryData(BaseModel):
             score=self.score,
             rank=rank,
         )
+
+
+class RCTFScoreboardData(BaseModel):
+    total: int
+    leaderboard: List[RCTFScoreboardEntryData]
+
+
+class RCTFScoreboardResponse(BaseModel):
+    kind: str
+    message: str
+    data: RCTFScoreboardData

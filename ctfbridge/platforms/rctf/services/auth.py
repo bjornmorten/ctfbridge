@@ -2,11 +2,11 @@ import logging
 from typing import List
 from urllib.parse import parse_qs, unquote, urlparse
 
-from bs4 import BeautifulSoup, Tag
-
+import httpx
 from ctfbridge.core.services.auth import CoreAuthService
-from ctfbridge.exceptions import LoginError, MissingAuthMethodError, TokenAuthError
+from ctfbridge.exceptions import MissingAuthMethodError, TokenAuthError
 from ctfbridge.models.auth import AuthMethod
+from ctfbridge.platforms.rctf.http.endpoints import Endpoints
 
 logger = logging.getLogger(__name__)
 
@@ -16,47 +16,58 @@ class RCTFAuthService(CoreAuthService):
         self._client = client
 
     async def login(self, *, username: str = "", password: str = "", token: str = "") -> None:
-        base_url = self._client._platform_url
-        http = self._client._http
+        """
+        Login using a team token (rCTF doesn't use username/password auth).
+        """
+        if not token:
+            raise MissingAuthMethodError("rCTF only supports token-based login.")
 
-        if token:
-            try:
-                # Normalise the incoming token: allow full invite URLs and
-                # percent‑encoded strings.
-                if token.startswith("http"):
-                    token = self._extract_token_from_url(token)
-                else:
-                    token = unquote(token)
+        token = self._normalize_token(token)
+        logger.debug("Attempting rCTF token login with token: [REDACTED]")
 
-                logger.debug("Attempting rCTF team-token login.")
-                resp = await http.post(f"{base_url}/api/v1/auth/login", json={"teamToken": token})
+        try:
+            response = await self._client.post(
+                Endpoints.Auth.LOGIN,
+                json={"teamToken": token},
+            )
 
-                if resp.status_code != 200:
-                    logger.debug("Team token login failed with status %s", resp.status_code)
-                    raise TokenAuthError("Unauthorized token")
+            if response.status_code != 200:
+                logger.debug(f"Token login failed with HTTP {response.status_code}")
+                raise TokenAuthError("Invalid token or login failed.")
 
-                result = resp.json()
-                if result.get("kind") != "goodLogin":
-                    logger.error("Unexpected login response: %s", result)
-                    raise TokenAuthError("Login failed: Unexpected server response.")
+            result = response.json()
+            if result.get("kind") != "goodLogin":
+                logger.error(f"Unexpected login response: {result}")
+                raise TokenAuthError("Unexpected server response during login.")
 
-                auth_token = result["data"]["authToken"]
-                await self._client.session.set_token(auth_token)
-                logger.info("Team-token authentication successful.")
-                return
-            except Exception as e:
-                raise TokenAuthError(str(e)) from e
+            auth_token = result["data"].get("authToken")
+            if not auth_token:
+                raise TokenAuthError("No auth token returned by server.")
+
+            await self._client.session.set_token(auth_token)
+            logger.info("rCTF token login successful.")
+        except TokenAuthError:
+            raise
+        except (httpx.HTTPError, ValueError) as e:
+            logger.exception("Token login failed due to HTTP or parsing error.")
+            raise TokenAuthError(f"Login failed: {str(e)}") from e
+        except Exception as e:
+            logger.exception("Unexpected error during token login.")
+            raise TokenAuthError(f"Unexpected login error: {str(e)}") from e
 
     @staticmethod
-    def _extract_token_from_url(url: str) -> str:
-        """Extract team token from team invite URL."""
-        parsed = urlparse(url)
-        query_params = parse_qs(parsed.query)
-        extracted_token_list = query_params.get("token")
-        if not extracted_token_list:
-            raise ValueError("Invalid token URL: no token parameter found.")
-        token = extracted_token_list[0]
-        return token
+    def _normalize_token(token: str) -> str:
+        """
+        Normalize a token input, extracting it if it's an invite URL.
+        """
+        if token.startswith("http"):
+            parsed = urlparse(token)
+            query_params = parse_qs(parsed.query)
+            token_list = query_params.get("token")
+            if not token_list:
+                raise ValueError("Token URL does not contain a 'token' parameter.")
+            return token_list[0]
+        return unquote(token)
 
     async def get_supported_auth_methods(self) -> List[AuthMethod]:
         return [AuthMethod.TOKEN]
