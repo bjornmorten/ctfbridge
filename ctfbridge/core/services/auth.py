@@ -23,7 +23,7 @@ class CoreAuthService(AuthService):
             client: The CTF client instance
         """
         self._client = client
-        self.active_auth_method: str | AuthMethod = None
+        self.active_auth_method: AuthMethod | None = None
 
     async def login(self, *, username: str = "", password: str = "", token: str = "") -> None:
         supported_methods = await self.get_supported_auth_methods()
