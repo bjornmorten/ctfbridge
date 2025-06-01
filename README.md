@@ -31,6 +31,12 @@
 - 🔄 **Persistent sessions** — save/load session state with ease
 - 🤖 **Async-first design** — perfect for scripts, tools, and automation
 
+## 📦 Installation
+
+```bash
+pip install ctfbridge
+```
+
 ## 🚀 Quickstart
 
 ```python
@@ -73,12 +79,6 @@ CTFBridge works out of the box with:
 | _More..._ |                    🚧                    |                 🚧                 |                     🚧                     |                 🚧                 |
 
 📖 See [docs](https://ctfbridge.readthedocs.io/latest/getting-started/platforms/) for details.
-
-## 📦 Installation
-
-```bash
-pip install ctfbridge
-```
 
 ## 📚 Documentation
 
