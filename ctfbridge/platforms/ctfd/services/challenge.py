@@ -15,7 +15,8 @@ from ctfbridge.models.challenge import Challenge
 from ctfbridge.models.submission import SubmissionResult
 from ctfbridge.platforms.ctfd.http.endpoints import Endpoints
 from ctfbridge.platforms.ctfd.models.challenge import CTFdChallenge, CTFdSubmission
-from ctfbridge.platforms.ctfd.utils.csrf import extract_csrf_nonce
+from ctfbridge.platforms.ctfd.utils.csrf import get_csrf_nonce
+from ctfbridge.models.auth import AuthMethod
 
 logger = logging.getLogger(__name__)
 
@@ -29,18 +30,6 @@ class CTFdChallengeService(CoreChallengeService):
     @property
     def base_has_details(self) -> bool:
         return False
-
-    async def _get_csrf_token(self) -> str:
-        """Get CSRF token for session authentication."""
-        try:
-            response = await self._client.get(Endpoints.Misc.BASE_PAGE)
-            csrf_token = extract_csrf_nonce(response.text)
-            if not csrf_token:
-                raise ValueError("Missing CSRF token")
-            return csrf_token
-        except Exception as e:
-            logger.debug("CSRF token retrieval failed", exc_info=e)
-            raise
 
     def _handle_common_errors(self, response, challenge_id: str | None = None):
         """Handle common CTFd error responses."""
@@ -100,18 +89,12 @@ class CTFdChallengeService(CoreChallengeService):
 
     async def submit(self, challenge_id: str, flag: str) -> SubmissionResult:
         """Submit a flag for a challenge."""
-        headers = {}
-
-        # Add CSRF token if using session auth
-        if "authorization" not in self._client._http.headers:
-            try:
-                headers["CSRF-Token"] = await self._get_csrf_token()
-            except Exception:
-                raise SubmissionError(
-                    challenge_id=challenge_id, flag=flag, reason="Failed to fetch CSRF token"
-                )
-
         try:
+            headers = {}
+
+            if self._client.auth.active_auth_method in [AuthMethod.CREDENTIALS, AuthMethod.COOKIES]:
+                headers["CSRF-Token"] = await get_csrf_nonce(self._client)
+
             response = await self._client.post(
                 Endpoints.Challenges.SUBMIT,
                 json={"challenge_id": challenge_id, "submission": flag},

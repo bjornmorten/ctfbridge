@@ -7,7 +7,7 @@ from ctfbridge.core.services.auth import CoreAuthService
 from ctfbridge.exceptions import LoginError
 from ctfbridge.models.auth import AuthMethod
 from ctfbridge.platforms.ctfd.http.endpoints import Endpoints
-from ctfbridge.platforms.ctfd.utils.csrf import extract_csrf_nonce
+from ctfbridge.platforms.ctfd.utils.csrf import get_csrf_nonce
 
 logger = logging.getLogger(__name__)
 
@@ -29,13 +29,7 @@ class CTFdAuthService(CoreAuthService):
         try:
             login_url = Endpoints.Auth.LOGIN
 
-            logger.debug("Fetching login page for CSRF nonce.")
-            resp = await self._client.get(login_url)
-            nonce = extract_csrf_nonce(resp.text)
-
-            if not nonce:
-                logger.debug("Login nonce not found in login page.")
-                raise LoginError(username)
+            nonce = await get_csrf_nonce(self._client)
 
             logger.debug("Posting credentials for user %s", username)
             resp = await self._client.post(
