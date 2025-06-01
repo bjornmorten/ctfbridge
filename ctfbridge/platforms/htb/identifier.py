@@ -1,5 +1,7 @@
 from typing import Optional
 import re
+from urllib.parse import ParseResult
+
 
 import httpx
 
@@ -21,11 +23,11 @@ class HTBIdentifier(PlatformIdentifier):
         """
         return "HTB"
 
-    def match_url_pattern(self, url: str) -> bool:
+    def match_url_pattern(self, url: ParseResult) -> bool:
         """
         Quick check for common HTB URLs.
         """
-        return "hackthebox" in url.lower()
+        return url.netloc.lower() == "ctf.hackthebox.com"
 
     async def static_detect(self, response: httpx.Response) -> Optional[bool]:
         """

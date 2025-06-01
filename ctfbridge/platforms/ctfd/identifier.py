@@ -1,6 +1,7 @@
 from typing import Optional
 
 import httpx
+from urllib.parse import ParseResult
 
 from ctfbridge.base.identifier import PlatformIdentifier
 from ctfbridge.platforms.ctfd.http.endpoints import Endpoints
@@ -18,8 +19,8 @@ class CTFdIdentifier(PlatformIdentifier):
     def platform_name(self):
         return "CTFd"
 
-    def match_url_pattern(self, url: str) -> bool:
-        return "ctfd.io" in url.lower()
+    def match_url_pattern(self, url: ParseResult) -> bool:
+        return url.netloc.lower().endswith(".ctfd.io")
 
     async def static_detect(self, response: httpx.Response) -> Optional[bool]:
         """

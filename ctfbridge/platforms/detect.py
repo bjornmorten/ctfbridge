@@ -39,8 +39,18 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
         UnknownPlatformError: If no known platform is matched.
         UnknownBaseURL: If the platform is matched but no working base URL is found.
     """
-    candidates = generate_candidate_base_urls(input_url)
     identifiers = get_identifier_classes()
+    candidates = generate_candidate_base_urls(input_url)
+
+    # Step 0: Try static detection for each candidate
+    parsed_url = urlparse(input_url)
+    for name, IdentifierClass in identifiers:
+        identifier = IdentifierClass(http)
+        if identifier.match_url_pattern(parsed_url):
+            for base_candidate in candidates:
+                if await identifier.is_base_url(base_candidate):
+                    return name, base_candidate
+            raise UnknownBaseURLError(input_url)
 
     # Step 1: Try static detection for each candidate
     for candidate in candidates:

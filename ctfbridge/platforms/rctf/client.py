@@ -22,5 +22,9 @@ class RCTFClient(CoreCTFClient):
         )
 
     @property
+    def platform_name(self) -> str:
+        return "rCTF"
+
+    @property
     def platform_url(self) -> str:
         return self._platform_url

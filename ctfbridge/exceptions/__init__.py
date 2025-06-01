@@ -8,7 +8,12 @@ from .auth import (
     NotAuthenticatedError,
 )
 from .base import CTFBridgeError
-from .challenge import ChallengeFetchError, CTFInactiveError, SubmissionError
+from .challenge import (
+    ChallengeFetchError,
+    CTFInactiveError,
+    SubmissionError,
+    ChallengesUnavailableError,
+)
 from .http import (
     APIError,
     BadRequestError,
@@ -49,6 +54,7 @@ __all__ = [
     "ChallengeFetchError",
     "SubmissionError",
     "CTFInactiveError",
+    "ChallengesUnavailableError",
     # Scoreboard
     "ScoreboardFetchError",
     # Session

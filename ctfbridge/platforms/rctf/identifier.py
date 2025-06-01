@@ -1,5 +1,6 @@
 from typing import Optional
 
+from urllib.parse import ParseResult
 import httpx
 
 from ctfbridge.base.identifier import PlatformIdentifier
@@ -21,11 +22,8 @@ class RCTFIdentifier(PlatformIdentifier):
         """
         return "rCTF"
 
-    def match_url_pattern(self, url: str) -> bool:
-        """
-        Quick check for common rCTF URLs.
-        """
-        return "rctf" in url.lower()
+    def match_url_pattern(self, url: ParseResult) -> bool:
+        return False
 
     async def static_detect(self, response: httpx.Response) -> Optional[bool]:
         """
@@ -41,10 +39,8 @@ class RCTFIdentifier(PlatformIdentifier):
         unauthorized error message.
         """
         try:
-            await self.http.get(f"{candidate}/api/v1/users/me")
-        except UnauthorizedError as e:
-            # rCTF has a specific error message for invalid tokens
-            return str(e) == "The token provided is invalid."
+            res = await self.http.get(f"{candidate}/api/v1/users/me")
+            return "badToken" in res.text
         except (httpx.HTTPError, ValueError):
             return False
         return False

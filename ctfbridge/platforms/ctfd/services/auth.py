@@ -7,7 +7,7 @@ from ctfbridge.core.services.auth import CoreAuthService
 from ctfbridge.exceptions import LoginError
 from ctfbridge.models.auth import AuthMethod
 from ctfbridge.platforms.ctfd.http.endpoints import Endpoints
-from ctfbridge.platforms.ctfd.utils.csrf import get_csrf_nonce
+from ctfbridge.platforms.ctfd.utils.csrf import get_csrf_nonce, extract_csrf_nonce
 
 logger = logging.getLogger(__name__)
 
@@ -35,12 +35,14 @@ class CTFdAuthService(CoreAuthService):
             resp = await self._client.post(
                 login_url,
                 data={"name": username, "password": password, "nonce": nonce},
-                follow_redirects=False,
+                follow_redirects=True,
             )
 
             if resp.status_code == 403 or "incorrect" in resp.text.lower():
                 logger.debug("Incorrect credentials or login denied for user %s", username)
                 raise LoginError(username)
+
+            await self._client.session.set_headers({"CSRF-Token": extract_csrf_nonce(resp.text)})
 
             logger.info("Credential-based login successful for user %s", username)
 

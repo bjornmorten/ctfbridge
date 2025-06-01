@@ -40,8 +40,7 @@ class ServiceUnavailableError(APIError):
 
 
 class RateLimitError(APIError):
-    def __init__(self, retry_after: int | None = None):
-        msg = "Rate limit exceeded."
+    def __init__(self, msg: str = "Rate limit exceeded.", retry_after: int | None = None):
         if retry_after:
             msg += f" Retry after {retry_after} seconds."
         super().__init__(msg)

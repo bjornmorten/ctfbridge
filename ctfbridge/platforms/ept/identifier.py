@@ -1,5 +1,7 @@
 from typing import Optional
 
+from urllib.parse import ParseResult
+
 import httpx
 
 from ctfbridge.base.identifier import PlatformIdentifier
@@ -20,11 +22,8 @@ class EPTIdentifier(PlatformIdentifier):
         """
         return "EPT"
 
-    def match_url_pattern(self, url: str) -> bool:
-        """
-        Quick check for common EPT URLs.
-        """
-        return "ept" in url.lower()
+    def match_url_pattern(self, url: ParseResult) -> bool:
+        return False
 
     async def static_detect(self, response: httpx.Response) -> Optional[bool]:
         """
