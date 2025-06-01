@@ -30,6 +30,7 @@ dev = [
   "pytest",
   "pytest-asyncio",
   "pytest-mock",
+  "pytest-httpx",
   "ruff",
   "types-beautifulsoup4",
   "pre-commit",
