@@ -41,12 +41,6 @@ class Service(BaseModel):
     )
 
 
-class Tag(BaseModel):
-    """Represents a tag or keyword associated with a challenge (e.g., 'pwn', 'web', 'crypto')."""
-
-    value: str = Field(..., description="The string value of the tag.")
-
-
 class Challenge(BaseModel):
     """Represents a challenge."""
 
@@ -79,7 +73,7 @@ class Challenge(BaseModel):
         default_factory=list,
         description="A list of network services (e.g., netcat listeners, web servers, databases) associated with the challenge.",
     )
-    tags: List[Tag] = Field(
+    tags: List[str] = Field(
         default_factory=list, description="A list of tags or keywords categorizing the challenge."
     )
     solved: bool | None = Field(

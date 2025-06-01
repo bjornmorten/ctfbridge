@@ -1,5 +1,5 @@
 from .auth import TokenLoginResponse
-from .challenge import Attachment, Challenge, Tag
+from .challenge import Attachment, Challenge
 from .config import CTFConfig
 from .error import ErrorResponse
 from .scoreboard import ScoreboardEntry
@@ -9,7 +9,6 @@ from .user import Team, User
 __all__ = [
     "Challenge",
     "Attachment",
-    "Tag",
     "SubmissionResult",
     "ScoreboardEntry",
     "User",

@@ -5,6 +5,7 @@ from .auth import (
     MissingAuthMethodError,
     SessionExpiredError,
     TokenAuthError,
+    NotAuthenticatedError,
 )
 from .base import CTFBridgeError
 from .challenge import ChallengeFetchError, CTFInactiveError, SubmissionError
@@ -32,6 +33,7 @@ __all__ = [
     "MissingAuthMethodError",
     "InvalidAuthMethodError",
     "SessionExpiredError",
+    "NotAuthenticatedError",
     # HTTP
     "APIError",
     "BadRequestError",

@@ -17,7 +17,7 @@ class ChallengesUnavailableError(CTFBridgeError):
 
     def __init__(
         self,
-        message: str = "Challenges are not currently available. The CTF may not have started or may have ended.",
+        message: str = "Challenges are not available. The CTF may not have started or may have ended.",
     ):
         super().__init__(message)
 
