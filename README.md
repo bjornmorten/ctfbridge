@@ -99,4 +99,4 @@ These open-source projects are already using CTFBridge:
 
 ## 📄 License
 
-MIT License © 2025 bjornmorten
+MIT License © 2025 [bjornmorten](https://github.com/bjornmorten)
