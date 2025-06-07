@@ -5,7 +5,7 @@ from ctfbridge.exceptions import UnknownPlatformError, UnknownBaseURLError
 
 async def main():
     # Explicitly specify the platform and URL
-    # This is useful if to reduce time spent identifying the platfrom.
+    # This is useful if to reduce time spent identifying the platform.
     try:
         client = await create_client("https://demo.ctfd.io", platform="ctfd")
         print(
