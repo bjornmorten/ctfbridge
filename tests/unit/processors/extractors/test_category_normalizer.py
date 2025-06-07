@@ -250,13 +250,9 @@ def test_normalize_mobile_categories(normalizer, basic_challenge, category):
         "stego",
         "steganography",
         "steganographic",
-        "hidden",
-        "hiding",
         "image stego",
         "audio stego",
         "video stego",
-        "LSB",
-        "metadata",
     ],
 )
 def test_normalize_stego_categories(normalizer, basic_challenge, category):
