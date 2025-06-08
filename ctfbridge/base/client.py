@@ -5,6 +5,7 @@ from ctfbridge.base.services.auth import AuthService
 from ctfbridge.base.services.challenge import ChallengeService
 from ctfbridge.base.services.scoreboard import ScoreboardService
 from ctfbridge.base.services.session import SessionHelper
+from ctfbridge.models.capability import Capabilities
 
 
 class CTFClient(ABC):
@@ -49,6 +50,12 @@ class CTFClient(ABC):
     @abstractmethod
     def scoreboard(self) -> ScoreboardService | None:
         """Scoreboard service."""
+        pass
+
+    @property
+    @abstractmethod
+    def capabilities(self) -> Capabilities:
+        """Returns the supported capabilities of the platform client."""
         pass
 
     @property

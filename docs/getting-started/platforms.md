@@ -5,11 +5,13 @@ description: Discover which CTF platforms are supported by CTFBridge. Compare fe
 
 # Supported Platforms
 
+??? info "Check Capabilities Programmatically"
+    This table provides a quick at-a-glance overview. For use in your code, you can check these features programmatically using the `client.capabilities` property after initializing a client. See the [Usage Guide](usage.md#checking-platform-capabilities) for an example.
+
 | Feature                   |    CTFd[^ctfd]     |    rCTF[^rctf]     |    Berg[^berg]     |     EPT[^ept]      |     HTB[^htb]      |
 | ------------------------- | :----------------: | :----------------: | :----------------: | :----------------: | :----------------: |
 | 🔐 Authentication         | :white_check_mark: | :white_check_mark: |        :x:         |        :x:         | :white_check_mark: |
-| 📋 List all challenges    | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| 📄 View challenge details | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| 📋 View challenges        | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | 📎 Download attachments   | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | 🚩 Submit flags           | :white_check_mark: | :white_check_mark: |        :x:         |        :x:         | :white_check_mark: |
 | 🏆 View scoreboard        | :white_check_mark: | :white_check_mark: |        :x:         |        :x:         | :white_check_mark: |

@@ -132,3 +132,11 @@ View top teams or users.
 CTFBridge uses custom exceptions, all inheriting from `CTFBridgeError`. Catching these allows for more specific error management.
 
 Always wrap your `ctfbridge` calls in appropriate `try...except` blocks for robust scripts\!
+
+## Checking Platform Capabilities ✨
+
+Different CTF platforms support different features. You can check what the initialized client supports before calling a function to avoid runtime errors and make your scripts more robust.
+
+```python
+--8<-- "examples/06_capabilities_check.py"
+```

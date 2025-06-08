@@ -44,3 +44,9 @@ All functionality is grouped by feature and accessed through submodules of the c
 ## 🌐 `client.session`
 
 ::: ctfbridge.base.services.session.SessionHelper
+
+## ✨ `client.capabilities`
+
+The `capabilities` property provides a synchronous way to check which features are supported by the current platform client. It returns a `Capabilities` object.
+
+::: ctfbridge.models.capability.Capabilities
