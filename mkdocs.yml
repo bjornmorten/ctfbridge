@@ -32,9 +32,8 @@ extra:
       link: https://pypi.org/project/ctfbridge/
 
 nav:
-  - 🏠 Home: index.md
   - 🚀 Getting Started:
-      - 🗺️ Overview: getting-started/index.md
+      - 🗺️ Overview:  index.md
       - 📘 Usage Guide: getting-started/usage.md
       - 💻 Supported Platforms: getting-started/platforms.md
       - ❓ FAQ: getting-started/faq.md

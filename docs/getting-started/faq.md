@@ -29,8 +29,6 @@ This page provides answers to common questions about CTFBridge. If you don't fin
 pip install ctfbridge
 ```
 
-For more details, check the [Installation Guide](index.md).
-
 ---
 
 ### **Q4: Do I need to know which platform a CTF is running on to use CTFBridge?**
