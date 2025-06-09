@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -117,3 +117,46 @@ class Challenge(BaseModel):
     def author(self) -> str | None:
         """Returns the first author."""
         return self.authors[0] if self.authors else None
+
+
+class FilterOptions(BaseModel):
+    """
+    Filtering parameters used to retrieve specific challenges.
+    """
+
+    solved: Optional[bool] = Field(
+        default=None,
+        description="If True, only solved; if False, only unsolved; if None, no filter.",
+    )
+    min_points: Optional[int] = Field(
+        default=None,
+        description="Minimum point value a challenge must have.",
+    )
+    max_points: Optional[int] = Field(
+        default=None,
+        description="Maximum point value a challenge can have.",
+    )
+    category: Optional[str] = Field(
+        default=None,
+        description="Only include challenges from this specific category.",
+    )
+    categories: Optional[List[str]] = Field(
+        default=None,
+        description="Only include challenges from any of these categories.",
+    )
+    tags: Optional[List[str]] = Field(
+        default=None,
+        description="Only include challenges that have all of these tags.",
+    )
+    has_attachments: Optional[bool] = Field(
+        default=None,
+        description="Filter by whether challenges have attachments.",
+    )
+    has_services: Optional[bool] = Field(
+        default=None,
+        description="Filter by whether challenges have services.",
+    )
+    name_contains: Optional[str] = Field(
+        default=None,
+        description="Filter by whether challenge name contains this substring.",
+    )

@@ -1,11 +1,10 @@
 import asyncio
-from typing import List, AsyncGenerator, Sequence
+from typing import List, AsyncGenerator, Sequence, Any
 from abc import abstractmethod
 
 from ctfbridge.base.services.challenge import ChallengeService
 from ctfbridge.exceptions import ChallengeFetchError
-from ctfbridge.models.challenge import Challenge
-from ctfbridge.models.filter import FilterOptions
+from ctfbridge.models.challenge import Challenge, FilterOptions
 from ctfbridge.processors.enrich import enrich_challenge
 
 
@@ -58,18 +57,11 @@ class CoreChallengeService(ChallengeService):
     async def get_all(
         self,
         *,
+        filters: FilterOptions | None = None,
         detailed: bool = True,
         enrich: bool = True,
         concurrency: int = -1,
-        solved: bool | None = None,
-        min_points: int | None = None,
-        max_points: int | None = None,
-        category: str | None = None,
-        categories: list[str] | None = None,
-        tags: list[str] | None = None,
-        has_attachments: bool | None = None,
-        has_services: bool | None = None,
-        name_contains: str | None = None,
+        **kwargs: Any,
     ) -> List[Challenge]:
         return [
             c
@@ -77,45 +69,23 @@ class CoreChallengeService(ChallengeService):
                 detailed=detailed,
                 enrich=enrich,
                 concurrency=concurrency,
-                solved=solved,
-                min_points=min_points,
-                max_points=max_points,
-                category=category,
-                categories=categories,
-                tags=tags,
-                has_attachments=has_attachments,
-                has_services=has_services,
-                name_contains=name_contains,
+                filters=filters,
+                **kwargs,
             )
         ]
 
     async def iter_all(
         self,
         *,
+        filters: FilterOptions | None = None,
         detailed: bool = True,
         enrich: bool = True,
         concurrency: int = -1,
-        solved: bool | None = None,
-        min_points: int | None = None,
-        max_points: int | None = None,
-        category: str | None = None,
-        categories: list[str] | None = None,
-        tags: list[str] | None = None,
-        has_attachments: bool | None = None,
-        has_services: bool | None = None,
-        name_contains: str | None = None,
+        **kwargs: Any,
     ) -> AsyncGenerator[Challenge, None]:
-        filters = FilterOptions(
-            solved=solved,
-            min_points=min_points,
-            max_points=max_points,
-            category=category,
-            categories=categories,
-            tags=tags,
-            has_attachments=has_attachments,
-            has_services=has_services,
-            name_contains=name_contains,
-        )
+        if filters is None:
+            filters = FilterOptions(**kwargs)
+
         base = await self._fetch_challenges()
 
         # -------------------------------------------------------------
