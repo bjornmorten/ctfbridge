@@ -14,6 +14,7 @@ description: Discover which CTF platforms are supported by CTFBridge. Compare fe
 | 🔑 Login | :white_check_mark: | :white_check_mark: |
 | 🔄 Session Persistence | :white_check_mark: | :white_check_mark: |
 | 🥇 View Scoreboard | :white_check_mark: | :white_check_mark: |
+| 🗺️ List Challenges | :white_check_mark: | :white_check_mark: |
 | 🚩 Submit Flags | :white_check_mark: | :white_check_mark: |
 | 📎 Download Attachments | :white_check_mark: | :white_check_mark: |
 
