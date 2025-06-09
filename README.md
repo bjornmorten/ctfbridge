@@ -44,6 +44,7 @@ pip install ctfbridge
 import asyncio
 from ctfbridge import create_client
 
+
 async def main():
     # Connect and authenticate
     client = await create_client("https://demo.ctfd.io")
