@@ -39,6 +39,7 @@ pip install ctfbridge
 
 ## 🚀 Quickstart
 
+<!-- QUICKSTART_START -->
 ```python
 import asyncio
 from ctfbridge import create_client
@@ -53,7 +54,7 @@ async def main():
     for chal in challenges:
         print(f"[{chal.category}] {chal.name} ({chal.value} points)")
 
-    # Submit flags
+    # Submit a flag
     await client.challenges.submit(challenge_id=1, flag="CTF{flag}")
 
     # View the scoreboard
@@ -61,22 +62,23 @@ async def main():
     for entry in scoreboard:
         print(f"[+] {entry.rank}. {entry.name} - {entry.score} points")
 
+
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+<!-- QUICKSTART_END -->
 
 ## 🧩 Supported Platforms
 
 CTFBridge works out of the box with:
 
-| Platform  | &nbsp;&nbsp;&nbsp;Auth&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;Challenges&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;Flags&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;Scoreboard&nbsp;&nbsp; |
-| --------- | :--------------------------------------: | :--------------------------------: | :----------------------------------------: | :--------------------------------: |
-| **CTFd**  |                    ✅                    |                 ✅                 |                     ✅                     |                 ✅                 |
-| **rCTF**  |                    ✅                    |                 ✅                 |                     ✅                     |                 ✅                 |
-| **HTB**   |                    ✅                    |                 ✅                 |                     ✅                     |                 ✅                 |
-| **Berg**  |                    ❌                    |                 ✅                 |                     ❌                     |                 ❌                 |
-| **EPT**   |                    ❌                    |                 ✅                 |                     ❌                     |                 ❌                 |
-| _More..._ |                    🚧                    |                 🚧                 |                     🚧                     |                 🚧                 |
+<!-- PLATFORMS_TABLE_START -->
+| Platform&nbsp;&nbsp; | &nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp; | Challenges | &nbsp;&nbsp;Flags&nbsp;&nbsp;&nbsp; | Scoreboard |
+| :--- | :---: | :---: | :---: | :---: |
+| **CTFd** | ✅ | ✅ | ✅ | ✅ |
+| **rCTF** | ✅ | ✅ | ✅ | ✅ |
+|_More..._|🚧|🚧|🚧|🚧|
+<!-- PLATFORMS_TABLE_END -->
 
 📖 See [docs](https://ctfbridge.readthedocs.io/latest/getting-started/platforms/) for details.
 

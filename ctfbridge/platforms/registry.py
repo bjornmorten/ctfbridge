@@ -5,9 +5,9 @@ from typing import Any, Type
 PLATFORM_CLIENTS: dict[str, str] = {
     "ctfd": "ctfbridge.platforms.ctfd.client.CTFdClient",
     "rctf": "ctfbridge.platforms.rctf.client.RCTFClient",
-    "htb": "ctfbridge.platforms.htb.client.HTBClient",
-    "berg": "ctfbridge.platforms.berg.client.BergClient",
-    "ept": "ctfbridge.platforms.ept.client.EPTClient",
+    # "htb": "ctfbridge.platforms.htb.client.HTBClient",
+    # "berg": "ctfbridge.platforms.berg.client.BergClient",
+    # "ept": "ctfbridge.platforms.ept.client.EPTClient",
 }
 
 # Maps platform names to their identifier class paths
