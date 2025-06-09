@@ -32,7 +32,7 @@ jobs:
           pip install -e .[dev]
 
       - name: Run update_readme.py
-        run: python scripts/update_readme.py
+        run: python scripts/update_docs.py
 
       - name: Check for changes
         id: git-check
