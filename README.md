@@ -8,7 +8,7 @@
   <a href="https://pypi.org/project/ctfbridge/"><img src="https://img.shields.io/pypi/v/ctfbridge" alt="PyPI"></a>
   <a href="https://pypi.org/project/ctfbridge/"><img src="https://img.shields.io/pypi/pyversions/ctfbridge" alt="Python Versions"></a>
   <a href="https://ctfbridge.readthedocs.io"><img src="https://img.shields.io/badge/docs-readthedocs-blue.svg" alt="Docs"></a>
-  <a href="https://github.com/bjornmorten/ctfbridge/actions/workflows/test.yml"><img src="https://github.com/bjornmorten/ctfbridge/actions/workflows/test.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/bjornmorten/ctfbridge/actions/workflows/ci.yml"><img src="https://github.com/bjornmorten/ctfbridge/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <img src="https://img.shields.io/github/license/bjornmorten/ctfbridge" alt="License">
 </p>
 
