@@ -175,3 +175,6 @@ cython_debug/
 
 # Local testing file
 /test.py
+
+# Vim swp files
+*.swp
