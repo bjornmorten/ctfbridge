@@ -52,7 +52,7 @@ CAPABILITY_DISPLAY_MAP = {
         "view_scoreboard": "🥇 View Scoreboard",
     },
     "🧩 Challenge Interaction": {
-        "view_challenges": "🗺️ List Challenges",
+        "view_challenges": "🗺️ LView Challenges",
         "submit_flags": "🚩 Submit Flags",
         "download_attachments": "📎 Download Attachments",
         "manage_challenge_instances": "⚙️ Manage Challenge Instances",
