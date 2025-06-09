@@ -6,13 +6,46 @@ class Capabilities(BaseModel):
     Represents the features supported by a ctfbridge platform client.
     """
 
+    # --- Core Authentication & Session ---
     login: bool = Field(False, description="Indicates if the client supports authentication.")
-    submit_flag: bool = Field(
-        False, description="Indicates if the client supports submitting flags."
+    session_persistence: bool = Field(
+        True,
+        description="Indicates if the session (cookies/tokens) can be reliably saved and loaded.",
+    )
+
+    # --- Team & User Management ---
+    view_team_information: bool = Field(
+        False,
+        description="Indicates if the client can fetch details about a team, such as its members and rank.",
+    )
+    view_user_profile: bool = Field(
+        False,
+        description="Indicates if the client can fetch details for the authenticated user's profile.",
+    )
+
+    # --- CTF Event Interaction ---
+    view_ctf_details: bool = Field(
+        False,
+        description="Indicates if the client can fetch metadata about the CTF event itself (e.g., start/end times, rules).",
+    )
+    view_announcements: bool = Field(
+        False, description="Indicates if the client can fetch broadcast announcements for the CTF."
     )
     view_scoreboard: bool = Field(
         False, description="Indicates if the client supports viewing the scoreboard."
     )
-    list_challenges: bool = Field(
-        True, description="Indicates if the client supports listing challenges."
+
+    # --- Challenge Interaction ---
+    view_challenges: bool = Field(
+        False, description="Indicates if the client supports listing challenges."
+    )
+    submit_flags: bool = Field(
+        False, description="Indicates if the client supports submitting flags."
+    )
+    download_attachments: bool = Field(
+        True, description="Indicates if the client can download challenge attachments."
+    )
+    manage_challenge_instances: bool = Field(
+        False,
+        description="Indicates if the client can start, stop, or get connection info for on-demand challenge instances (e.g., Docker containers).",
     )

@@ -14,7 +14,7 @@ class CTFdClient(CoreCTFClient):
     def capabilities(self) -> Capabilities:
         return Capabilities(
             login=True,
-            submit_flag=True,
+            submit_flags=True,
             view_challenges=True,
             view_scoreboard=True,
         )

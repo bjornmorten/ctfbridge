@@ -44,6 +44,7 @@ pip install ctfbridge
 import asyncio
 from ctfbridge import create_client
 
+
 async def main():
     # Connect and authenticate
     client = await create_client("https://demo.ctfd.io")
@@ -73,7 +74,7 @@ if __name__ == "__main__":
 CTFBridge works out of the box with:
 
 <!-- PLATFORMS_TABLE_START -->
-| Platform&nbsp;&nbsp; | &nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp; | Challenges | &nbsp;&nbsp;Flags&nbsp;&nbsp;&nbsp; | Scoreboard |
+| Platform | Login | Challenges | Flags | Scoreboard |
 | :--- | :---: | :---: | :---: | :---: |
 | **CTFd** | ✅ | ✅ | ✅ | ✅ |
 | **rCTF** | ✅ | ✅ | ✅ | ✅ |

@@ -28,7 +28,7 @@ async def main():
         print("❌ This platform does not support login via ctfbridge.")
 
     # Check for flag submission support
-    if client.capabilities.submit_flag:
+    if client.capabilities.submit_flags:
         print("✅ This platform supports flag submission.")
     else:
         print("❌ This platform does not support flag submission.")
