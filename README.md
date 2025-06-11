@@ -97,7 +97,7 @@ Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started.
 
 These open-source tools are powered by CTFBridge:
 
-- [`ctf-dl`](https://github.com/bjornmorten/ctf-dl) — 🗃️ DA CTF challenge bulk downloader
+- [`ctf-dl`](https://github.com/bjornmorten/ctf-dl) — 🗃️ A CTF challenge bulk downloader
 - [`pwnv`](https://github.com/CarixoHD/pwnv) — 🧠 A CTF workspace management tool
 
 Using CTFBridge in the wild? [Send a PR](https://github.com/bjornmorten/ctfbridge/edit/main/README.md) to feature it here!
