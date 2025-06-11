@@ -46,8 +46,7 @@ body:
       label: "What do you need help with?"
       description: Clearly describe what you're trying to accomplish and where you're stuck.
       placeholder: |
-        I'm trying to connect CTFBridge to my local CTFd instance, but it doesn't identify
-        the platform.
+        I'm trying to connect CTFBridge to my local CTFd instance, but it doesn't identify the platform.
     validations:
       required: true
 
