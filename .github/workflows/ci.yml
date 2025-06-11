@@ -2,7 +2,19 @@ name: CI
 
 on:
   push:
+    paths:
+      - 'ctfbridge/**'
+      - '**/*.py'
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - 'pyproject.toml'
   pull_request:
+    paths:
+      - 'ctfbridge/**'
+      - '**/*.py'
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - 'pyproject.toml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
