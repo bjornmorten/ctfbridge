@@ -4,12 +4,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  compose:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up Docker Compose
-        uses: docker/setup-compose-action@v1
-
   e2e-tests:
     runs-on: ubuntu-latest
 
@@ -22,6 +16,7 @@ jobs:
             compose_file: tests/e2e/ctfd/docker-compose.yml
 
     steps:
+    - uses: docker/setup-compose-action@v1
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
       with:
