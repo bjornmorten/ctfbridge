@@ -41,7 +41,7 @@ class CTFdManager:
         files = {k: v if isinstance(v, tuple) else (None, v) for k, v in form.items()}
         self.client.post(f"{self.base_url}/setup", files=files).raise_for_status()
 
-        self._login_admin()
+        # self._login_admin()
 
     def _login_admin(self) -> None:
         """Store an API token for subsequent requests."""
