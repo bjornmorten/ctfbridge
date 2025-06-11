@@ -6,14 +6,13 @@ on:
       - 'ctfbridge/**'
       - '**/*.py'
       - 'docs/**'
-      - 'mkdocs.yml'
+      - 'docs/mkdocs.yml'
       - 'pyproject.toml'
   pull_request:
     paths:
       - 'ctfbridge/**'
       - '**/*.py'
       - 'docs/**'
-      - 'mkdocs.yml'
       - 'pyproject.toml'
 
 concurrency:
@@ -42,7 +41,6 @@ jobs:
             # Documentation sources
             docs:
               - 'docs/**'
-              - 'mkdocs.yml'
 
             # Build / packaging metadata
             pkg:
@@ -114,7 +112,7 @@ jobs:
         run: pip install -e .[docs]
 
       - name: Build MkDocs site
-        run: mkdocs build --strict
+        run: mkdocs build --strict -f docs/mkdocs.yml
 
   build:
     needs: [changes, test]
