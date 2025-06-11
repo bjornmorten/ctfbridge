@@ -4,6 +4,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+
   e2e-tests:
     runs-on: ubuntu-latest
 
