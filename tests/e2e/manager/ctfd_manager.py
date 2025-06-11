@@ -119,6 +119,7 @@ class CTFdManager:
         """Opinionated all-in-one seeding used by seed_main.py."""
         print(f"Seeding CTFd instance at {self.base_url} …")
         self.init_instance()
+        """
         self.create_user("test", "password", "test@user.com")
         self.create_challenge(
             name="Test Challenge",
@@ -127,4 +128,5 @@ class CTFdManager:
             value=1337,
             flag="CTF{seeded_flag}",
         )
+        """
         print("Seed complete ✅")
