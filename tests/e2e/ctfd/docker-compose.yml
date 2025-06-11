@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  ctfd:
+    image: ctfd/ctfd:latest
+    container_name: ctfbridge-test-ctfd
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - UPLOAD_FOLDER=/var/uploads
+      - DATABASE_URL=sqlite:///ctfd.db
+      - REDIS_URL=redis://cache:6379
+
+  cache:
+    image: redis:6.2
+    container_name: ctfbridge-test-ctfd-redis
+    restart: always
