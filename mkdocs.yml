@@ -36,6 +36,7 @@ nav:
       - 🗺️ Overview:  index.md
       - 📘 Usage Guide: getting-started/usage.md
       - 💻 Supported Platforms: getting-started/platforms.md
+      - ✨ Platform-Specific Notes: getting-started/platform-notes.md
       - ❓ FAQ: getting-started/faq.md
   - 📚 API Reference:
       - 🗺️ Overview: api/index.md
