@@ -90,8 +90,7 @@ jobs:
 
       - name: Install project + dev deps
         run: |
-          pip install -e .[dev]
-          pip install -r docs/requirements.txt
+          pip install -e .[dev,docs]
 
       - name: Run pytest
         run: pytest
@@ -112,7 +111,7 @@ jobs:
           cache: 'pip'
 
       - name: Install docs deps
-        run: pip install -r docs/requirements.txt
+        run: pip install -e .[docs]
 
       - name: Build MkDocs site
         run: mkdocs build --strict

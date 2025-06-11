@@ -37,6 +37,14 @@ dev = [
   "twine",
   "build"
 ]
+docs = [
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    "griffe-pydantic",
+    "pydantic",
+    "pymdown-extensions"
+]
 
 [project.urls]
 Documentation = "https://ctfbridge.readthedocs.io"
