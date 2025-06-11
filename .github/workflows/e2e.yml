@@ -26,7 +26,7 @@ jobs:
       run: pip install -e .
 
     - name: Start service for ${{ matrix.platform }}
-      run: docker-compose -f ${{ matrix.compose_file }} up -d
+      run: docker compose -f ${{ matrix.compose_file }} up -d
 
     - name: Wait for service to be healthy
       run: |
