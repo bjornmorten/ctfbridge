@@ -24,10 +24,10 @@
 
 ## ✨ Features
 
-- ✅ **Unified API** for multiple CTF platforms — no per-platform hacks
+- ✅ **Unified API** for multiple CTF platforms
 - 🧠 **Auto-detect platform type** from just a URL
 - 🔐 **Clean auth flow** with support for credentials and API tokens
-- 🧩 **Challenge enrichment** — authors, categories, services, attachments
+- 🧩 **Challenge enrichment** — categories, services, attachments
 - 🔄 **Persistent sessions** — save/load session state with ease
 - 🤖 **Async-first design** — perfect for scripts, tools, and automation
 
@@ -85,7 +85,7 @@ CTFBridge works out of the box with:
 
 ## 📚 Documentation
 
-All guides, API references, and platform notes are available at: **[ctfbridge.readthedocs.io](https://ctfbridge.readthedocs.io/)**
+All guides and API references are available at: **[ctfbridge.readthedocs.io](https://ctfbridge.readthedocs.io/)**
 
 ## 🤝 Contributing
 
@@ -95,10 +95,12 @@ Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started.
 
 ## 🛠️ Projects Using CTFBridge
 
-These open-source projects are already using CTFBridge:
+These open-source tools are powered by CTFBridge:
 
 - [`ctf-dl`](https://github.com/bjornmorten/ctf-dl) — 🗃️ Download all CTF challenges in bulk
 - [`pwnv`](https://github.com/CarixoHD/pwnv) — 🧠 CLI to manage CTFs and challenges
+
+Using CTFBridge in the wild? [Send a PR](https://github.com/bjornmorten/ctfbridge/edit/main/README.md) to feature it here!
 
 ## 📄 License
 
