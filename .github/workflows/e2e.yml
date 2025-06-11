@@ -1,0 +1,44 @@
+name: E2E Tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ctfd]
+        include:
+          - platform: ctfd
+            compose_file: tests/e2e/ctfd/docker-compose.yml
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: pip install -e .
+
+    - name: Start service for ${{ matrix.platform }}
+      run: docker-compose -f ${{ matrix.compose_file }} up -d
+
+    - name: Wait for service to be healthy
+      run: |
+        for i in {1..60}; do
+          if curl -s -o /dev/null -w "%{http_code}" http://localhost:8000 | grep -q "[23][0-9][0-9]"; then
+            echo "Service is responding. Continuing..."
+            exit 0
+          fi
+          echo "Waiting for service to become healthy... ($i)"
+          sleep 2
+        done
+        echo "Service did not become healthy in time." >&2
+        exit 1
+
+    - name: Run E2E tests for ${{ matrix.platform }}
+      run: pytest -m e2e tests/e2e/platforms/test_${{ matrix.platform }}_e2e.py
