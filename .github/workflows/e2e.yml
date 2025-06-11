@@ -43,7 +43,7 @@ jobs:
         echo "Service did not become healthy in time." >&2
         exit 1
 
-    - name: Run E2E tests for ${{ matrix.platform }}
+    - name: Seed ${{ matrix.platform }}
       run: python3 -m tests.e2e.manager.seed_main --platform ${{ matrix.platform }} --url ${{ matrix.url }}
 
     - name: Run E2E tests for ${{ matrix.platform }}
