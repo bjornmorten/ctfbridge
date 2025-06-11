@@ -1,0 +1,58 @@
+name: "🙋 Help Request"
+description: Ask a question or get assistance using CTFBridge
+title: "[Help]: "
+labels: [question, support]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Need a hand? We're happy to help!
+        **Before submitting, please make sure you have:**
+
+        1. 🔍 Searched [open issues](../../issues), closed issues, and Discussions
+        2. 📖 Read the [documentation](https://ctfbridge.readthedocs.io/latest/) / [FAQ](https://ctfbridge.readthedocs.io/latest/getting-started/faq/)
+        3. 🆕 Confirmed you're on the latest CTFBridge release
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: "Checklist"
+      options:
+        - label: "I've searched existing issues and docs"
+          required: true
+        - label: "I'm using the latest CTFBridge version"
+          required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: "CTFBridge Version"
+      placeholder: "e.g., 1.2.0"
+    validations:
+      required: true
+
+  - type: input
+    id: platform
+    attributes:
+      label: "CTF Platform (and optionally version)"
+      placeholder: "e.g., CTFd 3.6.1"
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: "What do you need help with?"
+      description: Clearly describe what you're trying to accomplish and where you're stuck.
+      placeholder: |
+        I'm trying to connect CTFBridge to my local CTFd instance, but it doesn't identify
+        the platform.
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: "Relevant details / error output"
+      description: Paste any code you ran, configuration snippets, or error messages here.

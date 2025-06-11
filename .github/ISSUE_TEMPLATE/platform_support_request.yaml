@@ -35,7 +35,7 @@ body:
   - type: textarea
     id: api_docs
     attributes:
-      label: "API Documentation or Reverse-Engineering Info"
+      label: "API Documentation or Info"
       description: Links to docs, Swagger, Postman, browser devtools dumps, etc.
       placeholder: "https://example.com/docs/api"
     validations:

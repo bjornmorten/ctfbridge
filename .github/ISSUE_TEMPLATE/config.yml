@@ -2,6 +2,10 @@ blank_issues_enabled: false
 contact_links: []
 
 issue_templates:
+  - name: "🙋 Help Request"
+    description: Ask for help with CTFBridge
+    file: help_request.yaml
+
   - name: "🐞 Bug Report"
     description: Report something not working correctly in CTFBridge
     file: bug_report.yaml
