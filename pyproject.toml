@@ -25,6 +25,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+cli = [
+  "typer[all]==0.16.0"
+]
 dev = [
   "mypy",
   "pytest",
@@ -50,6 +53,9 @@ docs = [
 Documentation = "https://ctfbridge.readthedocs.io"
 Repository = "https://github.com/bjornmorten/ctfbridge/"
 Issues = "https://github.com/bjornmorten/ctfbridge/issues"
+
+[project.scripts]
+ctfbridge-cli = "ctfbridge.cli.main:app"
 
 [build-system]
 requires = ["setuptools>=64", "wheel", "setuptools-scm>=8"]
