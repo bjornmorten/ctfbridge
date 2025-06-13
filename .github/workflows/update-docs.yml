@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'scripts/update_readme.py'
+      - 'scripts/update_docs.py'
       - 'examples/00_quickstart.py'
       - 'ctfbridge/platforms/*/client.py'
   workflow_dispatch:
