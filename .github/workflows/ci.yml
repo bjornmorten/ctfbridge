@@ -2,6 +2,8 @@ name: CI
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'ctfbridge/**'
       - '**/*.py'
@@ -9,6 +11,8 @@ on:
       - 'mkdocs.yml'
       - 'pyproject.toml'
   pull_request:
+    branches:
+      - main
     paths:
       - 'ctfbridge/**'
       - '**/*.py'
