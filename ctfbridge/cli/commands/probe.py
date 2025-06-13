@@ -1,0 +1,59 @@
+import asyncio
+import typer
+from ctfbridge import create_client
+from ctfbridge.exceptions import CTFBridgeError, UnknownPlatformError
+import json
+from ctfbridge.cli.ui import (
+    console,
+    display_probe_results_as_table,
+    display_probe_results_as_json,
+    display_error,
+    STYLES,
+)
+
+app = typer.Typer(
+    name="probe",
+    help="Analyzes a URL to detect the CTF platform and its capabilities.",
+    no_args_is_help=True,
+)
+
+
+@app.callback(invoke_without_command=True)
+def probe(
+    url: str = typer.Argument(..., help="The URL of the CTF platform to probe."),
+    as_json: bool = typer.Option(False, "--json", help="Output the results in JSON format."),
+):
+    """Analyzes a URL to detect the CTF platform and its capabilities."""
+    with console.status(f"[bold green]Probing {url}...[/bold green]", spinner="dots"):
+        try:
+            client = asyncio.run(create_client(url))
+        except UnknownPlatformError as e:
+            if as_json:
+                console.print(json.dumps({"success": False, "error": str(e)}, indent=2))
+            else:
+                console.print(f"❌ Error: {e}", style=STYLES["error"])
+                console.print(
+                    "\nThis could be because the URL is incorrect or the platform is not yet supported.",
+                    style=STYLES["info"],
+                )
+                console.print("\n[bold]What you can do:[/bold]")
+                console.print("  1. Double-check the URL and ensure the site is accessible.")
+                console.print(
+                    "  2. If you know the platform, you can try specifying it manually in your script."
+                )
+                console.print(
+                    "  3. To report an error or request support for this platform, please open an issue on GitHub:",
+                    style="default",
+                )
+                console.print(
+                    "     [underline blue]https://github.com/bjornmorten/ctfbridge/issues[/underline blue]"
+                )
+            raise typer.Exit(code=1)
+        except CTFBridgeError as e:
+            display_error(str(e), is_json=as_json)
+            raise typer.Exit(code=1)
+
+    if as_json:
+        display_probe_results_as_json(client, input_url=url)
+    else:
+        display_probe_results_as_table(client)
