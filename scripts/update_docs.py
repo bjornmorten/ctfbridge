@@ -35,6 +35,7 @@ PLATFORM_METADATA = {
         "description": "Hack The Box's platform for Jeopardy-style CTF events. Visit [ctf.hackthebox.com](https://ctf.hackthebox.com/)",
     },
 }
+PLATFORM_ORDER = ["CTFd", "rCTF", "HTB", "Berg", "EPT"]
 
 CAPABILITY_DISPLAY_MAP = {
     "🔑 Authentication & Session": {
@@ -100,7 +101,10 @@ def generate_features_table(capabilities: Dict[str, Dict[str, bool]]) -> str:
 
     table = [header_row, align_row]
 
-    for name, caps in sorted(capabilities.items()):
+    for name in PLATFORM_ORDER:
+        caps = capabilities.get(name)
+        if not caps:
+            continue
         row = [
             f"**{name}**",
             "✅" if caps.get("login") else "❌",
@@ -119,7 +123,7 @@ def generate_platforms_page_matrix(capabilities: Dict[str, Dict[str, bool]]) -> 
     """
     Generates the full support matrix for the documentation page using markdown shortcodes.
     """
-    platforms = sorted(capabilities.keys())
+    platforms = [p for p in PLATFORM_ORDER if p in capabilities]
     headers = ["Feature"] + [
         f"{p}[^{PLATFORM_METADATA.get(p, {}).get('id', '')}]" for p in platforms
     ]
