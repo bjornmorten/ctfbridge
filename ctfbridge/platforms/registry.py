@@ -5,12 +5,14 @@ from typing import Any, Type
 PLATFORM_CLIENTS: dict[str, str] = {
     "ctfd": "ctfbridge.platforms.ctfd.client.CTFdClient",
     "rctf": "ctfbridge.platforms.rctf.client.RCTFClient",
+    "berg": "ctfbridge.platforms.berg.client.BergClient",
 }
 
 # Maps platform names to their identifier class paths
 PLATFORM_IDENTIFIERS: dict[str, str] = {
     "ctfd": "ctfbridge.platforms.ctfd.identifier.CTFdIdentifier",
     "rctf": "ctfbridge.platforms.rctf.identifier.RCTFIdentifier",
+    "berg": "ctfbridge.platforms.berg.identifier.BergIdentifier",
 }
 
 

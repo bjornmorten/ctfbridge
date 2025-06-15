@@ -88,6 +88,10 @@ class Challenge(BaseModel):
         default=None,
         description="The perceived difficulty of the challenge (e.g., 'Easy', 'Medium', 'Hard'), if specified.",
     )
+    flag_format: str | None = Field(
+        default=None,
+        description="The flag format of the challenge.",
+    )
 
     @property
     def category(self) -> str | None:
