@@ -93,7 +93,7 @@ def generate_features_table(capabilities: Dict[str, Dict[str, bool]]) -> str:
     Generates a Markdown table for the README using emojis.
     """
     # MODIFIED: Simplified header generation
-    headers = ["Platform", "Login", "Challenges", "Flags", "Scoreboard"]
+    headers = ["Platform", "Login", "Challenges", "Submit Flags", "Scoreboard"]
     alignment = [":---", ":---:", ":---:", ":---:", ":---:"]
 
     header_row = "| " + " | ".join(headers) + " |"
