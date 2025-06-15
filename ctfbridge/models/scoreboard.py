@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel, Field
 
 
@@ -9,6 +7,6 @@ class ScoreboardEntry(BaseModel):
     name: str = Field(..., description="The name of the team or user.")
     score: int = Field(..., description="The total points earned by the team/user.")
     rank: int = Field(..., description="The current position on the scoreboard.")
-    last_solve_time: Optional[str] = Field(
-        None, description="Timestamp of the team's/user's most recent solve."
+    last_solve_time: str | None = Field(
+        default=None, description="Timestamp of the team's/user's most recent solve."
     )

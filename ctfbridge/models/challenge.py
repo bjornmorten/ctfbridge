@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -27,16 +26,18 @@ class Service(BaseModel):
 
     type: ServiceType = Field(..., description="The type of the network service (e.g., tcp, http).")
     host: str | None = Field(
-        None, description="The hostname or IP address of the service, if applicable."
+        default=None, description="The hostname or IP address of the service, if applicable."
     )
-    port: int | None = Field(None, description="The port number for the service, if applicable.")
-    url: str | None = Field(None, description="The full URL for web-based services.")
+    port: int | None = Field(
+        default=None, description="The port number for the service, if applicable."
+    )
+    url: str | None = Field(default=None, description="The full URL for web-based services.")
     raw: str | None = Field(
-        None,
+        default=None,
         description="The raw connection string or information provided (e.g., 'nc example.com 12345').",
     )
     container: str | None = Field(
-        None,
+        default=None,
         description="For Docker services, the container image/name.",
     )
 
@@ -49,42 +50,42 @@ class Challenge(BaseModel):
         description="The unique identifier of the challenge, typically a number or short string.",
     )
     name: str = Field(..., description="The display name of the challenge.")
-    categories: List[str] = Field(
+    categories: list[str] = Field(
         default_factory=list,
         description="A list of raw categories the challenge belongs to as provided by the platform.",
     )
-    normalized_categories: List[str] = Field(
+    normalized_categories: list[str] = Field(
         default_factory=list,
         description="A list of normalized categories (e.g., 'rev' for 'Reverse Engineering').",
     )
     value: int | None = Field(
-        None,
+        default=None,
         description="The point value awarded for solving the challenge. Can be None if points are dynamic or not applicable.",
     )
     description: str | None = Field(
-        None,
+        default=None,
         description="The main description, prompt, or story for the challenge. May contain HTML or Markdown.",
     )
-    attachments: List[Attachment] = Field(
+    attachments: list[Attachment] = Field(
         default_factory=list,
         description="A list of downloadable files (attachments) associated with the challenge.",
     )
-    services: List[Service] = Field(
+    services: list[Service] = Field(
         default_factory=list,
         description="A list of network services (e.g., netcat listeners, web servers, databases) associated with the challenge.",
     )
-    tags: List[str] = Field(
+    tags: list[str] = Field(
         default_factory=list, description="A list of tags or keywords categorizing the challenge."
     )
     solved: bool | None = Field(
-        False,
+        default=False,
         description="Indicates if the challenge has been solved by the current user/team. Can be None if status is unknown.",
     )
-    authors: List[str] = Field(
+    authors: list[str] = Field(
         default_factory=list, description="The authors or creators of the challenge."
     )
     difficulty: str | None = Field(
-        None,
+        default=None,
         description="The perceived difficulty of the challenge (e.g., 'Easy', 'Medium', 'Hard'), if specified.",
     )
 
@@ -124,39 +125,39 @@ class FilterOptions(BaseModel):
     Filtering parameters used to retrieve specific challenges.
     """
 
-    solved: Optional[bool] = Field(
+    solved: bool | None = Field(
         default=None,
         description="If True, only solved; if False, only unsolved; if None, no filter.",
     )
-    min_points: Optional[int] = Field(
+    min_points: int | None = Field(
         default=None,
         description="Minimum point value a challenge must have.",
     )
-    max_points: Optional[int] = Field(
+    max_points: int | None = Field(
         default=None,
         description="Maximum point value a challenge can have.",
     )
-    category: Optional[str] = Field(
+    category: str | None = Field(
         default=None,
         description="Only include challenges from this specific category.",
     )
-    categories: Optional[List[str]] = Field(
+    categories: list[str] | None = Field(
         default=None,
         description="Only include challenges from any of these categories.",
     )
-    tags: Optional[List[str]] = Field(
+    tags: list[str] | None = Field(
         default=None,
         description="Only include challenges that have all of these tags.",
     )
-    has_attachments: Optional[bool] = Field(
+    has_attachments: bool | None = Field(
         default=None,
         description="Filter by whether challenges have attachments.",
     )
-    has_services: Optional[bool] = Field(
+    has_services: bool | None = Field(
         default=None,
         description="Filter by whether challenges have services.",
     )
-    name_contains: Optional[str] = Field(
+    name_contains: str | None = Field(
         default=None,
         description="Filter by whether challenge name contains this substring.",
     )

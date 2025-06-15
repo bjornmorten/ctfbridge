@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel, Field
 
 
@@ -8,11 +6,13 @@ class User(BaseModel):
 
     id: int = Field(..., description="The unique identifier of the user.")
     name: str = Field(..., description="The username or display name of the user.")
-    team_id: Optional[int] = Field(
-        None, description="The ID of the team the user belongs to, if any."
+    team_id: int | None = Field(
+        default=None, description="The ID of the team the user belongs to, if any."
     )
-    score: Optional[int] = Field(None, description="The user's individual score, if applicable.")
-    rank: Optional[int] = Field(None, description="The user's individual rank, if applicable.")
+    score: int | None = Field(
+        default=None, description="The user's individual score, if applicable."
+    )
+    rank: int | None = Field(default=None, description="The user's individual rank, if applicable.")
 
 
 class Team(BaseModel):
