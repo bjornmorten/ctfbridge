@@ -11,10 +11,7 @@ class BergClient(CoreCTFClient):
     @property
     def capabilities(self) -> Capabilities:
         return Capabilities(
-            login=True,
-            submit_flags=True,
             view_challenges=True,
-            view_scoreboard=True,
         )
 
     def __init__(self, http: httpx.AsyncClient, url: str):
