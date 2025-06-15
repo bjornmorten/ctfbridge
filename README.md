@@ -76,6 +76,7 @@ CTFBridge works out of the box with:
 <!-- PLATFORMS_TABLE_START -->
 | Platform | Login | Challenges | Flags | Scoreboard |
 | :--- | :---: | :---: | :---: | :---: |
+| **Berg** | ✅ | ✅ | ✅ | ✅ |
 | **CTFd** | ✅ | ✅ | ✅ | ✅ |
 | **rCTF** | ✅ | ✅ | ✅ | ✅ |
 |_More..._|🚧|🚧|🚧|🚧|
