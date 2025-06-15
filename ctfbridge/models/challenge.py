@@ -21,6 +21,19 @@ class Attachment(BaseModel):
     url: str = Field(..., description="The URL from which the attachment can be downloaded.")
 
 
+class ProgressData(BaseModel):
+    """Represents the state of an ongoing attachment download."""
+
+    attachment: Attachment = Field(..., description="The attachment being downloaded.")
+    downloaded_bytes: int = Field(..., description="The number of bytes downloaded so far.")
+    total_bytes: int = Field(..., description="The total size of the attachment in bytes.")
+    percentage: float = Field(
+        ..., ge=0, le=100, description="The download progress as a percentage."
+    )
+    speed_bps: float = Field(..., description="The current download speed in bytes per second.")
+    eta_seconds: float | None = Field(None, description="The estimated time remaining in seconds.")
+
+
 class Service(BaseModel):
     """Describes a network service associated with a challenge (e.g., nc host port, http URL)."""
 
