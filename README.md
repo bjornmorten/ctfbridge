@@ -27,7 +27,7 @@
 - ✅ **Unified API** for multiple CTF platforms
 - 🧠 **Auto-detect platform type** from just a URL
 - 🔐 **Clean auth flow** with support for credentials and API tokens
-- 🧩 **Challenge enrichment** — categories, services, attachments
+- 🧩 **Challenge enrichment** — parses services and attachments from descriptions
 - 🔄 **Persistent sessions** — save/load session state with ease
 - 🤖 **Async-first design** — perfect for scripts, tools, and automation
 
