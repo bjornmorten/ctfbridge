@@ -34,7 +34,7 @@ jobs:
       run: docker compose -f tests/e2e/${{ matrix.platform }}/docker-compose.yml up -d
 
     - name: Wait for ${{ matrix.platform }} to be healthy
-      run: python3 -m tests.e2e.healthcheck_main --platform ${{ matrix.platform }} --url ${{ matrix.url }}
+      run: python3 -m tests.e2e.manager.healthcheck_main --platform ${{ matrix.platform }} --url ${{ matrix.url }}
 
     - name: Seed ${{ matrix.platform }}
       run: python3 -m tests.e2e.manager.seed_main --platform ${{ matrix.platform }} --url ${{ matrix.url }}
