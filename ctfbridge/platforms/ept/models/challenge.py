@@ -8,7 +8,6 @@ from ctfbridge.platforms.ept.http.endpoints import Endpoints
 from ctfbridge.models.submission import SubmissionResult
 
 
-
 class EPTAttachment(BaseModel):
     """Model for a single attachment from the EPT CTF API"""
 
@@ -39,9 +38,12 @@ class EPTChallenge(BaseModel):
                     name=self.file.name,
                     url=Endpoints.Challenges.attachment_download(id=self.id),
                 )
-            ] if self.file else [],
+            ]
+            if self.file
+            else [],
             solved=self.solved,
         )
+
 
 class EPTSubmission(BaseModel):
     """Model for EPT submission response data"""
