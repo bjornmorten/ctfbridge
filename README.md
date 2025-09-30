@@ -79,6 +79,7 @@ CTFBridge works out of the box with:
 | **CTFd** | ✅ | ✅ | ✅ | ✅ |
 | **rCTF** | ✅ | ✅ | ✅ | ✅ |
 | **Berg** | ❌ | ✅ | ❌ | ❌ |
+| **EPT** | ❌ | ✅ | ❌ | ❌ |
 |_More..._|🚧|🚧|🚧|🚧|
 <!-- PLATFORMS_TABLE_END -->
 

@@ -34,6 +34,7 @@ def test_extract_netcat_service(extractor, basic_challenge):
     ]
 
     for cmd in formats:
+        basic_challenge.services = []
         basic_challenge.description = f"Connect using: {cmd}"
         result = extractor.apply(basic_challenge)
         assert len(result.services) == 1
@@ -56,6 +57,7 @@ def test_extract_telnet_service(extractor, basic_challenge):
 
 def test_extract_ftp_service(extractor, basic_challenge):
     # Test with explicit port
+    basic_challenge.services = []
     basic_challenge.description = "FTP server: ftp files.ctf.com 2121"
     result = extractor.apply(basic_challenge)
     assert len(result.services) == 1
@@ -65,6 +67,7 @@ def test_extract_ftp_service(extractor, basic_challenge):
     assert service.port == 2121
 
     # Test with default port
+    basic_challenge.services = []
     basic_challenge.description = "FTP: ftp storage.ctf.com"
     result = extractor.apply(basic_challenge)
     assert len(result.services) == 1
@@ -84,6 +87,7 @@ def test_extract_ssh_service(extractor, basic_challenge):
     ]
 
     for cmd, host, port in cases:
+        basic_challenge.services = []
         basic_challenge.description = f"Connect: {cmd}"
         result = extractor.apply(basic_challenge)
         assert len(result.services) == 1
@@ -102,6 +106,7 @@ def test_extract_http_service(extractor, basic_challenge):
     ]
 
     for url, port in cases:
+        basic_challenge.services = []
         basic_challenge.description = f"Web service: {url}"
         result = extractor.apply(basic_challenge)
         assert len(result.services) == 1
