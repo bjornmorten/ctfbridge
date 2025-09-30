@@ -12,7 +12,7 @@ SSH_RE = re.compile(r"ssh\s+(?:-p\s+(\d+)\s+)?(?:\S+@)?(\S+)", re.IGNORECASE)
 HTTP_RE = re.compile(r"https?://[^/\s:]+(?::(\d+))?", re.IGNORECASE)
 
 HOSTPORT_PATH_RE = re.compile(
-    r"(?<!https?://)\b((?:[a-zA-Z0-9.-]+|\d{1,3}(?:\.\d{1,3}){3})):(\d{1,5})(/\S*)?"
+    r"(?:^|\s)((?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,63}|\d{1,3}(?:\.\d{1,3}){3}):(\d{1,5})(/\S*)?"
 )
 
 
@@ -92,7 +92,7 @@ def extract_services_from_text(text: str) -> List[Service]:
 
     # host:port (with optional /path), no scheme
     for match in HOSTPORT_PATH_RE.finditer(text):
-        host, port = match.group(1), int(match.group(2))
+        host, port = match.group(1).strip(), int(match.group(2))
         path = match.group(3) or ""
 
         # classify as HTTP if there's a path
