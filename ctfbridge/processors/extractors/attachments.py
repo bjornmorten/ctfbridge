@@ -55,7 +55,7 @@ class AttachmentExtractor(BaseChallengeParser):
 
             # Only update attachments if we found any
             if attachments:
-                challenge.attachments = attachments
+                challenge.attachments.extend(attachments)
 
         except Exception as e:
             logger.error(f"Failed to extract attachments: {e}")
