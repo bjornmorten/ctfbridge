@@ -32,12 +32,7 @@ While CTFBridge provides a unified API, each CTF platform has its own unique cha
 
 -----
 
-## HTB (Hack The Box)
+## Berg
 
-??? danger "URL Format is Critical"
-    - You **must** provide the full URL to the specific CTF event, not the main HTB CTF page.
-    - The URL must be in the format `https://ctf.hackthebox.com/event/<EVENT_ID>`.
-
-??? note "Authentication"
-    - **Supported Method**: HTB support is **token-only**.
-    - **Getting Your Token**: You can find your CTF API token in your browser local storage.
+??? warning "Scoreboard Support"
+    - The client does **not** support fetching scoreboards, since the platform calculates and render scoreboard data entirely client-side, without exposing it through their API.
