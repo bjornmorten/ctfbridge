@@ -1,7 +1,7 @@
 from abc import ABC
-from typing import List, Optional, AsyncGenerator, Any
+from typing import Any, AsyncGenerator, List, Optional
 
-from ctfbridge.models import Challenge, SubmissionResult, FilterOptions
+from ctfbridge.models import Challenge, FilterOptions, SubmissionResult
 
 
 class ChallengeService(ABC):

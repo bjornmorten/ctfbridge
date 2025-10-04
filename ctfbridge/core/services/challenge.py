@@ -1,6 +1,6 @@
 import asyncio
-from typing import List, AsyncGenerator, Sequence, Any
 from abc import abstractmethod
+from typing import Any, AsyncGenerator, List, Sequence
 
 from ctfbridge.base.services.challenge import ChallengeService
 from ctfbridge.exceptions import ChallengeFetchError
@@ -89,9 +89,9 @@ class CoreChallengeService(ChallengeService):
         base = await self._fetch_challenges()
 
         # -------------------------------------------------------------
-        # Case 1 – Details already present
+        # Case 1 – Details already present or not requested
         # -------------------------------------------------------------
-        if self.base_has_details:
+        if self.base_has_details or not detailed:
             for chal in base:
                 if enrich:
                     chal = enrich_challenge(chal)

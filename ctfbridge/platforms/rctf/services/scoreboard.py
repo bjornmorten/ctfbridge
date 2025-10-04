@@ -4,11 +4,10 @@ from typing import List
 import httpx
 
 from ctfbridge.core.services.scoreboard import CoreScoreboardService
-from ctfbridge.exceptions import ScoreboardFetchError, NotAuthenticatedError
+from ctfbridge.exceptions import NotAuthenticatedError, ScoreboardFetchError
 from ctfbridge.models.scoreboard import ScoreboardEntry as CoreScoreboardEntry
-
-from ctfbridge.platforms.rctf.models.scoreboard import RCTFScoreboardResponse
 from ctfbridge.platforms.rctf.http.endpoints import Endpoints
+from ctfbridge.platforms.rctf.models.scoreboard import RCTFScoreboardResponse
 
 logger = logging.getLogger(__name__)
 

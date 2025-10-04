@@ -1,6 +1,6 @@
 from typing import Optional
-
 from urllib.parse import ParseResult
+
 import httpx
 
 from ctfbridge.base.identifier import PlatformIdentifier

@@ -1,4 +1,5 @@
 import logging
+
 from ctfbridge.models.challenge import Challenge
 from ctfbridge.processors.base import BaseChallengeParser
 from ctfbridge.processors.helpers.services import extract_services_from_text

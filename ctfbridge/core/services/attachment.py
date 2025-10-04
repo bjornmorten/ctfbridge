@@ -1,9 +1,9 @@
 import asyncio
 import logging
 import os
-from typing import List, Optional, Callable
-from urllib.parse import urljoin, urlparse
 import time
+from typing import Callable, List, Optional
+from urllib.parse import urljoin, urlparse
 
 import httpx
 

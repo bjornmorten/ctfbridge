@@ -1,6 +1,7 @@
-import httpx
 import logging
 from typing import Any
+
+import httpx
 
 from ctfbridge.base.client import CTFClient
 from ctfbridge.core.http import make_http_client

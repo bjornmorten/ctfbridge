@@ -3,16 +3,16 @@ from .auth import (
     InvalidAuthMethodError,
     LoginError,
     MissingAuthMethodError,
+    NotAuthenticatedError,
     SessionExpiredError,
     TokenAuthError,
-    NotAuthenticatedError,
 )
 from .base import CTFBridgeError
 from .challenge import (
     ChallengeFetchError,
+    ChallengesUnavailableError,
     CTFInactiveError,
     SubmissionError,
-    ChallengesUnavailableError,
 )
 from .http import (
     APIError,

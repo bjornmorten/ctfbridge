@@ -1,8 +1,9 @@
 import asyncio
 import os
 import tempfile
+
 from ctfbridge import create_client
-from ctfbridge.exceptions import CTFBridgeError, AttachmentDownloadError, ChallengeFetchError
+from ctfbridge.exceptions import AttachmentDownloadError, ChallengeFetchError, CTFBridgeError
 from ctfbridge.models.challenge import Attachment
 
 

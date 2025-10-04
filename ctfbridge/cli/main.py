@@ -1,7 +1,8 @@
-import typer
 from typing import Optional
 
-from ctfbridge.cli.commands import platforms, probe, cache
+import typer
+
+from ctfbridge.cli.commands import cache, platforms, probe
 from ctfbridge.cli.ui import console
 
 app = typer.Typer(

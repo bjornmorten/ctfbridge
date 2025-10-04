@@ -3,10 +3,10 @@ import httpx
 from ctfbridge.core.client import CoreCTFClient
 from ctfbridge.core.services.attachment import CoreAttachmentService
 from ctfbridge.core.services.session import CoreSessionHelper
+from ctfbridge.models.capability import Capabilities
 from ctfbridge.platforms.rctf.services.auth import RCTFAuthService
 from ctfbridge.platforms.rctf.services.challenge import RCTFChallengeService
 from ctfbridge.platforms.rctf.services.scoreboard import RCTFScoreboardService
-from ctfbridge.models.capability import Capabilities
 
 
 class RCTFClient(CoreCTFClient):

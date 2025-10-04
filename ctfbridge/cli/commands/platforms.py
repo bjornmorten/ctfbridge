@@ -1,6 +1,7 @@
 import typer
+
+from ctfbridge.cli.ui import STYLES, console
 from ctfbridge.platforms.registry import PLATFORM_CLIENTS
-from ctfbridge.cli.ui import console, STYLES
 
 app = typer.Typer(
     name="platforms",

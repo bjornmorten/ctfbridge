@@ -4,14 +4,12 @@ import logging
 from typing import List
 
 from ctfbridge.core.services.challenge import CoreChallengeService
-from ctfbridge.exceptions.challenge import (
-    ChallengeFetchError,
-)
+from ctfbridge.exceptions import SubmissionError
+from ctfbridge.exceptions.challenge import ChallengeFetchError
 from ctfbridge.models.challenge import Challenge
 from ctfbridge.models.submission import SubmissionResult
 from ctfbridge.platforms.ept.http.endpoints import Endpoints
 from ctfbridge.platforms.ept.models.challenge import EPTChallenge, EPTSubmission
-from ctfbridge.exceptions import SubmissionError
 
 logger = logging.getLogger(__name__)
 

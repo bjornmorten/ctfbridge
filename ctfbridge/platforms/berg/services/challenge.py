@@ -4,9 +4,7 @@ import logging
 from typing import List
 
 from ctfbridge.core.services.challenge import CoreChallengeService
-from ctfbridge.exceptions.challenge import (
-    ChallengeFetchError,
-)
+from ctfbridge.exceptions.challenge import ChallengeFetchError
 from ctfbridge.models.challenge import Challenge
 from ctfbridge.platforms.berg.http.endpoints import Endpoints
 from ctfbridge.platforms.berg.models.challenge import BergChallenge

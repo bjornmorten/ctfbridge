@@ -1,9 +1,10 @@
 import logging
 import re
-from typing import Optional, Any
-from ctfbridge.platforms.ctfd.http.endpoints import Endpoints
+from typing import Any, Optional
 
 from bs4 import BeautifulSoup
+
+from ctfbridge.platforms.ctfd.http.endpoints import Endpoints
 
 logger = logging.getLogger(__name__)
 

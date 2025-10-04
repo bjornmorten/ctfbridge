@@ -1,10 +1,11 @@
 import asyncio
+
 from ctfbridge import create_client
 from ctfbridge.exceptions import (
     CTFBridgeError,
+    CTFInactiveError,
     ScoreboardFetchError,
     UnauthorizedError,
-    CTFInactiveError,
 )
 
 

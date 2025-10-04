@@ -2,9 +2,10 @@
 
 from typing import Any
 from urllib.parse import unquote, urlparse
+
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Challenge, Attachment
+from ctfbridge.models.challenge import Attachment, Challenge
 from ctfbridge.models.submission import SubmissionResult
 from ctfbridge.processors.helpers.services import extract_services_from_text
 

@@ -1,5 +1,6 @@
-from ctfbridge import create_client
 import pytest
+
+from ctfbridge import create_client
 
 BASE_URL = "http://localhost:8000"
 URL = "http://localhost:8000"

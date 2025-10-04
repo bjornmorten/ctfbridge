@@ -1,7 +1,7 @@
 from typing import Optional
+from urllib.parse import ParseResult
 
 import httpx
-from urllib.parse import ParseResult
 
 from ctfbridge.base.identifier import PlatformIdentifier
 from ctfbridge.platforms.ctfd.http.endpoints import Endpoints

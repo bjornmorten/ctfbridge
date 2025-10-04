@@ -1,11 +1,12 @@
 """Models for EPT challenge data"""
 
 from typing import List
+
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Challenge, Attachment
-from ctfbridge.platforms.ept.http.endpoints import Endpoints
+from ctfbridge.models.challenge import Attachment, Challenge
 from ctfbridge.models.submission import SubmissionResult
+from ctfbridge.platforms.ept.http.endpoints import Endpoints
 
 
 class EPTAttachment(BaseModel):

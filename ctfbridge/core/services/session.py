@@ -30,7 +30,10 @@ class CoreSessionHelper(SessionHelper):
         self._client._http.headers.update(headers)
 
     async def set_cookie(self, name: str, value: str, domain: str | None = None) -> None:
-        self._client._http.cookies.set(name, value, domain=domain)
+        if domain:
+            self._client._http.cookies.set(name, value, domain=domain)
+        else:
+            self._client._http.cookies.set(name, value)
 
     async def save(self, path: str) -> None:
         try:

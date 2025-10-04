@@ -3,10 +3,10 @@ import httpx
 from ctfbridge.core.client import CoreCTFClient
 from ctfbridge.core.services.attachment import CoreAttachmentService
 from ctfbridge.core.services.session import CoreSessionHelper
+from ctfbridge.models.capability import Capabilities
 from ctfbridge.platforms.ctfd.services.auth import CTFdAuthService
 from ctfbridge.platforms.ctfd.services.challenge import CTFdChallengeService
 from ctfbridge.platforms.ctfd.services.scoreboard import CTFdScoreboardService
-from ctfbridge.models.capability import Capabilities
 
 
 class CTFdClient(CoreCTFClient):

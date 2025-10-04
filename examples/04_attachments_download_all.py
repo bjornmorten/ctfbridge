@@ -1,8 +1,9 @@
 import asyncio
 import os
 import tempfile
+
 from ctfbridge import create_client
-from ctfbridge.exceptions import CTFBridgeError, ChallengeFetchError, AttachmentDownloadError
+from ctfbridge.exceptions import AttachmentDownloadError, ChallengeFetchError, CTFBridgeError
 
 
 async def main():

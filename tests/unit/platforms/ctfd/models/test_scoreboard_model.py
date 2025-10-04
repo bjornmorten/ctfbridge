@@ -1,6 +1,7 @@
 import pytest
-from ctfbridge.platforms.ctfd.models.scoreboard import CTFdScoreboardEntry
+
 from ctfbridge.models.scoreboard import ScoreboardEntry as CoreScoreboardEntry
+from ctfbridge.platforms.ctfd.models.scoreboard import CTFdScoreboardEntry
 
 sample_ctfd_scoreboard_entry_data = {
     "pos": 1,

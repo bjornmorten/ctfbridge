@@ -3,6 +3,7 @@ from typing import List
 from urllib.parse import parse_qs, unquote, urlparse
 
 import httpx
+
 from ctfbridge.core.services.auth import CoreAuthService
 from ctfbridge.exceptions import MissingAuthMethodError, TokenAuthError
 from ctfbridge.models.auth import AuthMethod

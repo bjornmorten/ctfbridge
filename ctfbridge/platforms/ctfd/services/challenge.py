@@ -4,13 +4,13 @@ import logging
 from typing import List, Optional
 
 from ctfbridge.core.services.challenge import CoreChallengeService
+from ctfbridge.exceptions.auth import NotAuthenticatedError
 from ctfbridge.exceptions.challenge import (
     ChallengeFetchError,
-    SubmissionError,
     ChallengeNotFoundError,
     ChallengesUnavailableError,
+    SubmissionError,
 )
-from ctfbridge.exceptions.auth import NotAuthenticatedError
 from ctfbridge.models.challenge import Challenge
 from ctfbridge.models.submission import SubmissionResult
 from ctfbridge.platforms.ctfd.http.endpoints import Endpoints

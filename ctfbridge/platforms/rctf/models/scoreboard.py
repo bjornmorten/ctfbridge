@@ -1,5 +1,7 @@
 from typing import List
+
 from pydantic import BaseModel
+
 from ctfbridge.models.scoreboard import ScoreboardEntry
 
 

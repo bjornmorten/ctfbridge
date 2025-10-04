@@ -1,11 +1,11 @@
-import pytest
-import httpx  # Import httpx for AsyncClient and Response
-from httpx import Response  # Specifically import Response for clarity
-from urllib.parse import urlparse
+from urllib.parse import ParseResult, urlparse
 
-from ctfbridge.platforms.ctfd.identifier import CTFdIdentifier
+import httpx  # Import httpx for AsyncClient and Response
+import pytest
+from httpx import Response  # Specifically import Response for clarity
+
 from ctfbridge.platforms.ctfd.http.endpoints import Endpoints  # Import Endpoints
-from urllib.parse import ParseResult
+from ctfbridge.platforms.ctfd.identifier import CTFdIdentifier
 
 # Mark all tests in this file as asyncio
 pytestmark = pytest.mark.asyncio

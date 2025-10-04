@@ -1,9 +1,10 @@
 import pytest
 from pydantic import ValidationError
 
-from ctfbridge.platforms.ctfd.models.challenge import CTFdChallenge, CTFdSubmission
-from ctfbridge.models.challenge import Challenge as CoreChallenge, Attachment as CoreAttachment
+from ctfbridge.models.challenge import Attachment as CoreAttachment
+from ctfbridge.models.challenge import Challenge as CoreChallenge
 from ctfbridge.models.submission import SubmissionResult as CoreSubmissionResult
+from ctfbridge.platforms.ctfd.models.challenge import CTFdChallenge, CTFdSubmission
 
 sample_ctfd_challenge_data_full = {
     "success": True,

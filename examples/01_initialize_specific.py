@@ -1,6 +1,7 @@
 import asyncio
+
 from ctfbridge import create_client
-from ctfbridge.exceptions import UnknownPlatformError, UnknownBaseURLError
+from ctfbridge.exceptions import UnknownBaseURLError, UnknownPlatformError
 
 
 async def main():

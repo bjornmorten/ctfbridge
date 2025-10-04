@@ -1,5 +1,5 @@
-from urllib.parse import urljoin, urlparse, urlunparse
 import logging
+from urllib.parse import urljoin, urlparse, urlunparse
 
 logger = logging.getLogger(__name__)
 

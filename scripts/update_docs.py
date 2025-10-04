@@ -3,9 +3,11 @@ import os
 import re
 from pathlib import Path
 from typing import Dict, List, Optional
-from ctfbridge.platforms.registry import PLATFORM_CLIENTS, get_platform_client
-from ctfbridge.models.capability import Capabilities
+
 from httpx import AsyncClient
+
+from ctfbridge.models.capability import Capabilities
+from ctfbridge.platforms.registry import PLATFORM_CLIENTS, get_platform_client
 
 # --- Configuration ---
 ROOT_DIR = Path(__file__).parent.parent

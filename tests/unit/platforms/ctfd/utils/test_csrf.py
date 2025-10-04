@@ -1,9 +1,10 @@
-import pytest
-import httpx
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from ctfbridge.platforms.ctfd.utils.csrf import extract_csrf_nonce, get_csrf_nonce
+import httpx
+import pytest
+
 from ctfbridge.platforms.ctfd.http.endpoints import Endpoints
+from ctfbridge.platforms.ctfd.utils.csrf import extract_csrf_nonce, get_csrf_nonce
 
 pytestmark = pytest.mark.asyncio
 

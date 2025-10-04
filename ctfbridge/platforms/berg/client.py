@@ -3,8 +3,8 @@ import httpx
 from ctfbridge.core.client import CoreCTFClient
 from ctfbridge.core.services.attachment import CoreAttachmentService
 from ctfbridge.core.services.session import CoreSessionHelper
-from ctfbridge.platforms.berg.services.challenge import BergChallengeService
 from ctfbridge.models.capability import Capabilities
+from ctfbridge.platforms.berg.services.challenge import BergChallengeService
 
 
 class BergClient(CoreCTFClient):

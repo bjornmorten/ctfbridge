@@ -5,6 +5,7 @@ CLI entry point for checking the health of a live test instance.
 import argparse
 import sys
 import time
+
 import httpx
 
 

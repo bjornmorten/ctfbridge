@@ -1,6 +1,7 @@
 import asyncio
+
 from ctfbridge import create_client
-from ctfbridge.exceptions import LoginError, CTFBridgeError
+from ctfbridge.exceptions import CTFBridgeError, LoginError
 
 
 async def main():

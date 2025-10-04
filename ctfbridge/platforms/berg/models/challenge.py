@@ -1,9 +1,10 @@
 """Models for CTFd challenge data"""
 
-from typing import Optional, List
+from typing import List, Optional
+
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Challenge, Attachment
+from ctfbridge.models.challenge import Attachment, Challenge
 
 
 class BergAttachment(BaseModel):

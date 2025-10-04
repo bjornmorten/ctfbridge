@@ -3,8 +3,8 @@ import httpx
 from ctfbridge.core.client import CoreCTFClient
 from ctfbridge.core.services.attachment import CoreAttachmentService
 from ctfbridge.core.services.session import CoreSessionHelper
-from ctfbridge.platforms.ept.services.challenge import EPTChallengeService
 from ctfbridge.models.capability import Capabilities
+from ctfbridge.platforms.ept.services.challenge import EPTChallengeService
 
 
 class EPTClient(CoreCTFClient):

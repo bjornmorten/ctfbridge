@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+
 from ctfbridge.models.submission import SubmissionResult
 
 

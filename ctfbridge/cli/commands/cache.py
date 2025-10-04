@@ -1,9 +1,11 @@
 import os
-import typer
 from datetime import datetime, timezone
+
+import typer
 from rich.table import Table
+
+from ctfbridge.cli.ui import STYLES, console, display_error
 from ctfbridge.utils.platform_cache import CACHE_PATH, load_platform_cache
-from ctfbridge.cli.ui import console, STYLES, display_error
 
 app = typer.Typer(name="cache", help="Manage the platform detection cache.", no_args_is_help=True)
 

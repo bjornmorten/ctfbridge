@@ -1,15 +1,17 @@
 import asyncio
-import typer
-from ctfbridge import create_client
-from ctfbridge.exceptions import CTFBridgeError, UnknownPlatformError
 import json
+
+import typer
+
+from ctfbridge import create_client
 from ctfbridge.cli.ui import (
-    console,
-    display_probe_results_as_table,
-    display_probe_results_as_json,
-    display_error,
     STYLES,
+    console,
+    display_error,
+    display_probe_results_as_json,
+    display_probe_results_as_table,
 )
+from ctfbridge.exceptions import CTFBridgeError, UnknownPlatformError
 
 app = typer.Typer(
     name="probe",

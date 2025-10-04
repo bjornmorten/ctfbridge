@@ -6,17 +6,16 @@ import httpx
 from ctfbridge.core.services.challenge import CoreChallengeService
 from ctfbridge.exceptions import (
     ChallengeFetchError,
-    SubmissionError,
-    NotAuthenticatedError,
     ChallengesUnavailableError,
+    NotAuthenticatedError,
+    SubmissionError,
 )
 from ctfbridge.models.challenge import Challenge as CoreChallenge
 from ctfbridge.models.submission import SubmissionResult as CoreSubmissionResult
-
-from ctfbridge.platforms.rctf.models.challenge import RCTFChallengeData
-from ctfbridge.platforms.rctf.models.user import RCTFUserProfileData
-from ctfbridge.platforms.rctf.models.submission import RCTFSubmissionResponse
 from ctfbridge.platforms.rctf.http.endpoints import Endpoints
+from ctfbridge.platforms.rctf.models.challenge import RCTFChallengeData
+from ctfbridge.platforms.rctf.models.submission import RCTFSubmissionResponse
+from ctfbridge.platforms.rctf.models.user import RCTFUserProfileData
 
 logger = logging.getLogger(__name__)
 
