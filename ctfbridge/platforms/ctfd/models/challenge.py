@@ -57,7 +57,6 @@ class CTFdSubmission(BaseModel):
 
     def to_core_model(self) -> SubmissionResult:
         """Convert to core SubmissionResult model"""
-        print(self.status, self.message)
         # If status is None, this is likely an error response
         is_correct = (self.status is not None and self.status.lower() == "correct") or (
             self.message.lower().startswith("correct")
