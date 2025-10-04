@@ -19,8 +19,8 @@ description: Discover which CTF platforms are supported by CTFBridge. Compare fe
 | 📎 Download Attachments | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
 [^ctfd]: **CTFd:** A popular open-source CTF platform. [Visit CTFd.io](https://ctfd.io/) or [view on GitHub](https://github.com/CTFd/CTFd).
-[^rctf]: **rCTF:** A open-source CTF platform developed by [redpwn](https://redpwn.net/). [View on GitHub](https://github.com/otter-sec/rctf).
-[^gzctf]: **GZCTF:** A open-source CTF platform developed by [GZTimeWalker](https://github.com/GZTimeWalker). [Visit gzctf.gzti.me](https://gzctf.gzti.me/) or [view on GitHub](https://github.com/GZTimeWalker/GZCTF).
+[^rctf]: **rCTF:** An open-source CTF platform developed by [redpwn](https://redpwn.net/). [View on GitHub](https://github.com/otter-sec/rctf).
+[^gzctf]: **GZCTF:** An open-source CTF platform developed by [GZTimeWalker](https://github.com/GZTimeWalker). [Visit gzctf.gzti.me](https://gzctf.gzti.me/) or [view on GitHub](https://github.com/GZTimeWalker/GZCTF).
 [^berg]: **Berg:** A closed-source CTF platform developed by [NoRelect](https://github.com/NoRelect/).
 [^ept]: **EPT:** A closed-source CTF platform developed by [Equinor Pwn Team](https://x.com/ept_gg).
 <!-- PLATFORMS_MATRIX_END -->
