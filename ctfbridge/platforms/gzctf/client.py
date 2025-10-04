@@ -23,7 +23,8 @@ class GZCTFClient(CoreCTFClient):
 
         # get the CTF id from path (e.g. /games/1)
         parsed = urlparse(url)
-        self._ctf_id = int(parsed.path.strip("/").split("/")[-1])
+        if "games" in url:
+            self._ctf_id = int(parsed.path.strip("/").split("/")[-1])
         self._platform_url = (
             f"{parsed.scheme}://{parsed.netloc}"  # store the platform url without the game path
         )

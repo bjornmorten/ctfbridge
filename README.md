@@ -42,6 +42,7 @@ pip install ctfbridge
 <!-- QUICKSTART_START -->
 ```python
 import asyncio
+
 from ctfbridge import create_client
 
 
@@ -78,6 +79,7 @@ CTFBridge works out of the box with:
 | :--- | :---: | :---: | :---: | :---: |
 | **CTFd** | ✅ | ✅ | ✅ | ✅ |
 | **rCTF** | ✅ | ✅ | ✅ | ✅ |
+| **GZCTF** | ✅ | ✅ | ✅ | ✅ |
 | **Berg** | ❌ | ✅ | ❌ | ❌ |
 | **EPT** | ❌ | ✅ | ❌ | ❌ |
 |_More..._|🚧|🚧|🚧|🚧|

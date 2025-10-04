@@ -24,6 +24,10 @@ PLATFORM_METADATA = {
         "id": "rctf",
         "description": "A open-source CTF platform developed by [redpwn](https://redpwn.net/). [View on GitHub](https://github.com/otter-sec/rctf).",
     },
+    "GZCTF": {
+        "id": "gzctf",
+        "description": "A open-source CTF platform developed by [GZTimeWalker](https://github.com/GZTimeWalker). [View on GitHub](https://github.com/GZTimeWalker/GZCTF).",
+    },
     "Berg": {
         "id": "berg",
         "description": "A closed-source CTF platform developed by [NoRelect](https://github.com/NoRelect/).",
@@ -37,7 +41,7 @@ PLATFORM_METADATA = {
         "description": "Hack The Box's platform for Jeopardy-style CTF events. Visit [ctf.hackthebox.com](https://ctf.hackthebox.com/)",
     },
 }
-PLATFORM_ORDER = ["CTFd", "rCTF", "HTB", "Berg", "EPT"]
+PLATFORM_ORDER = ["CTFd", "rCTF", "GZCTF", "HTB", "Berg", "EPT"]
 
 CAPABILITY_DISPLAY_MAP = {
     "🔑 Authentication & Session": {
