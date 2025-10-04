@@ -97,11 +97,11 @@ Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started.
 
 ## 🛠️ Projects Using CTFBridge
 
-These open-source tools are powered by CTFBridge:
-
-- [`ctf-dl`](https://github.com/bjornmorten/ctf-dl) — 🗃️ A CTF challenge bulk downloader
-- [`ctf-sniper`](https://github.com/bjornmorten/ctf-sniper) — 🎯 An automated flag submission tool
-- [`pwnv`](https://github.com/CarixoHD/pwnv) — 🧠 A CTF workspace management tool
+| Project | Description |
+|---------|-------------|
+| [**ctf-dl**](https://github.com/bjornmorten/ctf-dl) | 🗃️ A CTF challenge bulk downloader |
+| [**ctf-sniper**](https://github.com/bjornmorten/ctf-sniper) | 🎯 An automated flag submission tool |
+| [**pwnv**](https://github.com/CarixoHD/pwnv) | 🧠 A CTF workspace management tool |
 
 Using CTFBridge in the wild? [Send a PR](https://github.com/bjornmorten/ctfbridge/edit/main/README.md) to feature it here!
 
