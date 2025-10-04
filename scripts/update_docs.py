@@ -22,11 +22,11 @@ PLATFORM_METADATA = {
     },
     "rCTF": {
         "id": "rctf",
-        "description": "A open-source CTF platform developed by [redpwn](https://redpwn.net/). [View on GitHub](https://github.com/otter-sec/rctf).",
+        "description": "An open-source CTF platform developed by [redpwn](https://redpwn.net/). [View on GitHub](https://github.com/otter-sec/rctf).",
     },
     "GZCTF": {
         "id": "gzctf",
-        "description": "A open-source CTF platform developed by [GZTimeWalker](https://github.com/GZTimeWalker). [Visit gzctf.gzti.me](https://gzctf.gzti.me/) or [view on GitHub](https://github.com/GZTimeWalker/GZCTF).",
+        "description": "An open-source CTF platform developed by [GZTimeWalker](https://github.com/GZTimeWalker). [Visit gzctf.gzti.me](https://gzctf.gzti.me/) or [view on GitHub](https://github.com/GZTimeWalker/GZCTF).",
     },
     "Berg": {
         "id": "berg",
