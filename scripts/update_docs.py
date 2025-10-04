@@ -26,7 +26,7 @@ PLATFORM_METADATA = {
     },
     "GZCTF": {
         "id": "gzctf",
-        "description": "A open-source CTF platform developed by [GZTimeWalker](https://github.com/GZTimeWalker). [View on GitHub](https://github.com/GZTimeWalker/GZCTF).",
+        "description": "A open-source CTF platform developed by [GZTimeWalker](https://github.com/GZTimeWalker). [Visit gzctf.gzti.me](https://gzctf.gzti.me/) or [view on GitHub](https://github.com/GZTimeWalker/GZCTF).",
     },
     "Berg": {
         "id": "berg",
