@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, computed_field
 
 
 class ServiceType(str, Enum):
@@ -106,31 +106,37 @@ class Challenge(BaseModel):
         description="The flag format of the challenge.",
     )
 
+    @computed_field
     @property
     def category(self) -> str | None:
         """The primary category of the challenge. Returns the first category from the `categories` list, or None if no categories are present."""
         return self.categories[0] if self.categories else None
 
+    @computed_field
     @property
     def normalized_category(self) -> str | None:
         """The primary normalized category of the challenge. Returns the first category from the `normalized_categories` list, or None."""
         return self.normalized_categories[0] if self.normalized_categories else None
 
+    @computed_field
     @property
     def has_attachments(self) -> bool:
         """Returns True if the challenge has one or more attachments, False otherwise."""
         return bool(self.attachments)
 
+    @computed_field
     @property
     def has_services(self) -> bool:
         """Returns True if the challenge has one or more network services, False otherwise."""
         return bool(self.services)
 
+    @computed_field
     @property
     def service(self) -> Service | None:
         """Returns the first service."""
         return self.services[0] if self.services else None
 
+    @computed_field
     @property
     def author(self) -> str | None:
         """Returns the first author."""
