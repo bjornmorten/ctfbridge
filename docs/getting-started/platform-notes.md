@@ -32,6 +32,14 @@ While CTFBridge provides a unified API, each CTF platform has its own unique cha
 
 -----
 
+## GZCTF
+
+??? danger "URL Format is Critical"
+    - You **must** provide the full URL to the specific CTF event.
+    - The URL must be in the format `https://example.com/game/<GAME_ID>`.
+
+-----
+
 ## Berg
 
 ??? warning "Scoreboard Support"
