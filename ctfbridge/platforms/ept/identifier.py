@@ -36,7 +36,6 @@ class EPTIdentifier(PlatformIdentifier):
     async def dynamic_detect(self, base_url: str) -> bool:
         try:
             url = f"{base_url.rstrip('/')}{Endpoints.Misc.METADATA}"
-            print(url)
             resp = await self.http.get(url, timeout=5)
 
             if resp.status_code == 200 and "anonymous_allowed" in resp.text:
