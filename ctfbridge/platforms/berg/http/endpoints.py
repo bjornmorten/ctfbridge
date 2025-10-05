@@ -1,4 +1,4 @@
-API_BASE = "/api/v2"
+API_BASE = "/api"
 
 
 class Endpoints:
