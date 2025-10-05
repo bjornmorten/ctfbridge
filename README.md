@@ -80,6 +80,7 @@ CTFBridge works out of the box with:
 | **CTFd** | ✅ | ✅ | ✅ | ✅ |
 | **rCTF** | ✅ | ✅ | ✅ | ✅ |
 | **GZCTF** | ✅ | ✅ | ✅ | ✅ |
+| **HTB** | ✅ | ✅ | ✅ | ✅ |
 | **Berg** | ❌ | ✅ | ❌ | ❌ |
 | **EPT** | ❌ | ✅ | ❌ | ❌ |
 |_More..._|🚧|🚧|🚧|🚧|
