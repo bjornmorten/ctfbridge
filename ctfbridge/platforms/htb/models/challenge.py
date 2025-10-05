@@ -20,9 +20,7 @@ class HTBChallenge(BaseModel):
     creator: str
     filename: str
     solved: bool
-
-    # FETCH FROM OTHER ENDPOINT
-    category: None = None
+    category: str
 
     def to_core_model(self) -> Challenge:
         return Challenge.model_construct(

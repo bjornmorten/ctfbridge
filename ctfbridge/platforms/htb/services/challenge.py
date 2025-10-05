@@ -41,7 +41,7 @@ class HTBChallengeService(CoreChallengeService):
             challenges = data["challenges"]
 
             challenges = [
-                HTBChallenge(**chal, category=categories.get(chal.get("category_id")))
+                HTBChallenge(**chal, category=categories.get(chal.get("challenge_category_id")))
                 for chal in challenges
             ]
 
