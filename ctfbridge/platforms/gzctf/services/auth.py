@@ -24,7 +24,6 @@ class GZCTFAuthService(CoreAuthService):
             resp = await self._client.post(
                 login_url, json={"userName": username, "password": password}
             )
-            print(resp.text)
 
             if resp.status_code == 401:
                 logger.debug("Incorrect credentials or login denied for user %s", username)
