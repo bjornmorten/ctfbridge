@@ -8,6 +8,7 @@ PLATFORM_CLIENTS: dict[str, str] = {
     "berg": "ctfbridge.platforms.berg.client.BergClient",
     "ept": "ctfbridge.platforms.ept.client.EPTClient",
     "gzctf": "ctfbridge.platforms.gzctf.client.GZCTFClient",
+    "htb": "ctfbridge.platforms.htb.client.HTBClient",
 }
 
 # Maps platform names to their identifier class paths
@@ -17,6 +18,7 @@ PLATFORM_IDENTIFIERS: dict[str, str] = {
     "berg": "ctfbridge.platforms.berg.identifier.BergIdentifier",
     "ept": "ctfbridge.platforms.ept.identifier.EPTIdentifier",
     "gzctf": "ctfbridge.platforms.gzctf.identifier.GZCTFIdentifier",
+    "htb": "ctfbridge.platforms.htb.identifier.HTBIdentifier",
 }
 
 

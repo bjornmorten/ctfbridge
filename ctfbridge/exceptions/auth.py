@@ -35,3 +35,10 @@ class NotAuthenticatedError(CTFBridgeError):
 
     def __init__(self, msg="You must be logged in to perform this action."):
         super().__init__(msg)
+
+
+class NotAuthorizedError(CTFBridgeError):
+    """Raised when an action is attempted without being authorized."""
+
+    def __init__(self, msg="You must have permissions to perform this action."):
+        super().__init__(msg)

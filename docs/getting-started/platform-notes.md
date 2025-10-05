@@ -40,6 +40,13 @@ While CTFBridge provides a unified API, each CTF platform has its own unique cha
 
 -----
 
+## HTB
+
+??? danger "URL Format is Critical"
+    - You **must** provide the full URL to the specific CTF event.
+    - The URL must be in the format `https://ctf.hackthebox.com/event/<id>`.
+-----
+
 ## Berg
 
 ??? warning "Scoreboard Support"

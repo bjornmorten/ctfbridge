@@ -4,6 +4,7 @@ from .auth import (
     LoginError,
     MissingAuthMethodError,
     NotAuthenticatedError,
+    NotAuthorizedError,
     SessionExpiredError,
     TokenAuthError,
 )
@@ -39,6 +40,7 @@ __all__ = [
     "InvalidAuthMethodError",
     "SessionExpiredError",
     "NotAuthenticatedError",
+    "NotAuthorizedError",
     # HTTP
     "APIError",
     "BadRequestError",
