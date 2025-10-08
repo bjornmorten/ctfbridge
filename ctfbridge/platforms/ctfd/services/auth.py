@@ -38,7 +38,7 @@ class CTFdAuthService(CoreAuthService):
                 follow_redirects=True,
             )
 
-            if resp.status_code == 403 or "incorrect" in resp.text.lower():
+            if "Your username or password is incorrect" in resp.text:
                 logger.debug("Incorrect credentials or login denied for user %s", username)
                 raise LoginError(username)
 
