@@ -83,6 +83,7 @@ CTFBridge works out of the box with:
 | **HTB** | ✅ | ✅ | ✅ | ✅ |
 | **Berg** | ❌ | ✅ | ❌ | ❌ |
 | **EPT** | ❌ | ✅ | ❌ | ❌ |
+| **CryptoHack** | ❌ | ✅ | ❌ | ❌ |
 |_More..._|🚧|🚧|🚧|🚧|
 <!-- PLATFORMS_TABLE_END -->
 
