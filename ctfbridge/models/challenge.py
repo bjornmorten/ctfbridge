@@ -49,10 +49,6 @@ class Service(BaseModel):
         default=None,
         description="The raw connection string or information provided (e.g., 'nc example.com 12345').",
     )
-    container: str | None = Field(
-        default=None,
-        description="For Docker services, the container image/name.",
-    )
 
 
 class Challenge(BaseModel):
@@ -70,6 +66,10 @@ class Challenge(BaseModel):
     normalized_categories: list[str] = Field(
         default_factory=list,
         description="A list of normalized categories (e.g., 'rev' for 'Reverse Engineering').",
+    )
+    subcategory: str | None = Field(
+        default=None,
+        description="A more specific category under the main category, if the platform defines one.",
     )
     value: int | None = Field(
         default=None,

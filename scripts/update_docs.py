@@ -40,8 +40,12 @@ PLATFORM_METADATA = {
         "id": "htb",
         "description": "Hack The Box's platform for Jeopardy-style CTF events. Visit [ctf.hackthebox.com](https://ctf.hackthebox.com/)",
     },
+    "CryptoHack": {
+        "id": "cryptohack",
+        "description": "A free, fun platform for learning modern cryptography. Visit [cryptohack.org](https://cryptohack.org/)",
+    },
 }
-PLATFORM_ORDER = ["CTFd", "rCTF", "GZCTF", "HTB", "Berg", "EPT"]
+PLATFORM_ORDER = ["CTFd", "rCTF", "GZCTF", "HTB", "Berg", "EPT", "CryptoHack"]
 
 CAPABILITY_DISPLAY_MAP = {
     "🔑 Authentication & Session": {
