@@ -86,7 +86,7 @@ def parse_challenges(html: str) -> List[CryptoHackChallenge]:
                 solved=solved,
             )
 
-        challenges.append(challenge)
+            challenges.append(challenge)
 
     return challenges
 
