@@ -10,6 +10,7 @@ PLATFORM_CLIENTS: dict[str, str] = {
     "gzctf": "ctfbridge.platforms.gzctf.client.GZCTFClient",
     "htb": "ctfbridge.platforms.htb.client.HTBClient",
     "cryptohack": "ctfbridge.platforms.cryptohack.client.CryptoHackClient",
+    "pwnabletw": "ctfbridge.platforms.pwnabletw.client.PwnableTWClient",
 }
 
 # Maps platform names to their identifier class paths
@@ -21,6 +22,7 @@ PLATFORM_IDENTIFIERS: dict[str, str] = {
     "gzctf": "ctfbridge.platforms.gzctf.identifier.GZCTFIdentifier",
     "htb": "ctfbridge.platforms.htb.identifier.HTBIdentifier",
     "cryptohack": "ctfbridge.platforms.cryptohack.identifier.CryptoHackIdentifier",
+    "pwnabletw": "ctfbridge.platforms.pwnabletw.identifier.PwnableTWIdentifier",
 }
 
 
