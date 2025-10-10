@@ -48,8 +48,22 @@ PLATFORM_METADATA = {
         "id": "pwnabletw",
         "description": "A wargame site for hackers to test and expand their binary exploiting skills. Visit [pwnable.tw](https://pwnable.tw/)",
     },
+    "pwnable.xyz": {
+        "id": "pwnablexyz",
+        "description": "A wargame site with pwnables for beginners made by OpenToAll. Visit [pwnable.xyz](https://pwnable.xyz/)",
+    },
 }
-PLATFORM_ORDER = ["CTFd", "rCTF", "GZCTF", "HTB", "Berg", "EPT", "CryptoHack", "pwnable.tw"]
+PLATFORM_ORDER = [
+    "CTFd",
+    "rCTF",
+    "GZCTF",
+    "HTB",
+    "Berg",
+    "EPT",
+    "CryptoHack",
+    "pwnable.tw",
+    "pwnable.xyz",
+]
 
 CAPABILITY_DISPLAY_MAP = {
     "🔑 Authentication & Session": {
