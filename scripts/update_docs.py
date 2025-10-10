@@ -44,8 +44,12 @@ PLATFORM_METADATA = {
         "id": "cryptohack",
         "description": "A free, fun platform for learning modern cryptography. Visit [cryptohack.org](https://cryptohack.org/)",
     },
+    "pwnable.tw": {
+        "id": "pwnabletw",
+        "description": "A wargame site for hackers to test and expand their binary exploiting skills. Visit [pwnable.tw](https://pwnable.tw/)",
+    },
 }
-PLATFORM_ORDER = ["CTFd", "rCTF", "GZCTF", "HTB", "Berg", "EPT", "CryptoHack"]
+PLATFORM_ORDER = ["CTFd", "rCTF", "GZCTF", "HTB", "Berg", "EPT", "CryptoHack", "pwnable.tw"]
 
 CAPABILITY_DISPLAY_MAP = {
     "🔑 Authentication & Session": {

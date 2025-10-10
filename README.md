@@ -84,6 +84,7 @@ CTFBridge works out of the box with:
 | **Berg** | ❌ | ✅ | ❌ | ❌ |
 | **EPT** | ❌ | ✅ | ❌ | ❌ |
 | **CryptoHack** | ❌ | ✅ | ❌ | ❌ |
+| **pwnable.tw** | ❌ | ✅ | ❌ | ❌ |
 |_More..._|🚧|🚧|🚧|🚧|
 <!-- PLATFORMS_TABLE_END -->
 
