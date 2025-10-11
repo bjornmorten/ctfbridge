@@ -1,6 +1,13 @@
 from bs4 import BeautifulSoup
 import re
-from ctfbridge.models.challenge import Challenge, Attachment, Service, ServiceType
+from ctfbridge.models.challenge import (
+    Challenge,
+    Attachment,
+    Service,
+    ServiceType,
+    DownloadInfo,
+    DownloadType,
+)
 
 
 def parse_challenges(html: str) -> list[Challenge]:
@@ -59,7 +66,11 @@ def parse_challenges(html: str) -> list[Challenge]:
             href = a["href"]
             if href.startswith("/redisfiles/challenge_"):
                 name_part = href.split("/")[-1]
-                attachments.append(Attachment(name=name_part, url=href))
+                attachments.append(
+                    Attachment(
+                        name=name_part, download_info=DownloadInfo(type=DownloadType.HTTP, url=href)
+                    )
+                )
 
         challenges.append(
             Challenge(

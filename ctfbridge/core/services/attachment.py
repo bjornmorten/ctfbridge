@@ -1,122 +1,264 @@
 import asyncio
 import logging
-import os
-import time
-from typing import Callable, List, Optional
+from pathlib import Path
+from stat import S_ISDIR
+from typing import Callable
 from urllib.parse import urljoin, urlparse
 
 import httpx
 
-from ctfbridge.base.services.attachment import AttachmentService
+from ctfbridge.models.challenge import (
+    Attachment,
+    AttachmentCollection,
+    Challenge,
+    DownloadType,
+    ProgressData,
+)
 from ctfbridge.exceptions import AttachmentDownloadError
-from ctfbridge.models.challenge import Attachment, ProgressData
 
 logger = logging.getLogger(__name__)
 
 
-class CoreAttachmentService(AttachmentService):
-    """
-    Core implementation of the attachment service.
-    Provides functionality for downloading challenge attachments from both platform and external URLs.
-    """
+class CoreAttachmentService:
+    """Handles downloading attachments, returning updated Challenge objects."""
 
     def __init__(self, client):
         self._client = client
-        self._external_http = httpx.AsyncClient(follow_redirects=True)
+        self._http = httpx.AsyncClient(follow_redirects=True)
 
     async def download(
         self,
         attachment: Attachment,
-        save_dir: str,
-        filename: Optional[str] = None,
-        progress: Optional[Callable[[ProgressData], None]] = None,
-    ) -> str:
-        os.makedirs(save_dir, exist_ok=True)
-
-        url = self._normalize_url(attachment.url)
-        final_filename = filename or attachment.name
-        final_path = os.path.join(save_dir, final_filename)
-        temp_path = final_path + ".part"
-
-        logger.info("Downloading attachment from %s to %s", url, temp_path)
+        save_dir: str | Path,
+        progress: Callable[[ProgressData], None] | None = None,
+    ) -> list[Attachment]:
+        """
+        Download a single attachment (HTTP or SSH).
+        Returns one or more Attachment objects.
+        """
+        save_dir = Path(save_dir)
+        save_dir.mkdir(parents=True, exist_ok=True)
 
         try:
-            client = self._external_http if self._is_external_url(url) else self._client._http
-            async with client.stream("GET", url) as response:
-                response.raise_for_status()
-                await self._save_stream_to_file(response, temp_path, progress, attachment)
+            if attachment.download_info.type == DownloadType.HTTP:
+                path = await self._download_http(attachment, save_dir, progress)
+                enriched = await self._enrich_metadata(attachment, path)
+                return [enriched]
 
-            os.rename(temp_path, final_path)
-            logger.info("Successfully downloaded and moved to: %s", final_path)
+            elif attachment.download_info.type == DownloadType.SSH:
+                return await self._download_ssh(attachment, save_dir)
+
+            else:
+                raise AttachmentDownloadError(
+                    None, f"Unsupported download type: {attachment.download_info.type}"
+                )
 
         except Exception as e:
-            logger.error("Download failed for %s: %s", url, e)
-            raise AttachmentDownloadError(url, str(e)) from e
-        finally:
-            if os.path.exists(temp_path):
-                os.remove(temp_path)
-
-        return final_path
+            logger.warning("Failed to download %s: %s", attachment.name or "<unknown>", e)
+            return [attachment]
 
     async def download_all(
         self,
-        attachments: List[Attachment],
-        save_dir: str,
-        progress: Optional[Callable[[ProgressData], None]] = None,
+        challenge: Challenge,
+        save_dir: str | Path,
         concurrency: int = 5,
-    ) -> List[str]:
+        progress: Callable[[ProgressData], None] | None = None,
+    ) -> Challenge:
+        """Download all attachments for a given challenge, merging multiple results."""
+        attachments = list(challenge.attachments)
+        if not attachments:
+            logger.debug("Challenge '%s' has no attachments.", challenge.name)
+            return challenge
+
+        save_dir = Path(save_dir)
+        save_dir.mkdir(parents=True, exist_ok=True)
+
         semaphore = asyncio.Semaphore(concurrency)
 
-        async def download_with_semaphore(att: Attachment):
+        async def task(att: Attachment):
             async with semaphore:
-                try:
-                    return await self.download(att, save_dir, progress=progress)
-                except AttachmentDownloadError as e:
-                    logger.warning("Skipping attachment '%s': %s", att.name, e)
-                    return None
+                return await self.download(att, save_dir, progress)
 
-        tasks = [download_with_semaphore(att) for att in attachments]
-        results = await asyncio.gather(*tasks)
-        return [path for path in results if path]
+        results_nested = await asyncio.gather(*(task(a) for a in attachments))
+        results = [att for sublist in results_nested for att in sublist]
 
-    async def _save_stream_to_file(
+        return challenge.model_copy(
+            update={"attachments": AttachmentCollection(attachments=results)}
+        )
+
+    async def _download_http(
         self,
-        response: httpx.Response,
-        path: str,
-        progress: Optional[Callable[[ProgressData], None]],
         attachment: Attachment,
-    ):
-        total_size = int(response.headers.get("Content-Length", 0))
-        downloaded_size = 0
-        start_time = time.time()
+        save_dir: Path,
+        progress: Callable[[ProgressData], None] | None = None,
+    ) -> Path:
+        """Download a single HTTP/HTTPS attachment."""
+        url = self._normalize_url(attachment.download_info.url)
+        filename = attachment.name or Path(urlparse(url).path).name
+        final_path = save_dir / filename
+        temp_path = final_path.with_suffix(final_path.suffix + ".part")
+
+        async with self._http.stream("GET", url) as response:
+            response.raise_for_status()
+            total_size = int(response.headers.get("Content-Length", 0))
+            downloaded = 0
+
+            with temp_path.open("wb") as f:
+                async for chunk in response.aiter_bytes(1048576):
+                    f.write(chunk)
+                    downloaded += len(chunk)
+                    if progress and total_size > 0:
+                        await progress(
+                            ProgressData(
+                                attachment=attachment,
+                                downloaded_bytes=downloaded,
+                                total_bytes=total_size,
+                                percentage=(downloaded / total_size) * 100,
+                            )
+                        )
+
+        if final_path.exists():
+            logger.warning("File already exists and will be overwritten: %s", final_path)
+
+        temp_path.rename(final_path)
+        logger.info("Downloaded HTTP file: %s", final_path)
+        return final_path
+
+    async def _download_ssh(self, attachment: Attachment, save_dir: Path) -> list[Attachment]:
+        """Download a file or directory from an SSH server, returning one or more Attachment objects."""
+        import asyncssh
+
+        info = attachment.download_info
+        if not info or not info.host or not info.path or not info.username:
+            raise AttachmentDownloadError(None, "Incomplete SSH download info")
+
+        save_dir.mkdir(parents=True, exist_ok=True)
+        downloaded: list[Attachment] = []
+
+        async with asyncssh.connect(
+            info.host,
+            port=info.port or 22,
+            username=info.username,
+            password=info.password,
+            known_hosts=None,
+            client_keys=[info.key] if info.key else None,
+        ) as conn:
+            try:
+                sftp = await asyncio.wait_for(conn.start_sftp_client(), timeout=3)
+            except asyncio.TimeoutError:
+                raise AttachmentDownloadError(info.path or info.host, "SFTP unavailable.")
+
+            try:
+                attrs = await sftp.stat(info.path)
+            except (OSError, asyncssh.SFTPError) as e:
+                raise AttachmentDownloadError(info.path, f"Cannot stat remote path: {e}")
+
+            if S_ISDIR(attrs.permissions):
+                logger.info("Remote path '%s' is a directory, downloading contents...", info.path)
+                downloaded = await self._download_ssh_dir(sftp, attachment, info.path, save_dir)
+            else:
+                att = await self._download_ssh_file(sftp, attachment, info.path, save_dir)
+                downloaded.append(att)
+
+        return downloaded
+
+    async def _download_ssh_file(
+        self, sftp, attachment: Attachment, remote_path: str, local_dir: Path
+    ) -> Attachment:
+        """Download a single SSH file and return an Attachment with metadata."""
+        filename = Path(remote_path).name
+        local_path = local_dir / filename
+        local_path.parent.mkdir(parents=True, exist_ok=True)
+
+        if local_path.exists():
+            logger.warning("File already exists and will be overwritten: %s", local_path)
+
+        await asyncio.wait_for(sftp.get(remote_path, str(local_path)), timeout=10)
+        logger.debug("Downloaded SSH file: %s", local_path)
+
+        updated_attachment = attachment.model_copy(
+            update={
+                "local_path": str(local_path),
+                "download_info": attachment.download_info.model_copy(
+                    update={"path": remote_path or attachment.download_info.path}
+                ),
+            }
+        )
+
+        updated_attachment = await self._enrich_metadata(updated_attachment, local_path)
+
+        return updated_attachment
+
+    async def _download_ssh_dir(
+        self,
+        sftp,
+        attachment: Attachment,
+        remote_dir: str,
+        local_dir: Path,
+        include_hidden: bool = False,
+        seen: set[str] | None = None,
+    ) -> list[Attachment]:
+        """Recursively download a directory and return a list of Attachment objects."""
+        seen = seen or set()
+        if remote_dir in seen:
+            return []
+        seen.add(remote_dir)
+
+        attachments: list[Attachment] = []
+        local_dir.mkdir(parents=True, exist_ok=True)
 
         try:
-            with open(path, "wb") as f:
-                async for chunk in response.aiter_bytes(chunk_size=10485760):
-                    f.write(chunk)
-                    downloaded_size += len(chunk)
-
-                    if progress and total_size > 0:
-                        elapsed_time = time.time() - start_time
-
-                        if elapsed_time == 0:
-                            elapsed_time = 0.001
-
-                        speed = downloaded_size / elapsed_time
-                        eta = (total_size - downloaded_size) / speed if speed > 0 else None
-                        percent = (downloaded_size / total_size) * 100
-
-                        progress_data = ProgressData(
-                            attachment=attachment,
-                            downloaded_bytes=downloaded_size,
-                            total_bytes=total_size,
-                            percentage=percent,
-                            speed_bps=speed,
-                            eta_seconds=eta,
-                        )
-                        await progress(progress_data)
+            entries = await asyncio.wait_for(sftp.listdir(remote_dir), timeout=5)
         except Exception as e:
-            raise OSError(f"Failed to save file to {path}: {e}") from e
+            logger.warning("Failed to list directory %s: %s", remote_dir, e)
+            return []
+
+        for entry in entries:
+            if not include_hidden and entry.startswith("."):
+                continue
+
+            remote_path = f"{remote_dir.rstrip('/')}/{entry}"
+            local_path = local_dir / entry
+
+            try:
+                attrs = await asyncio.wait_for(sftp.stat(remote_path), timeout=5)
+            except Exception as e:
+                logger.warning("Failed to stat %s: %s", remote_path, e)
+                continue
+
+            if S_ISDIR(attrs.permissions):
+                sub_attachments = await self._download_ssh_dir(
+                    sftp, attachment, remote_path, local_path, include_hidden, seen
+                )
+                attachments.extend(sub_attachments)
+            else:
+                try:
+                    att = await self._download_ssh_file(sftp, attachment, remote_path, local_dir)
+                    attachments.append(att)
+                except Exception as e:
+                    logger.warning("Failed to download %s: %s", remote_path, e)
+
+        return attachments
+
+    async def _enrich_metadata(self, attachment: Attachment, path: Path) -> Attachment:
+        """Fill in metadata (name, size) after download."""
+        try:
+            if path.is_dir():
+                return attachment.model_copy(update={"local_path": str(path)})
+
+            size_bytes = path.stat().st_size
+            name = attachment.name or path.name
+
+            return attachment.model_copy(
+                update={
+                    "name": name,
+                    "local_path": str(path),
+                    "size_bytes": size_bytes,
+                }
+            )
+        except Exception as e:
+            logger.warning("Failed to enrich metadata for %s: %s", path, e)
+            return attachment
 
     def _normalize_url(self, url: str) -> str:
         parsed = urlparse(url)
@@ -124,13 +266,8 @@ class CoreAttachmentService(AttachmentService):
             return urljoin(self._client.platform_url.rstrip("/") + "/", url.lstrip("/"))
         return url
 
-    def _is_external_url(self, url: str) -> bool:
-        base_netloc = urlparse(self._client.platform_url).netloc
-        target_netloc = urlparse(url).netloc
-        return base_netloc != target_netloc
-
     async def __aenter__(self):
         return self
 
     async def __aexit__(self, *args):
-        await self._external_http.aclose()
+        await self._http.aclose()

@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import BaseModel, Field, computed_field
+from pydantic import BaseModel, Field, computed_field, field_validator
 
 
 class ServiceType(str, Enum):
@@ -14,11 +14,85 @@ class ServiceType(str, Enum):
     TELNET = "telnet"
 
 
+class DownloadType(str, Enum):
+    HTTP = "http"
+    SSH = "ssh"
+
+
+class DownloadInfo(BaseModel):
+    """Describes how to obtain an attachment."""
+
+    type: DownloadType = Field(DownloadType.HTTP, description="How to access the resource.")
+    url: str | None = Field(None, description="Direct download URL if applicable.")
+    host: str | None = Field(None, description="Hostname for SSH or other remote connections.")
+    port: int | None = Field(None, description="Port number for remote access.")
+    path: str | None = Field(None, description="Path to the resource on the remote system.")
+    username: str | None = Field(None, description="Username if required for SSH or API.")
+    password: str | None = Field(None, description="Password or token, if available.")
+    key: str | None = Field(None, description="Key, if available.")
+
+
 class Attachment(BaseModel):
     """Represents a downloadable attachment file for a challenge."""
 
-    name: str = Field(..., description="The display name of the attachment file.")
-    url: str = Field(..., description="The URL from which the attachment can be downloaded.")
+    name: str | None = Field(None, description="The display name of the attachment file, if known.")
+    local_path: str | None = Field(
+        None, description="Local file path after download, if available."
+    )
+    size_bytes: int | None = Field(None, description="Size of the file in bytes, if known.")
+    download_info: DownloadInfo = Field(None, description="How to obtain this attachment.")
+
+    @computed_field
+    @property
+    def is_pending(self) -> bool:
+        """True if no metadata is known yet."""
+        return self.name is None
+
+
+class AttachmentState(str, Enum):
+    NONE = "none"
+    KNOWN = "known"
+    PENDING = "pending"
+    PARTIAL = "partial"
+
+
+class AttachmentCollection(BaseModel):
+    """Unified collection of all attachments (fetched or not)."""
+
+    attachments: list[Attachment] = Field(default_factory=list)
+
+    def __iter__(self):
+        return iter(self.attachments)
+
+    def __len__(self):
+        return len(self.attachments)
+
+    def __getitem__(self, index):
+        return self.attachments[index]
+
+    def __bool__(self):
+        return bool(self.attachments)
+
+    @computed_field
+    @property
+    def state(self) -> AttachmentState:
+        if not self.attachments:
+            return AttachmentState.NONE
+
+        pending = [a.is_pending for a in self.attachments]
+
+        if all(pending):
+            return AttachmentState.PENDING
+        elif any(pending):
+            return AttachmentState.PARTIAL
+        else:
+            return AttachmentState.KNOWN
+
+    @computed_field
+    @property
+    def is_unfetched(self) -> bool:
+        """True if at least one attachment hasn't been fetched yet."""
+        return any(a.is_pending for a in self.attachments)
 
 
 class ProgressData(BaseModel):
@@ -141,6 +215,12 @@ class Challenge(BaseModel):
     def author(self) -> str | None:
         """Returns the first author."""
         return self.authors[0] if self.authors else None
+
+    @field_validator("attachments", mode="before")
+    def wrap_attachments(cls, v):
+        if isinstance(v, list):
+            return AttachmentCollection(attachments=v)
+        return v
 
 
 class FilterOptions(BaseModel):

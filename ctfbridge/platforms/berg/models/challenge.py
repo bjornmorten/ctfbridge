@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Attachment, Challenge
+from ctfbridge.models.challenge import Attachment, Challenge, DownloadType, DownloadInfo
 
 
 class BergAttachment(BaseModel):
@@ -34,7 +34,10 @@ class BergChallenge(BaseModel):
         core_attachments = [
             Attachment(
                 name=attachment.file_name,
-                url=attachment.download_url,
+                download_info=DownloadInfo(
+                    type=DownloadType.HTTP,
+                    url=attachment.download_url,
+                ),
             )
             for attachment in self.attachments
         ]

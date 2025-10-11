@@ -5,7 +5,7 @@ from urllib.parse import unquote, urlparse
 
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Attachment, Challenge
+from ctfbridge.models.challenge import Attachment, Challenge, DownloadInfo, DownloadType
 from ctfbridge.models.submission import SubmissionResult
 from ctfbridge.processors.helpers.services import extract_services_from_text
 
@@ -38,7 +38,10 @@ class CTFdChallenge(BaseModel):
             attachments=[
                 Attachment(
                     name=unquote(urlparse(url).path.split("/")[-1]),
-                    url=url,
+                    download_info=DownloadInfo(
+                        type=DownloadType.HTTP,
+                        url=url,
+                    ),
                 )
                 for url in self.files
             ],

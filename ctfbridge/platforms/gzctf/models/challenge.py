@@ -3,9 +3,8 @@ from typing import List
 
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Attachment, Challenge
+from ctfbridge.models.challenge import Attachment, Challenge, DownloadInfo, DownloadType
 from ctfbridge.models.submission import SubmissionResult
-from ctfbridge.platforms.ept.http.endpoints import Endpoints
 
 
 class GZCTFContext(BaseModel):
@@ -34,7 +33,10 @@ class GZCTFChallenge(BaseModel):
             attachments=[
                 Attachment(
                     name=Path(self.context.url).name,
-                    url=self.context.url,
+                    download_info=DownloadInfo(
+                        type=DownloadType.HTTP,
+                        url=self.context.url,
+                    ),
                 )
             ]
             if self.context and self.context.url

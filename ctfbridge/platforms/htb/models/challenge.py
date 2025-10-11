@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Attachment, Challenge
+from ctfbridge.models.challenge import Attachment, Challenge, DownloadType, DownloadInfo
 from ctfbridge.models.submission import SubmissionResult
 from ctfbridge.platforms.htb.http.endpoints import Endpoints
 
@@ -31,7 +31,10 @@ class HTBChallenge(BaseModel):
             attachments=[
                 Attachment(
                     name=self.filename,
-                    url=Endpoints.Challenges.download_attachment_url(self.id),
+                    download_info=DownloadInfo(
+                        type=DownloadType.HTTP,
+                        url=Endpoints.Challenges.download_attachment_url(self.id),
+                    ),
                 )
             ]
             if self.filename
