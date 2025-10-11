@@ -182,7 +182,7 @@ class CoreAttachmentService:
         if local_path.exists():
             logger.warning("File already exists and will be overwritten: %s", local_path)
 
-        await asyncio.wait_for(sftp.get(remote_path, str(local_path)))
+        await sftp.get(remote_path, str(local_path))
         logger.debug("Downloaded SSH file: %s", local_path)
 
         updated_attachment = attachment.model_copy(
