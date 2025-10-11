@@ -5,6 +5,7 @@ from stat import S_ISDIR
 from typing import Callable
 from urllib.parse import urljoin, urlparse
 
+import time
 import httpx
 
 from ctfbridge.models.challenge import (
@@ -102,11 +103,17 @@ class CoreAttachmentService:
             response.raise_for_status()
             total_size = int(response.headers.get("Content-Length", 0))
             downloaded = 0
+            start_time = time.monotonic()
 
             with temp_path.open("wb") as f:
                 async for chunk in response.aiter_bytes(1048576):
                     f.write(chunk)
                     downloaded += len(chunk)
+
+                    elapsed = time.monotonic() - start_time
+                    speed_bps = downloaded / elapsed if elapsed > 0 else 0.0
+                    eta_seconds = (total_size - downloaded) / speed_bps if speed_bps > 0 else None
+
                     if progress and total_size > 0:
                         await progress(
                             ProgressData(
@@ -114,6 +121,8 @@ class CoreAttachmentService:
                                 downloaded_bytes=downloaded,
                                 total_bytes=total_size,
                                 percentage=(downloaded / total_size) * 100,
+                                speed_bps=speed_bps,
+                                eta_seconds=eta_seconds,
                             )
                         )
 
@@ -173,7 +182,7 @@ class CoreAttachmentService:
         if local_path.exists():
             logger.warning("File already exists and will be overwritten: %s", local_path)
 
-        await asyncio.wait_for(sftp.get(remote_path, str(local_path)), timeout=10)
+        await asyncio.wait_for(sftp.get(remote_path, str(local_path)))
         logger.debug("Downloaded SSH file: %s", local_path)
 
         updated_attachment = attachment.model_copy(
