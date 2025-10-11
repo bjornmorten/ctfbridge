@@ -11,6 +11,7 @@ PLATFORM_CLIENTS: dict[str, str] = {
     "htb": "ctfbridge.platforms.htb.client.HTBClient",
     "cryptohack": "ctfbridge.platforms.cryptohack.client.CryptoHackClient",
     "pwnabletw": "ctfbridge.platforms.pwnabletw.client.PwnableTWClient",
+    "pwnablekr": "ctfbridge.platforms.pwnablekr.client.PwnableKRClient",
     "pwnablexyz": "ctfbridge.platforms.pwnablexyz.client.PwnableXYZClient",
 }
 
@@ -24,6 +25,7 @@ PLATFORM_IDENTIFIERS: dict[str, str] = {
     "htb": "ctfbridge.platforms.htb.identifier.HTBIdentifier",
     "cryptohack": "ctfbridge.platforms.cryptohack.identifier.CryptoHackIdentifier",
     "pwnabletw": "ctfbridge.platforms.pwnabletw.identifier.PwnableTWIdentifier",
+    "pwnablekr": "ctfbridge.platforms.pwnablekr.identifier.PwnableKRIdentifier",
     "pwnablexyz": "ctfbridge.platforms.pwnablexyz.identifier.PwnableXYZIdentifier",
 }
 
