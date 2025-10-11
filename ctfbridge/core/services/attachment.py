@@ -252,9 +252,6 @@ class CoreAttachmentService:
     async def _enrich_metadata(self, attachment: Attachment, path: Path) -> Attachment:
         """Fill in metadata (name, size) after download."""
         try:
-            if path.is_dir():
-                return attachment.model_copy(update={"local_path": str(path)})
-
             size_bytes = path.stat().st_size
             name = attachment.name or path.name
 

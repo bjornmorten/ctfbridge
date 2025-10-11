@@ -2,7 +2,13 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from ctfbridge.models.challenge import Attachment, Challenge, DownloadInfo, DownloadType
+from ctfbridge.models.challenge import (
+    Attachment,
+    Challenge,
+    DownloadInfo,
+    DownloadType,
+    AttachmentCollection,
+)
 
 
 class RCTFChallengeFile(BaseModel):
@@ -27,12 +33,14 @@ class RCTFChallengeData(BaseModel):
             value=self.points,
             categories=[self.category],
             description=self.description,
-            attachments=[
-                Attachment(
-                    name=f.name, download_info=DownloadInfo(type=DownloadType.HTTP, url=f.url)
-                )
-                for f in self.files
-            ],
+            attachments=AttachmentCollection(
+                attachments=[
+                    Attachment(
+                        name=f.name, download_info=DownloadInfo(type=DownloadType.HTTP, url=f.url)
+                    )
+                    for f in self.files
+                ]
+            ),
             solved=solved,
             tags=[],
         )

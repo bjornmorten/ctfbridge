@@ -1,6 +1,12 @@
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Attachment, Challenge, DownloadType, DownloadInfo
+from ctfbridge.models.challenge import (
+    Attachment,
+    Challenge,
+    DownloadType,
+    DownloadInfo,
+    AttachmentCollection,
+)
 from ctfbridge.models.submission import SubmissionResult
 from ctfbridge.platforms.htb.http.endpoints import Endpoints
 
@@ -28,17 +34,19 @@ class HTBChallenge(BaseModel):
             name=self.name,
             categories=[self.category],
             description=self.content,
-            attachments=[
-                Attachment(
-                    name=self.filename,
-                    download_info=DownloadInfo(
-                        type=DownloadType.HTTP,
-                        url=Endpoints.Challenges.download_attachment_url(self.id),
-                    ),
-                )
-            ]
-            if self.filename
-            else [],
+            attachments=AttachmentCollection(
+                attachments=[
+                    Attachment(
+                        name=self.filename,
+                        download_info=DownloadInfo(
+                            type=DownloadType.HTTP,
+                            url=Endpoints.Challenges.download_attachment_url(self.id),
+                        ),
+                    )
+                ]
+                if self.filename
+                else []
+            ),
             authors=[self.creator],
             solved=self.solved,
         )

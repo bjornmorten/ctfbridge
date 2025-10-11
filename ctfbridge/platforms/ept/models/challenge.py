@@ -4,7 +4,13 @@ from typing import List
 
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Attachment, Challenge, DownloadType, DownloadInfo
+from ctfbridge.models.challenge import (
+    Attachment,
+    Challenge,
+    DownloadType,
+    DownloadInfo,
+    AttachmentCollection,
+)
 from ctfbridge.models.submission import SubmissionResult
 from ctfbridge.platforms.ept.http.endpoints import Endpoints
 
@@ -34,17 +40,19 @@ class EPTChallenge(BaseModel):
             name=self.name,
             categories=self.tags,
             description=self.description,
-            attachments=[
-                Attachment(
-                    name=self.file.name,
-                    download_info=DownloadInfo(
-                        type=DownloadType.HTTP,
-                        url=Endpoints.Challenges.attachment_download(id=self.id),
-                    ),
-                )
-            ]
-            if self.file
-            else [],
+            attachments=AttachmentCollection(
+                attachments=[
+                    Attachment(
+                        name=self.file.name,
+                        download_info=DownloadInfo(
+                            type=DownloadType.HTTP,
+                            url=Endpoints.Challenges.attachment_download(id=self.id),
+                        ),
+                    )
+                ]
+                if self.file
+                else []
+            ),
             solved=self.solved,
         )
 

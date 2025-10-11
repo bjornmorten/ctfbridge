@@ -1,6 +1,14 @@
 from enum import Enum
 
-from pydantic import BaseModel, Field, computed_field, field_validator
+from pydantic import (
+    BaseModel,
+    Field,
+    computed_field,
+    field_validator,
+    model_serializer,
+    field_serializer,
+)
+from pydantic.config import ConfigDict
 
 
 class ServiceType(str, Enum):
@@ -94,6 +102,11 @@ class AttachmentCollection(BaseModel):
         """True if at least one attachment hasn't been fetched yet."""
         return any(a.is_pending for a in self.attachments)
 
+    @model_serializer
+    def serialize_as_list(self):
+        """Serialize as just a list of attachments."""
+        return self.attachments
+
 
 class ProgressData(BaseModel):
     """Represents the state of an ongoing attachment download."""
@@ -128,6 +141,8 @@ class Service(BaseModel):
 class Challenge(BaseModel):
     """Represents a challenge."""
 
+    model_config = ConfigDict(validate_assignment=True)
+
     id: str = Field(
         ...,
         description="The unique identifier of the challenge, typically a number or short string.",
@@ -153,8 +168,8 @@ class Challenge(BaseModel):
         default=None,
         description="The main description, prompt, or story for the challenge. May contain HTML or Markdown.",
     )
-    attachments: list[AttachmentCollection] = Field(
-        default_factory=list,
+    attachments: AttachmentCollection = Field(
+        default=AttachmentCollection,
         description="A collection of downloadable files associated with the challenge.",
     )
     services: list[Service] = Field(
@@ -216,11 +231,9 @@ class Challenge(BaseModel):
         """Returns the first author."""
         return self.authors[0] if self.authors else None
 
-    @field_validator("attachments", mode="before")
-    def wrap_attachments(cls, v):
-        if isinstance(v, list):
-            return AttachmentCollection(attachments=v)
-        return v
+    @field_serializer("attachments")
+    def serialize_attachments(self, attachments: AttachmentCollection):
+        return attachments.model_dump()
 
 
 class FilterOptions(BaseModel):

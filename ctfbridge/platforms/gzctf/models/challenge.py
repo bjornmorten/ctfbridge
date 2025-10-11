@@ -3,7 +3,13 @@ from typing import List
 
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Attachment, Challenge, DownloadInfo, DownloadType
+from ctfbridge.models.challenge import (
+    Attachment,
+    Challenge,
+    DownloadInfo,
+    DownloadType,
+    AttachmentCollection,
+)
 from ctfbridge.models.submission import SubmissionResult
 
 
@@ -30,17 +36,19 @@ class GZCTFChallenge(BaseModel):
             name=self.title,
             categories=[self.category],
             description=self.content,
-            attachments=[
-                Attachment(
-                    name=Path(self.context.url).name,
-                    download_info=DownloadInfo(
-                        type=DownloadType.HTTP,
-                        url=self.context.url,
-                    ),
-                )
-            ]
-            if self.context and self.context.url
-            else [],
+            attachments=AttachmentCollection(
+                attachments=[
+                    Attachment(
+                        name=Path(self.context.url).name,
+                        download_info=DownloadInfo(
+                            type=DownloadType.HTTP,
+                            url=self.context.url,
+                        ),
+                    )
+                    if self.context and self.context.url
+                    else []
+                ]
+            ),
             solved=self.is_solved,
         )
 

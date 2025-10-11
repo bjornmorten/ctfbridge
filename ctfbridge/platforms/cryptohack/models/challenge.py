@@ -2,7 +2,14 @@ from typing import List
 
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Attachment, Challenge, Service, DownloadInfo, DownloadType
+from ctfbridge.models.challenge import (
+    Attachment,
+    Challenge,
+    Service,
+    DownloadInfo,
+    DownloadType,
+    AttachmentCollection,
+)
 
 
 class CryptoHackCategory(BaseModel):
@@ -38,15 +45,17 @@ class CryptoHackChallenge(BaseModel):
             description=self.description,
             value=self.points,
             flag_format=self.flag_format,
-            attachments=[
-                Attachment(
-                    name=attachment.name,
-                    download_info=DownloadInfo(
-                        type=DownloadType.HTTP,
-                        url=attachment.path,
-                    ),
-                )
-                for attachment in self.attachments
-            ],
+            attachments=AttachmentCollection(
+                attachments=[
+                    Attachment(
+                        name=attachment.name,
+                        download_info=DownloadInfo(
+                            type=DownloadType.HTTP,
+                            url=attachment.path,
+                        ),
+                    )
+                    for attachment in self.attachments
+                ]
+            ),
             services=[self.service] if self.service else [],
         )

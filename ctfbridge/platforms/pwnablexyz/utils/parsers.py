@@ -7,6 +7,7 @@ from ctfbridge.models.challenge import (
     ServiceType,
     DownloadInfo,
     DownloadType,
+    AttachmentCollection,
 )
 
 
@@ -78,7 +79,7 @@ def parse_challenges(html: str) -> list[Challenge]:
                 name=name,
                 value=value,
                 description=description,
-                attachments=attachments,
+                attachments=AttachmentCollection(attachments=attachments),
                 services=services,
                 categories=["pwn"],
                 authors=[author],

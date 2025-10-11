@@ -4,7 +4,13 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Attachment, Challenge, DownloadType, DownloadInfo
+from ctfbridge.models.challenge import (
+    Attachment,
+    Challenge,
+    DownloadType,
+    DownloadInfo,
+    AttachmentCollection,
+)
 
 
 class BergAttachment(BaseModel):
@@ -31,16 +37,18 @@ class BergChallenge(BaseModel):
     has_remote: bool = Field(..., alias="hasRemote")
 
     def to_core_model(self) -> Challenge:
-        core_attachments = [
-            Attachment(
-                name=attachment.file_name,
-                download_info=DownloadInfo(
-                    type=DownloadType.HTTP,
-                    url=attachment.download_url,
-                ),
-            )
-            for attachment in self.attachments
-        ]
+        core_attachments = AttachmentCollection(
+            attachments=[
+                Attachment(
+                    name=attachment.file_name,
+                    download_info=DownloadInfo(
+                        type=DownloadType.HTTP,
+                        url=attachment.download_url,
+                    ),
+                )
+                for attachment in self.attachments
+            ]
+        )
 
         return Challenge.model_construct(
             id=self.name,

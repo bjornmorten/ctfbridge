@@ -5,7 +5,13 @@ from urllib.parse import unquote, urlparse
 
 from pydantic import BaseModel, Field
 
-from ctfbridge.models.challenge import Attachment, Challenge, DownloadInfo, DownloadType
+from ctfbridge.models.challenge import (
+    Attachment,
+    Challenge,
+    DownloadInfo,
+    DownloadType,
+    AttachmentCollection,
+)
 from ctfbridge.models.submission import SubmissionResult
 from ctfbridge.processors.helpers.services import extract_services_from_text
 
@@ -35,16 +41,18 @@ class CTFdChallenge(BaseModel):
             categories=[self.category] if self.category else [],
             value=self.value,
             description=self.description,
-            attachments=[
-                Attachment(
-                    name=unquote(urlparse(url).path.split("/")[-1]),
-                    download_info=DownloadInfo(
-                        type=DownloadType.HTTP,
-                        url=url,
-                    ),
-                )
-                for url in self.files
-            ],
+            attachments=AttachmentCollection(
+                attachments=[
+                    Attachment(
+                        name=unquote(urlparse(url).path.split("/")[-1]),
+                        download_info=DownloadInfo(
+                            type=DownloadType.HTTP,
+                            url=url,
+                        ),
+                    )
+                    for url in self.files
+                ]
+            ),
             services=(
                 extract_services_from_text(self.connection_info) if self.connection_info else []
             ),
