@@ -52,6 +52,10 @@ PLATFORM_METADATA = {
         "id": "pwnablexyz",
         "description": "A wargame site with pwnables for beginners made by OpenToAll. Visit [pwnable.xyz](https://pwnable.xyz/)",
     },
+    "pwnable.kr": {
+        "id": "pwnablekr",
+        "description": "A wargame site which provides various pwn challenges regarding system exploitation. Visit [pwnable.kr](https://pwnable.kr/)",
+    },
 }
 PLATFORM_ORDER = [
     "CTFd",
@@ -63,6 +67,7 @@ PLATFORM_ORDER = [
     "CryptoHack",
     "pwnable.tw",
     "pwnable.xyz",
+    "pwnable.kr",
 ]
 
 CAPABILITY_DISPLAY_MAP = {
