@@ -98,7 +98,7 @@ def test_ctfd_challenge_to_core_model_full():
 
     assert len(core_chal.attachments) == 1
     assert "flag.txt" in core_chal.attachments[0].name
-    assert "/play/files/" in core_chal.attachments[0].url
+    assert "/play/files/" in core_chal.attachments[0].download_info.url
 
     assert core_chal.tags == ["Challenge ID: nhojqlyj"]
 
