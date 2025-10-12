@@ -7,6 +7,7 @@ from ctfbridge.platforms.cryptohack.models.challenge import (
 )
 from ctfbridge.models.challenge import Service, ServiceType
 import re
+from markdownify import markdownify as md
 
 
 def parse_categories(html: str) -> List[CryptoHackCategory]:
@@ -55,7 +56,7 @@ def parse_challenges(html: str) -> List[CryptoHackChallenge]:
                         flag_format = match.group(1)
 
             desc_tag = challenge.select_one(".challengeDescription")
-            description = desc_tag.get_text(separator="\n", strip=True) if desc_tag else ""
+            description = md(str(desc_tag))
 
             authors = [
                 a.get_text(strip=True)
