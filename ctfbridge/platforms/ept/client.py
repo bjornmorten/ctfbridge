@@ -10,9 +10,7 @@ from ctfbridge.platforms.ept.services.challenge import EPTChallengeService
 class EPTClient(CoreCTFClient):
     @property
     def capabilities(self) -> Capabilities:
-        return Capabilities(
-            view_challenges=True,
-        )
+        return Capabilities(view_challenges=True, submit_flags=True)
 
     def __init__(self, http: httpx.AsyncClient, url: str):
         self._platform_url = url
