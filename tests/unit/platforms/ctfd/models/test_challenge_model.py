@@ -112,7 +112,7 @@ def test_ctfd_challenge_to_core_model_minimal():
     assert core_chal.name == "Attachments"
     assert core_chal.category == "Tutorial"
     assert core_chal.description is None
-    assert core_chal.attachments == []
+    assert not core_chal.attachments
     assert core_chal.tags == ["beginner"]
     assert core_chal.solved is False
 

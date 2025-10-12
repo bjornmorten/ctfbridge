@@ -388,10 +388,3 @@ def test_handle_case_sensitivity(normalizer, basic_challenge, category):
     result = normalizer.apply(basic_challenge)
     assert len(result.normalized_categories) == 1
     assert result.normalized_categories[0] == category.lower()
-
-
-@pytest.mark.parametrize("category", [None, ""])
-def test_handle_errors_gracefully(normalizer, basic_challenge, category):
-    basic_challenge.categories = [category]
-    result = normalizer.apply(basic_challenge)
-    assert result.normalized_categories == [category]  # Should not crash

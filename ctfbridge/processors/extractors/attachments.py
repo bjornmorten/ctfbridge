@@ -1,7 +1,13 @@
 import logging
 from urllib.parse import unquote, urlparse
 
-from ctfbridge.models.challenge import Attachment, Challenge
+from ctfbridge.models.challenge import (
+    Attachment,
+    Challenge,
+    AttachmentCollection,
+    DownloadInfo,
+    DownloadType,
+)
 from ctfbridge.processors.base import BaseChallengeParser
 from ctfbridge.processors.helpers.url_classifier import classify_links
 from ctfbridge.processors.helpers.url_extraction import extract_links
@@ -19,7 +25,7 @@ class AttachmentExtractor(BaseChallengeParser):
 
         Returns False if the challenge already has attachments or no description.
         """
-        return not challenge.attachments and bool(challenge.description)
+        return not challenge.has_attachments and bool(challenge.description)
 
     def _process(self, challenge: Challenge) -> Challenge:
         """Extract attachment URLs from the challenge description.
@@ -51,11 +57,14 @@ class AttachmentExtractor(BaseChallengeParser):
                 parsed = urlparse(url)
                 name = unquote(parsed.path.split("/")[-1].split("?")[0])
 
-                attachments.append(Attachment(name=name, url=url))
+                attachments.append(
+                    Attachment(
+                        name=name, download_info=DownloadInfo(type=DownloadType.HTTP, url=url)
+                    )
+                )
 
-            # Only update attachments if we found any
             if attachments:
-                challenge.attachments.extend(attachments)
+                challenge.attachments = AttachmentCollection(attachments=attachments)
 
         except Exception as e:
             logger.error(f"Failed to extract attachments: {e}")
