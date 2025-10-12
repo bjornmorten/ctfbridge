@@ -1,0 +1,36 @@
+import httpx
+
+from ctfbridge.core.client import CoreCTFClient
+from ctfbridge.core.services.attachment import CoreAttachmentService
+from ctfbridge.core.services.session import CoreSessionHelper
+from ctfbridge.models.capability import Capabilities
+from ctfbridge.platforms.pwncollege.services.challenge import PwnCollegeChallengeService
+from ctfbridge.platforms.ctfd.services.auth import CTFdAuthService
+
+
+class PwnCollegeClient(CoreCTFClient):
+    @property
+    def capabilities(self) -> Capabilities:
+        return Capabilities(
+            view_challenges=True, login=True, submit_flags=True, download_attachments=False
+        )
+
+    def __init__(self, http: httpx.AsyncClient, url: str):
+        self._platform_url = url
+        self._http = http
+
+        super().__init__(
+            session=CoreSessionHelper(self),
+            attachments=CoreAttachmentService(self),
+            auth=CTFdAuthService(self),
+            challenges=PwnCollegeChallengeService(self),
+            scoreboard=None,
+        )
+
+    @property
+    def platform_name(self) -> str:
+        return "pwn.college"
+
+    @property
+    def platform_url(self) -> str:
+        return self._platform_url

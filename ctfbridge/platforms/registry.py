@@ -13,6 +13,7 @@ PLATFORM_CLIENTS: dict[str, str] = {
     "pwnabletw": "ctfbridge.platforms.pwnabletw.client.PwnableTWClient",
     "pwnablekr": "ctfbridge.platforms.pwnablekr.client.PwnableKRClient",
     "pwnablexyz": "ctfbridge.platforms.pwnablexyz.client.PwnableXYZClient",
+    "pwncollege": "ctfbridge.platforms.pwncollege.client.PwnCollegeClient",
 }
 
 # Maps platform names to their identifier class paths
@@ -27,6 +28,7 @@ PLATFORM_IDENTIFIERS: dict[str, str] = {
     "pwnabletw": "ctfbridge.platforms.pwnabletw.identifier.PwnableTWIdentifier",
     "pwnablekr": "ctfbridge.platforms.pwnablekr.identifier.PwnableKRIdentifier",
     "pwnablexyz": "ctfbridge.platforms.pwnablexyz.identifier.PwnableXYZIdentifier",
+    "pwncollege": "ctfbridge.platforms.pwncollege.identifier.PwnCollegeIdentifier",
 }
 
 

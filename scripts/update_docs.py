@@ -44,6 +44,10 @@ PLATFORM_METADATA = {
         "id": "cryptohack",
         "description": "A free, fun platform for learning modern cryptography. Visit [cryptohack.org](https://cryptohack.org/)",
     },
+    "pwn.college": {
+        "id": "pwncollege",
+        "description": "An education platform for learners to develop and practice core cybersecurity skills in a hands-on fashion. Visit [pwn.college](https://pwn.college/)",
+    },
     "pwnable.tw": {
         "id": "pwnabletw",
         "description": "A wargame site for hackers to test and expand their binary exploiting skills. Visit [pwnable.tw](https://pwnable.tw/)",
@@ -65,6 +69,7 @@ PLATFORM_ORDER = [
     "Berg",
     "EPT",
     "CryptoHack",
+    "pwn.college",
     "pwnable.tw",
     "pwnable.xyz",
     "pwnable.kr",
