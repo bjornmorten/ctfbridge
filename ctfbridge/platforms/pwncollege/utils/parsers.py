@@ -28,6 +28,9 @@ def parse_dojos_list(html: str) -> list[DojoSection]:
             href = a_tag.get("href")
             slug = href.split("/")[-1] if href else None
 
+            if slug == "create":
+                continue
+
             card = a_tag.find("li", class_="card")
             if not card:
                 continue
