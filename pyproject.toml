@@ -22,7 +22,8 @@ dependencies = [
   "beautifulsoup4>=4.9,<5.0",
   "pydantic>=2.0,<3.0",
   "httpx>=0.28",
-  "asyncssh>=2.2.0"
+  "asyncssh>=2.2.0",
+  "markdownify>=1.2.0"
 ]
 
 [project.optional-dependencies]

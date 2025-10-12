@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import re
 
 from ..models.models import Dojo, DojoSection, Module, Challenge
+from markdownify import markdownify as md
 
 
 def parse_dojos_list(html: str) -> list[DojoSection]:
@@ -134,7 +135,7 @@ def parse_module_detail(html: str):
         desc_div = challenge_div.select_one("div.challenge-description")
         challenge_id = challenge_div.select_one("#challenge-id").get("value")
         challenge_slug = challenge_div.select_one("#challenge").get("value")
-        description = desc_div.get_text("\n", strip=True) if desc_div else ""
+        description = md(str(desc_div))
 
         challenges.append(
             Challenge(
