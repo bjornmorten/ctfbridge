@@ -5,14 +5,13 @@ from ctfbridge.core.services.attachment import CoreAttachmentService
 from ctfbridge.core.services.session import CoreSessionHelper
 from ctfbridge.models.capability import Capabilities
 from ctfbridge.platforms.pwnablekr.services.challenge import PwnableKRChallengeService
+from ctfbridge.platforms.pwnablekr.services.auth import PwnableKRAuthService
 
 
 class PwnableKRClient(CoreCTFClient):
     @property
     def capabilities(self) -> Capabilities:
-        return Capabilities(
-            view_challenges=True,
-        )
+        return Capabilities(view_challenges=True, login=True, submit_flags=True)
 
     def __init__(self, http: httpx.AsyncClient, url: str):
         self._platform_url = url
@@ -21,7 +20,7 @@ class PwnableKRClient(CoreCTFClient):
         super().__init__(
             session=CoreSessionHelper(self),
             attachments=CoreAttachmentService(self),
-            auth=None,
+            auth=PwnableKRAuthService(self),
             challenges=PwnableKRChallengeService(self),
             scoreboard=None,
         )

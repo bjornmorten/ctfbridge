@@ -86,7 +86,7 @@ CTFBridge works out of the box with:
 | **CryptoHack** | ❌ | ✅ | ❌ | ❌ |
 | **pwnable.tw** | ✅ | ✅ | ✅ | ❌ |
 | **pwnable.xyz** | ❌ | ✅ | ❌ | ❌ |
-| **pwnable.kr** | ❌ | ✅ | ❌ | ❌ |
+| **pwnable.kr** | ✅ | ✅ | ✅ | ❌ |
 |_More..._|🚧|🚧|🚧|🚧|
 <!-- PLATFORMS_TABLE_END -->
 
