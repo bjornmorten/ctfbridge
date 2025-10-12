@@ -51,7 +51,7 @@ class PwnCollegeAttachmentService(CoreAttachmentService):
                         attachment.name, f"Failed to start SSH server: {e}"
                     )
 
-        attachments = await super().download(attachment, save_dir, progress)
+                attachments = await super().download(attachment, save_dir, progress)
 
         for att in attachments:
             att.download_info.key = None
