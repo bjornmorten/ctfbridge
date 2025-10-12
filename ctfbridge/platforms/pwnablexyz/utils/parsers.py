@@ -75,8 +75,9 @@ def parse_challenges(html: str) -> list[Challenge]:
 
         challenges.append(
             Challenge(
-                id=modal_id.replace("chalModal", ""),
+                id=modal_id.replace("chalModal", "").replace("Solved", ""),
                 name=name,
+                solved="Solved" in modal_id,
                 value=value,
                 description=description,
                 attachments=AttachmentCollection(attachments=attachments),
