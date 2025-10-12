@@ -9,6 +9,7 @@ from ctfbridge.models.challenge import (
     DownloadType,
     AttachmentCollection,
 )
+from markdownify import markdownify as md
 
 
 def parse_challenges(html: str) -> list[Challenge]:
@@ -91,27 +92,6 @@ def clean_description(desc_div) -> str:
         if code_text.startswith("nc "):
             code.decompose()
 
-    for a in desc_div.find_all("a", href=True):
-        href = a["href"]
-        text = a.get_text(strip=True)
-        a.replace_with(f"[{text}]({href})")
-
-    for code in desc_div.find_all("code"):
-        code.replace_with(f"`{code.get_text(strip=True)}`")
-
-    for br in desc_div.find_all("br"):
-        br.replace_with("\n\n")
-
-    paragraphs = []
-    for p in desc_div.find_all("p"):
-        text = p.get_text(" ", strip=True)
-        if text:
-            text = text.strip().strip(":")
-            text = text.replace(" .", ".")
-            text = text.replace(" ,", ",")
-            text = text.replace(" !", "!")
-            paragraphs.append(text)
-
-    text = "\n\n".join(paragraphs)
+    text = md(str(desc_div))
 
     return text
