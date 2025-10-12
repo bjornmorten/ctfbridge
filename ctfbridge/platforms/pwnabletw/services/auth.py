@@ -1,13 +1,9 @@
-"""CTFd auth service"""
-
 import logging
 from typing import List
 
 from ctfbridge.core.services.auth import CoreAuthService
 from ctfbridge.exceptions import LoginError
 from ctfbridge.models.auth import AuthMethod
-from ctfbridge.platforms.ctfd.http.endpoints import Endpoints
-from ctfbridge.platforms.ctfd.utils.csrf import extract_csrf_nonce, get_csrf_nonce
 
 from bs4 import BeautifulSoup
 
