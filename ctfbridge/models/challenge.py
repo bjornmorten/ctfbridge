@@ -38,6 +38,10 @@ class DownloadInfo(BaseModel):
     username: str | None = Field(None, description="Username if required for SSH or API.")
     password: str | None = Field(None, description="Password or token, if available.")
     key: str | None = Field(None, description="Key, if available.")
+    extra: dict[str, str] | None = Field(
+        default_factory=dict,
+        description="Additional platform-specific metadata.",
+    )
 
 
 class Attachment(BaseModel):

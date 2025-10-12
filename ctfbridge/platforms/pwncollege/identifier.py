@@ -23,4 +23,8 @@ class PwnCollegeIdentifier(PlatformIdentifier):
         return False
 
     async def is_base_url(self, candidate: str) -> bool:
-        return urlparse(candidate).path.strip("/") == ""
+        # TODO: verify that the paths actually are dojos/modules
+        # now just checking if it is / or /<dojo> or /<dojo>/<module> based on length
+        path = urlparse(candidate).path.strip("/")
+        parts = [p for p in path.split("/") if p]
+        return len(parts) in (0, 1, 2)

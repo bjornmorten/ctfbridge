@@ -103,17 +103,22 @@ def parse_module_detail(html: str):
     h1 = soup.find("h1", class_="brand-mono-bold")
     module_title = h1.get_text(strip=True).replace(".", "") if h1 else "Unknown Module"
 
-    # --- Dojo title ---
     dojo_el = soup.select_one("h2.module-dojo a")
     dojo_title = dojo_el.get_text(strip=True).replace(".", "") if dojo_el else None
 
-    # --- Module slug ---
-    slug = None
+    module_slug = None
     script_tag = soup.find("script", string=lambda s: s and "var init" in s)
     if script_tag:
         match = re.search(r"'module':\s*\"([^\"]+)\"", script_tag.text)
         if match:
-            slug = match.group(1)
+            module_slug = match.group(1)
+
+    dojo_slug = None
+    script_tag = soup.find("script", string=lambda s: s and "var init" in s)
+    if script_tag:
+        match = re.search(r"'dojo':\s*\"([^\"]+)\"", script_tag.text)
+        if match:
+            dojo_slug = match.group(1)
 
     # --- Challenges ---
     challenges = []
@@ -128,21 +133,25 @@ def parse_module_detail(html: str):
         # The description is in the next .challenge-description div
         desc_div = challenge_div.select_one("div.challenge-description")
         challenge_id = challenge_div.select_one("#challenge-id").get("value")
+        challenge_slug = challenge_div.select_one("#challenge").get("value")
         description = desc_div.get_text("\n", strip=True) if desc_div else ""
 
         challenges.append(
             Challenge(
                 id=challenge_id,
+                slug=challenge_slug,
                 title=title,
                 category=category,
                 description=description,
                 dojo_title=dojo_title,
                 module_title=module_title,
+                dojo_slug=dojo_slug,
+                module_slug=module_slug,
             )
         )
 
     return Module(
         title=module_title,
-        slug=slug,
+        slug=module_slug,
         challenges=challenges,
     )
