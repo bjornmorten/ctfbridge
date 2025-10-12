@@ -75,7 +75,7 @@ if __name__ == "__main__":
 CTFBridge works out of the box with:
 
 <!-- PLATFORMS_TABLE_START -->
-| Platform | Login | Challenges | Submit Flags | Scoreboard |
+| Platform | Login | View Challenges | Submit Flags | View Scoreboard |
 | :--- | :---: | :---: | :---: | :---: |
 | **CTFd** | ✅ | ✅ | ✅ | ✅ |
 | **rCTF** | ✅ | ✅ | ✅ | ✅ |
