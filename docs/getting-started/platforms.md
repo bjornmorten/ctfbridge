@@ -9,7 +9,7 @@ description: Discover which CTF platforms are supported by CTFBridge. Compare fe
     This table provides a quick at-a-glance overview. For use in your code, you can check these features programmatically using the `client.capabilities` property after initializing a client. See the [Usage Guide](usage.md#checking-platform-capabilities) for an example.
 
 <!-- PLATFORMS_MATRIX_START -->
-| Feature | CTFd[^ctfd] | rCTF[^rctf] | GZCTF[^gzctf] | HTB[^htb] | Berg[^berg] | EPT[^ept] | CryptoHack[^cryptohack] | pwn.college[^pwncollege] | pwnable.tw[^pwnabletw] | pwnable.xyz[^pwnablexyz] | pwnable.kr[^pwnablekr] |
+| Feature | CTFd[^ctfd] | rCTF[^rctf] | GZCTF[^gzctf] | HTB[^htb] | Berg[^berg] | EPT[^ept] | CryptoHack[^cryptohack] | pwn.college[^pwncollege] | pwnable.tw[^pwnabletw] | pwnable.kr[^pwnablekr] | pwnable.xyz[^pwnablexyz] |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | 🔑 Login | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | :x: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | 🔄 Session Persistence | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
