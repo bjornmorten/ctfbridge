@@ -71,8 +71,8 @@ PLATFORM_ORDER = [
     "CryptoHack",
     "pwn.college",
     "pwnable.tw",
-    "pwnable.xyz",
     "pwnable.kr",
+    "pwnable.xyz",
 ]
 
 CAPABILITY_DISPLAY_MAP = {
