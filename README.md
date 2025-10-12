@@ -31,12 +31,6 @@
 - 🔄 **Persistent sessions** — save/load session state with ease
 - 🤖 **Async-first design** — perfect for scripts, tools, and automation
 
-## 📦 Installation
-
-```bash
-pip install ctfbridge
-```
-
 ## 🚀 Quickstart
 
 <!-- QUICKSTART_START -->
@@ -70,6 +64,12 @@ if __name__ == "__main__":
 ```
 <!-- QUICKSTART_END -->
 
+## 📦 Installation
+
+```bash
+pip install ctfbridge
+```
+
 ## 🧩 Supported Platforms
 
 CTFBridge works out of the box with:
@@ -97,12 +97,6 @@ CTFBridge works out of the box with:
 
 All guides and API references are available at: **[ctfbridge.readthedocs.io](https://ctfbridge.readthedocs.io/)**
 
-## 🤝 Contributing
-
-Contributions are welcome! We appreciate any help, from bug reports and feature requests to code enhancements and documentation improvements.
-
-Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started.
-
 ## 🛠️ Projects Using CTFBridge
 
 | Project | Description |
@@ -112,6 +106,12 @@ Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started.
 | [**pwnv**](https://github.com/CarixoHD/pwnv) | 🧠 A CTF workspace management tool |
 
 Using CTFBridge in the wild? [Send a PR](https://github.com/bjornmorten/ctfbridge/edit/main/README.md) to feature it here!
+
+## 🤝 Contributing
+
+Contributions are welcome! We appreciate any help, from bug reports and feature requests to code enhancements and documentation improvements.
+
+Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started.
 
 ## 📄 License
 
