@@ -169,7 +169,7 @@ class Challenge(BaseModel):
         description="The main description, prompt, or story for the challenge. May contain HTML or Markdown.",
     )
     attachments: AttachmentCollection = Field(
-        default=AttachmentCollection,
+        default_factory=AttachmentCollection,
         description="A collection of downloadable files associated with the challenge.",
     )
     services: list[Service] = Field(
