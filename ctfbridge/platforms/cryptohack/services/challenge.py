@@ -28,7 +28,15 @@ class CryptoHackChallengeService(CoreChallengeService):
         try:
             response = await self._client.get(Endpoints.Challenges.CATEGORIES)
             response.raise_for_status()
+
             categories: List[CryptoHackCategory] = parse_categories(response.text)
+
+            if self._client.category_from_url:
+                categories = [
+                    c
+                    for c in categories
+                    if c.path == f"/challenges/{self._client.category_from_url}/"
+                ]
 
             async def fetch_category(category: CryptoHackCategory):
                 try:

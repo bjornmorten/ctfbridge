@@ -24,4 +24,11 @@ class CryptoHackIdentifier(PlatformIdentifier):
         return False
 
     async def is_base_url(self, candidate: str) -> bool:
-        return urlparse(candidate).path.strip("/") == ""
+        path = urlparse(candidate).path.strip("/")
+
+        if path == "":
+            return True
+        parts = path.split("/")
+        if parts[0] == "challenges" and len(parts) <= 2:
+            return True
+        return False
