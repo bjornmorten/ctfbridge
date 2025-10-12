@@ -5,14 +5,13 @@ from ctfbridge.core.services.attachment import CoreAttachmentService
 from ctfbridge.core.services.session import CoreSessionHelper
 from ctfbridge.models.capability import Capabilities
 from ctfbridge.platforms.cryptohack.services.challenge import CryptoHackChallengeService
+from ctfbridge.platforms.cryptohack.services.auth import CryptoHackAuthService
 
 
 class CryptoHackClient(CoreCTFClient):
     @property
     def capabilities(self) -> Capabilities:
-        return Capabilities(
-            view_challenges=True,
-        )
+        return Capabilities(view_challenges=True, login=True, submit_flags=True)
 
     def __init__(self, http: httpx.AsyncClient, url: str):
         self._platform_url = url
@@ -21,7 +20,7 @@ class CryptoHackClient(CoreCTFClient):
         super().__init__(
             session=CoreSessionHelper(self),
             attachments=CoreAttachmentService(self),
-            auth=None,
+            auth=CryptoHackAuthService(self),
             challenges=CryptoHackChallengeService(self),
             scoreboard=None,
         )
