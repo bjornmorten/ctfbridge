@@ -17,10 +17,10 @@ class RCTFUserProfileData(BaseModel):
     name: str
     email: str
     division: str
-    ctftimeId: Optional[int]
+    ctftimeId: Optional[int] = None
     score: int
-    globalPlace: Optional[int]
-    divisionPlace: Optional[int]
+    globalPlace: Optional[int] = None
+    divisionPlace: Optional[int] = None
     solves: List[RCTFSolve]
     teamToken: str
     allowedDivisions: List[str]
