@@ -42,15 +42,19 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
     identifiers = get_identifier_classes()
     candidates = generate_candidate_base_urls(input_url)
 
+    async def _find_valid_base_url(identifier, candidates):
+        for base_candidate in candidates:
+            if await identifier.is_base_url(base_candidate):
+                return base_candidate
+        raise UnknownBaseURLError(input_url)
+
     # Step 0: Try static detection for each candidate
     parsed_url = urlparse(input_url)
     for name, IdentifierClass in identifiers:
         identifier = IdentifierClass(http)
         if identifier.match_url_pattern(parsed_url):
-            for base_candidate in candidates:
-                if await identifier.is_base_url(base_candidate):
-                    return name, base_candidate
-            raise UnknownBaseURLError(input_url)
+            base_url = await _find_valid_base_url(identifier, candidates)
+            return name, base_url
 
     # Step 1: Try static detection for each candidate
     for candidate in candidates:
@@ -62,19 +66,15 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
         for name, IdentifierClass in identifiers:
             identifier = IdentifierClass(http)
             if await identifier.static_detect(resp):
-                for base_candidate in candidates:
-                    if await identifier.is_base_url(base_candidate):
-                        return name, base_candidate
-                raise UnknownBaseURLError(input_url)
+                base_url = await _find_valid_base_url(identifier, candidates)
+                return name, base_url
 
     # Step 2: Fallback to dynamic detection
     for candidate in candidates:
         for name, IdentifierClass in identifiers:
             identifier = IdentifierClass(http)
             if await identifier.dynamic_detect(candidate):
-                for base_candidate in candidates:
-                    if await identifier.is_base_url(base_candidate):
-                        return name, base_candidate
-                raise UnknownBaseURLError(input_url)
+                base_url = await _find_valid_base_url(identifier, candidates)
+                return name, base_url
 
     raise UnknownPlatformError(f"Could not detect platform from {input_url}")
