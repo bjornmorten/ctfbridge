@@ -16,8 +16,13 @@ STYLES = {
 }
 
 
-def display_probe_results_as_table(client):
+def display_probe_results_as_table(client, insecure: bool = False):
     """Formats and prints probe results using a rich table."""
+    if insecure:
+        console.print(
+            "TLS certificate verification disabled for this probe.",
+            style=STYLES["warning"],
+        )
     console.print(f"✅ Platform Detected: [info]{client.platform_name}[/info]")
     console.print(f"ℹ️  Resolved Base URL: [{STYLES['url']}]{client.platform_url}[/{STYLES['url']}]")
 
@@ -31,7 +36,7 @@ def display_probe_results_as_table(client):
     console.print(table)
 
 
-def display_probe_results_as_json(client, input_url):
+def display_probe_results_as_json(client, input_url, insecure: bool = False):
     """Formats and prints probe results as a JSON object."""
     result = {
         "success": True,
@@ -40,6 +45,8 @@ def display_probe_results_as_json(client, input_url):
         "base_url": client.platform_url,
         "capabilities": client.capabilities.model_dump(),
     }
+    if insecure:
+        result["insecure"] = True
     console.print(json.dumps(result, indent=2))
 
 

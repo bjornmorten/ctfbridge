@@ -121,7 +121,7 @@ class CTFBridgeClient(httpx.AsyncClient):
 
 def make_http_client(
     *,
-    config: dict[str, Any] = {},
+    config: dict[str, Any] | None = None,
 ) -> CTFBridgeClient:
     """
     Create a preconfigured HTTP client.
@@ -135,24 +135,34 @@ def make_http_client(
             - auth: Authentication credentials (tuple/httpx.Auth)
             - event_hooks: Request/response event hooks (dict)
             - verify_ssl: Whether to verify SSL certificates (bool)
+            - follow_redirects: Whether to automatically follow HTTP redirects (bool)
             - headers: Custom HTTP headers (dict)
             - proxy: Proxy configuration (dict/str)
             - user_agent: Custom User-Agent string (str)
     """
+    # Make a shallow copy so we can safely mutate configuration values
+    config = dict(config or {})
+
     # Extract special configuration options
     max_conns = config.pop("max_connections", 20)
     retries = config.pop("retries", 5)
     user_agent = config.pop("user_agent", f"CTFBridge/{__version__}")
     custom_headers = config.pop("headers", {})
+    follow_redirects = config.pop("follow_redirects", True)
 
     # Build the final configuration
+    verify_setting = config.pop("verify_ssl", True)
     client_config = {
         "limits": httpx.Limits(max_connections=max_conns),
         "timeout": config.pop("timeout", 10),
-        "verify": config.pop("verify_ssl", True),
+        "verify": verify_setting,
         "headers": {"User-Agent": user_agent, **custom_headers},
-        "transport": httpx.AsyncHTTPTransport(retries=retries),
+        "follow_redirects": follow_redirects,
+        "transport": httpx.AsyncHTTPTransport(retries=retries, verify=verify_setting),
         **config,  # Include any remaining config options
     }
 
-    return CTFBridgeClient(**client_config)
+    client = CTFBridgeClient(**client_config)
+    # Track the verify setting so detection can skip SSL errors when verification is disabled
+    client._ctfbridge_verify_ssl = verify_setting  # type: ignore[attr-defined]
+    return client

@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 
 import typer
 
@@ -24,11 +25,26 @@ app = typer.Typer(
 def probe(
     url: str = typer.Argument(..., help="The URL of the CTF platform to probe."),
     as_json: bool = typer.Option(False, "--json", help="Output the results in JSON format."),
+    insecure: bool = typer.Option(
+        False,
+        "--insecure",
+        help="Ignore TLS certificate validation errors (use with caution).",
+    ),
+    debug: bool = typer.Option(
+        False,
+        "--debug",
+        help="Enable debug logging for troubleshooting.",
+    ),
 ):
     """Analyzes a URL to detect the CTF platform and its capabilities."""
+    if debug:
+        logging.basicConfig(level=logging.DEBUG)
+
+    http_config = {"verify_ssl": False} if insecure else None
+
     with console.status(f"[bold green]Probing {url}...[/bold green]", spinner="dots"):
         try:
-            client = asyncio.run(create_client(url))
+            client = asyncio.run(create_client(url, http_config=http_config))
         except UnknownPlatformError as e:
             if as_json:
                 console.print(json.dumps({"success": False, "error": str(e)}, indent=2))
@@ -56,6 +72,6 @@ def probe(
             raise typer.Exit(code=1)
 
     if as_json:
-        display_probe_results_as_json(client, input_url=url)
+        display_probe_results_as_json(client, input_url=url, insecure=insecure)
     else:
-        display_probe_results_as_table(client)
+        display_probe_results_as_table(client, insecure=insecure)

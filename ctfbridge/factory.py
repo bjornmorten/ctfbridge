@@ -16,7 +16,7 @@ async def create_client(
     platform: str = "auto",
     cache_platform: bool = True,
     http: httpx.AsyncClient | None = None,
-    http_config: dict[str, Any] = {},
+    http_config: dict[str, Any] | None = None,
 ) -> CTFClient:
     """
     Create and return a resolved CTF client.
@@ -34,6 +34,7 @@ async def create_client(
             - auth: Authentication credentials (tuple/httpx.Auth)
             - event_hooks: Request/response event hooks (dict)
             - verify_ssl: Whether to verify SSL certificates (bool)
+            - follow_redirects: Whether to automatically follow HTTP redirects (bool)
             - headers: Custom HTTP headers (dict)
             - proxy: Proxy configuration (dict/str)
             - user_agent: Custom User-Agent string (str)
@@ -47,28 +48,56 @@ async def create_client(
 
     logger.info(f"Initializing CTFBridge client for URL: {url} (Specified platform: {platform})")
 
-    http = http or make_http_client(config=http_config)
+    base_http_config = dict(http_config or {})
+    detection_http = http
+    detection_http_owned = False
 
     if platform == "auto":
-        logger.debug(f"Attempting to auto-detect platform for {url}.")
-        if cache_platform:
-            cached = get_cached_platform(url)
-            if cached:
-                platform, base_url = cached
-                logger.debug(
-                    f"Platform cache hit for {url}: Platform={platform}, Base URL={base_url}"
-                )
-            else:
-                logger.debug(f"Platform cache miss for {url}. Detecting platform...")
-                platform, base_url = await detect_platform(url, http)
-                logger.debug(f"Platform detected: Name={platform}, Base URL={base_url}")
-                set_cached_platform(url, platform, base_url)
-        else:
-            platform, base_url = await detect_platform(url, http)
-            logger.debug(f"Platform detected (no cache): Name={platform}, Base URL={base_url}")
+        detection_http_config = dict(base_http_config)
+        detection_http_config.setdefault("retries", 1)
+        if detection_http is None:
+            detection_http = make_http_client(config=detection_http_config)
+            detection_http_owned = True
     else:
-        base_url = url
-        logger.debug(f"Using specified platform: Name={platform}, Base URL={base_url}")
+        if detection_http is None:
+            detection_http = make_http_client(config=base_http_config)
+            detection_http_owned = True
+
+    try:
+        if platform == "auto":
+            logger.debug(f"Attempting to auto-detect platform for {url}.")
+            if cache_platform:
+                cached = get_cached_platform(url)
+                if cached:
+                    platform, base_url = cached
+                    logger.debug(
+                        f"Platform cache hit for {url}: Platform={platform}, Base URL={base_url}"
+                    )
+                else:
+                    logger.debug(f"Platform cache miss for {url}. Detecting platform...")
+                    platform, base_url = await detect_platform(url, detection_http)
+                    logger.debug(f"Platform detected: Name={platform}, Base URL={base_url}")
+                    set_cached_platform(url, platform, base_url)
+            else:
+                platform, base_url = await detect_platform(url, detection_http)
+                logger.debug(f"Platform detected (no cache): Name={platform}, Base URL={base_url}")
+        else:
+            base_url = url
+            logger.debug(f"Using specified platform: Name={platform}, Base URL={base_url}")
+    except Exception:
+        if detection_http_owned:
+            await detection_http.aclose()
+        raise
+
+    # Determine final HTTP client configuration
+    if http is None:
+        if platform == "auto" and "retries" not in base_http_config:
+            if detection_http_owned:
+                await detection_http.aclose()
+            http = make_http_client(config=base_http_config)
+        else:
+            http = detection_http
+            detection_http_owned = False
 
     try:
         client_class = get_platform_client(platform)
