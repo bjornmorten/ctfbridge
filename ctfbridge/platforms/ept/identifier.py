@@ -20,7 +20,7 @@ class EPTIdentifier(PlatformIdentifier):
         return "EPT"
 
     def match_url_pattern(self, url: ParseResult) -> bool:
-        return False
+        return url.netloc.lower() == "backend.ept.gg"
 
     async def static_detect(self, response: httpx.Response) -> bool | None:
         return None
