@@ -158,11 +158,11 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
         http: A shared HTTP client.
 
     Returns:
-        Platform name and platform base URL
+        (platform_name, base_url)
 
     Raises:
         UnknownPlatformError: If no known platform is matched.
-        UnknownBaseURL: If the platform is matched but no working base URL is found.
+        UnknownBaseURLError: If the platform is matched but no working base URL is found.
     """
 
     def _append_unique(items: list[str], value: str | None) -> None:
@@ -182,23 +182,8 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
                 candidates.append(candidate)
 
     parsed_candidates = {candidate: urlparse(candidate) for candidate in candidates}
-
     identifier_instances = [
         (name, IdentifierClass(http)) for name, IdentifierClass in identifier_classes
-    ]
-    pattern_names = {
-        name
-        for name, identifier in identifier_instances
-        for parsed_candidate in parsed_candidates.values()
-        if identifier.match_url_pattern(parsed_candidate)
-    }
-    ordered_identifiers = [
-        *[(name, identifier) for name, identifier in identifier_instances if name in pattern_names],
-        *[
-            (name, identifier)
-            for name, identifier in identifier_instances
-            if name not in pattern_names
-        ],
     ]
 
     failed_candidates: set[str] = set()
@@ -247,6 +232,19 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
 
         raise UnknownBaseURLError(input_url)
 
+    for candidate, parsed_candidate in parsed_candidates.items():
+        for name, identifier in identifier_instances:
+            try:
+                if identifier.match_url_pattern(parsed_candidate):
+                    logger.debug(
+                        f"[Direct match] URL {candidate} identified as {name}, verifying base URL..."
+                    )
+                    base_url = await _find_valid_base_url(identifier, [candidate])
+                    logger.debug(f"[Direct match] Confirmed base URL for {name}: {base_url}")
+                    return name, base_url
+            except Exception as e:
+                logger.debug(f"[Direct match] Error matching {candidate} with {name}: {e}")
+
     probe_targets = [candidate for candidate in candidates if not _is_recent_failure(candidate)]
     for skipped in candidates:
         if skipped not in probe_targets:
@@ -254,7 +252,6 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
 
     probe_results = await _probe_candidates(http, probe_targets) if probe_targets else {}
 
-    # Step 1: Try static detection for each candidate while tracking reachability
     for candidate in candidates:
         response, error = probe_results.get(candidate, (None, None))
 
@@ -294,9 +291,8 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
     if not reachable_candidates:
         raise UnknownPlatformError(f"Could not connect to {input_url}")
 
-    # Step 2: Fallback to dynamic detection for reachable candidates
     for candidate in reachable_candidates:
-        for name, identifier in ordered_identifiers:
+        for name, identifier in identifier_instances:
             if await identifier.dynamic_detect(candidate):
                 base_url = await _find_valid_base_url(identifier, [candidate])
                 return name, base_url
