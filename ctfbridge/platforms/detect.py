@@ -3,12 +3,14 @@ import ssl
 import time
 from typing import Tuple
 from urllib.parse import urlparse, urlunparse
+import logging
 
 import httpx
 
 from ctfbridge.exceptions import UnknownBaseURLError, UnknownPlatformError
 from ctfbridge.platforms.registry import get_identifier_classes
 
+logger = logging.getLogger(__name__)
 
 _MAX_CONCURRENT_PROBES = 4
 _FAILED_CANDIDATE_TTL = 300.0  # seconds
@@ -219,11 +221,29 @@ async def detect_platform(input_url: str, http: httpx.AsyncClient) -> Tuple[str,
                 ordered_candidates.append(candidate)
                 seen.add(candidate)
 
+        checked: set[str] = set()
+
         for base_candidate in ordered_candidates:
+            try:
+                canonical_candidate = identifier.get_base_url(base_candidate)
+            except Exception as e:
+                logger.exception(f"Failed to get base URL for {base_candidate}: {e}")
+                canonical_candidate = None
+
+            if canonical_candidate:
+                return canonical_candidate
+
+            if base_candidate in checked:
+                continue
+            checked.add(base_candidate)
+
             if base_candidate in failed_candidates:
                 continue
+
             if await identifier.is_base_url(base_candidate):
                 return base_candidate
+
+            failed_candidates.add(base_candidate)
 
         raise UnknownBaseURLError(input_url)
 

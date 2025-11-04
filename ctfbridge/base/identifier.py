@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import Optional
 from urllib.parse import ParseResult
 
 import httpx
@@ -23,6 +22,20 @@ class PlatformIdentifier(ABC):
         """
         pass
 
+    def get_base_url(self, candidate: str) -> str | None:
+        """
+        Optional hook to normalize or rewrite a user-provided URL into the platform's
+        base URL. Returning None signals that no transformation is available. When a
+        concrete URL is returned, detection will trust it without further probing.
+
+        Args:
+            candidate: The original candidate URL being probed.
+
+        Returns:
+            The base URL of the platform if found, otherwise None
+        """
+        return None
+
     @abstractmethod
     def match_url_pattern(self, url: ParseResult) -> bool:
         """
@@ -38,7 +51,7 @@ class PlatformIdentifier(ABC):
         pass
 
     @abstractmethod
-    async def static_detect(self, response: httpx.Response) -> Optional[bool]:
+    async def static_detect(self, response: httpx.Response) -> bool | None:
         """
         Inspect the HTTP response (HTML, headers, etc.) to quickly confirm or rule out the platform.
 
