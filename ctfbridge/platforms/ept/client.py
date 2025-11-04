@@ -5,6 +5,7 @@ from ctfbridge.core.services.attachment import CoreAttachmentService
 from ctfbridge.core.services.session import CoreSessionHelper
 from ctfbridge.models.capability import Capabilities
 from ctfbridge.platforms.ept.services.challenge import EPTChallengeService
+from ctfbridge.platforms.ept.services.auth import EPTAuthService
 
 
 class EPTClient(CoreCTFClient):
@@ -19,7 +20,7 @@ class EPTClient(CoreCTFClient):
         super().__init__(
             session=CoreSessionHelper(self),
             attachments=CoreAttachmentService(self),
-            auth=None,
+            auth=EPTAuthService(self),
             challenges=EPTChallengeService(self),
             scoreboard=None,
         )
