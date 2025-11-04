@@ -63,4 +63,5 @@ class EPTSubmission(BaseModel):
     correct: bool
 
     def to_core_model(self) -> SubmissionResult:
-        return SubmissionResult.model_construct(correct=self.correct, message=str(self))
+        message = "Correct flag!" if self.correct else "Incorrect flag"
+        return SubmissionResult.model_construct(correct=self.correct, message=message)
