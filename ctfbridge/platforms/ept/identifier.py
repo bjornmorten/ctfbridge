@@ -1,5 +1,4 @@
-from typing import Optional
-from urllib.parse import ParseResult
+from urllib.parse import ParseResult, urlparse, urlunparse
 
 import httpx
 
@@ -20,7 +19,18 @@ class EPTIdentifier(PlatformIdentifier):
         return "EPT"
 
     def match_url_pattern(self, url: ParseResult) -> bool:
-        return url.netloc.lower() == "backend.ept.gg"
+        return url.netloc.lower() in {"ctf.ept.gg", "backend.ept.gg"}
+
+    def get_base_url(self, candidate: str) -> str | None:
+        try:
+            parsed = urlparse(candidate)
+        except ValueError:
+            return None
+
+        if parsed.netloc.lower() == "ctf.ept.gg":
+            return "https://backend.ept.gg/"
+
+        return None
 
     async def static_detect(self, response: httpx.Response) -> bool | None:
         return None
