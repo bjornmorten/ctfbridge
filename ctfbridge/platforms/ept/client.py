@@ -11,7 +11,7 @@ from ctfbridge.platforms.ept.services.auth import EPTAuthService
 class EPTClient(CoreCTFClient):
     @property
     def capabilities(self) -> Capabilities:
-        return Capabilities(view_challenges=True, submit_flags=True)
+        return Capabilities(view_challenges=True, login=True, submit_flags=True)
 
     def __init__(self, http: httpx.AsyncClient, url: str):
         self._platform_url = url
