@@ -11,7 +11,7 @@ description: Discover which CTF platforms are supported by CTFBridge. Compare fe
 <!-- PLATFORMS_MATRIX_START -->
 | Feature | CTFd[^ctfd] | rCTF[^rctf] | GZCTF[^gzctf] | HTB[^htb] | Berg[^berg] | EPT[^ept] | CryptoHack[^cryptohack] | pwn.college[^pwncollege] | pwnable.tw[^pwnabletw] | pwnable.kr[^pwnablekr] | pwnable.xyz[^pwnablexyz] |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| 🔑 Login | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | :x: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| 🔑 Login | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | 🔄 Session Persistence | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | 🥇 View Scoreboard | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | :x: | :x: | :x: | :x: | :x: | :x: |
 | 🗺️ View Challenges | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
