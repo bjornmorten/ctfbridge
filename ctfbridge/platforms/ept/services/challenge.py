@@ -80,6 +80,7 @@ class EPTChallengeService(CoreChallengeService):
 
     @staticmethod
     def _check_detail_response(data):
-        detail = data.get("detail")
-        if detail == "The CTF has not started yet!":
-            raise CTFInactiveError(detail)
+        if not isinstance(data, list):
+            detail = data.get("detail")
+            if detail == "The CTF has not started yet!":
+                raise CTFInactiveError(detail)
