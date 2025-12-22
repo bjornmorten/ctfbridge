@@ -28,7 +28,7 @@ dependencies = [
 
 [project.optional-dependencies]
 cli = [
-  "typer[all]==0.20.0"
+  "typer[all]==0.20.1"
 ]
 dev = [
   "mypy",
